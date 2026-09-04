@@ -120,6 +120,10 @@
   .cred .actions{margin-top:10px;}
   .free-flag{font-size:11.5px;font-weight:600;color:var(--green);background:var(--green-soft);padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
   .paid-flag{font-size:11.5px;font-weight:600;color:var(--bronze);background:#F6F0E2;padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
+  .credit-flag{font-size:11.5px;font-weight:600;color:var(--navy);background:var(--navy-soft);padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
+  .certgroup{font-family:'Fraunces',serif;font-size:17px;font-weight:600;margin:28px 0 4px;padding-top:20px;border-top:1px solid var(--line);}
+  .certgroup:first-child{margin-top:0;padding-top:0;border-top:none;}
+  .certgroup-sub{font-size:12.5px;color:var(--slate);margin-bottom:14px;}
 
   table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
   th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);}
@@ -368,7 +372,7 @@ Any of those is fine. Just tell me which one and I'll either close the file or c
   <section id="certs">
     <div class="pagehead">
       <h2>Registrar</h2>
-      <p>Certificates come from real institutions, not from this site. When a program crosses 30%, its claim button unlocks.</p>
+      <p>Certificates come from real institutions, not from this site — you are the student here, and these are the credentials you walk away holding. Every course below has at least one, free or paid. The CLEP exams are the serious ones: about $95 each, and over 2,900 colleges accept them as actual transferable credit. Pass a course’s exam here and that course’s claim buttons unlock.</p>
     </div>
     <div id="certList"></div>
     <div class="transcript-head">Transcript</div>
@@ -601,26 +605,46 @@ const TESTS={
   ['To a Stoic, a bad outcome you genuinely could not control is…',['Proof you did not want it badly enough','Always somebody else’s fault','Not a failure of character'],2]]}
 };
 
+/* [name, cost, url, courseId, type] — type: free | paid | credit */
+const CLEP='About $95 plus a test-centre fee · real, transferable college credit';
 const CERTS=[
- ['freeCodeCamp: Responsive Web Design','Free','https://www.freecodecamp.org/learn/2022/responsive-web-design/','code'],
- ['freeCodeCamp: JavaScript Algorithms','Free','https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/','code'],
- ['Harvard CS50x — Verified Certificate','$199 (course itself is free)','https://cs50.harvard.edu/x/','code'],
- ['HubSpot: Digital Marketing','Free','https://academy.hubspot.com/courses/digital-marketing','mkt'],
- ['HubSpot: Social Media Marketing','Free','https://academy.hubspot.com/courses/social-media','mkt'],
- ['Meta Certified Digital Marketing Associate','About $99 for the exam','https://www.facebook.com/business/learn/certification','mkt'],
- ['Google Digital Marketing & E-commerce','About $49 per month','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce','mkt'],
- ['Khan Academy mastery — Math & Science','Free, tracked as mastery percent','https://www.khanacademy.org/','math'],
- ['HubSpot: Inbound Sales','Free','https://academy.hubspot.com/courses/inbound-sales','biz'],
- ['HubSpot: Sales Management','Free','https://academy.hubspot.com/courses/sales-management','biz'],
- ['Yale: Introduction to Negotiation','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/negotiation','biz'],
- ['U. Washington: Introduction to Public Speaking','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/fundamentals-of-public-speaking','biz'],
- ['Toastmasters Pathways — earned by speaking, not by watching','About $60 every six months in dues','https://www.toastmasters.org/find-a-club','biz'],
- ['Stanford: Introduction to Logic','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/logic-introduction','phil'],
- ['Edinburgh: Introduction to Philosophy','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/philosophy','phil'],
- ['Modern Stoicism: Stoic Week','Free · runs each October, one week','https://modernstoicism.com/','stoic'],
- ['Modern Stoicism: Stoic Mindfulness & Resilience Training','Free · four weeks, about 20 minutes a day','https://learn.modernstoicism.com/','stoic'],
- ['Donald Robertson: Crash Course in Stoicism','Free','https://learn.donaldrobertson.name/p/stoicism-in-five-minutes','stoic']
+ ['freeCodeCamp: Responsive Web Design','Free','https://www.freecodecamp.org/learn/2022/responsive-web-design/','code','free'],
+ ['freeCodeCamp: JavaScript Algorithms','Free','https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/','code','free'],
+ ['freeCodeCamp: Front End Development Libraries','Free','https://www.freecodecamp.org/learn/front-end-development-libraries/','code','free'],
+ ['Harvard CS50x — Verified Certificate','$199 · the course itself stays free','https://cs50.harvard.edu/x/','code','paid'],
+ ['Meta Front-End Developer Professional Certificate','About $49 a month on Coursera','https://www.coursera.org/professional-certificates/meta-front-end-developer','code','paid'],
+ ['CLEP: Information Systems',CLEP,'https://clep.collegeboard.org/clep-exams/information-systems','code','credit'],
+ ['HubSpot: Digital Marketing','Free','https://academy.hubspot.com/courses/digital-marketing','mkt','free'],
+ ['HubSpot: Social Media Marketing','Free','https://academy.hubspot.com/courses/social-media','mkt','free'],
+ ['Meta Certified Digital Marketing Associate','About $99 for the exam','https://www.facebook.com/business/learn/certification','mkt','paid'],
+ ['Google Digital Marketing & E-commerce','About $49 a month','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce','mkt','paid'],
+ ['CLEP: Principles of Marketing',CLEP,'https://clep.collegeboard.org/clep-exams/principles-marketing','mkt','credit'],
+ ['HubSpot: Inbound Sales','Free','https://academy.hubspot.com/courses/inbound-sales','biz','free'],
+ ['HubSpot: Sales Management','Free','https://academy.hubspot.com/courses/sales-management','biz','free'],
+ ['Yale: Introduction to Negotiation','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/negotiation','biz','paid'],
+ ['U. Washington: Introduction to Public Speaking','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/fundamentals-of-public-speaking','biz','paid'],
+ ['Toastmasters Pathways — earned by speaking, not by watching','About $60 every six months in dues','https://www.toastmasters.org/find-a-club','biz','paid'],
+ ['CLEP: Principles of Management',CLEP,'https://clep.collegeboard.org/clep-exams/principles-management','biz','credit'],
+ ['CLEP: Introductory Business Law',CLEP,'https://clep.collegeboard.org/clep-exams/introductory-business-law','biz','credit'],
+ ['Khan Academy mastery — the free ladder up to Calculus','Free · tracked as mastery percent','https://www.khanacademy.org/','math','free'],
+ ['CLEP: College Algebra',CLEP,'https://clep.collegeboard.org/clep-exams/college-algebra','math','credit'],
+ ['CLEP: Precalculus',CLEP,'https://clep.collegeboard.org/clep-exams/precalculus','math','credit'],
+ ['CLEP: Calculus',CLEP,'https://clep.collegeboard.org/clep-exams/calculus','math','credit'],
+ ['MITx on edX — verified certificates for the physics sequence','Roughly $75 to $300 per course · auditing stays free','https://www.edx.org/school/mitx','sci','paid'],
+ ['CLEP: Natural Sciences',CLEP,'https://clep.collegeboard.org/clep-exams/natural-sciences','sci','credit'],
+ ['CLEP: Biology',CLEP,'https://clep.collegeboard.org/clep-exams/biology','sci','credit'],
+ ['CLEP: College Composition',CLEP,'https://clep.collegeboard.org/clep-exams/college-composition','eng','credit'],
+ ['CLEP: Analyzing and Interpreting Literature',CLEP,'https://clep.collegeboard.org/clep-exams/analyzing-interpreting-literature','eng','credit'],
+ ['CLEP: American Literature',CLEP,'https://clep.collegeboard.org/clep-exams/american-literature','eng','credit'],
+ ['Stanford: Introduction to Logic','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/logic-introduction','phil','paid'],
+ ['Edinburgh: Introduction to Philosophy','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/philosophy','phil','paid'],
+ ['CLEP: Humanities — covers the philosophy and literature core',CLEP,'https://clep.collegeboard.org/clep-exams/humanities','phil','credit'],
+ ['Modern Stoicism: Stoic Week','Free · runs each October, one week','https://modernstoicism.com/','stoic','free'],
+ ['Modern Stoicism: Stoic Mindfulness & Resilience Training','Free · four weeks, about 20 minutes a day','https://learn.modernstoicism.com/','stoic','free'],
+ ['Donald Robertson: Crash Course in Stoicism','Free','https://learn.donaldrobertson.name/p/stoicism-in-five-minutes','stoic','free']
 ];
+/* Courses where no accredited certificate exists — say so rather than imply one. */
+const CERT_NOTE={stoic:'No accredited certificate exists for Stoicism anywhere — it is a practice, not a licensed field. These are the real structured courses that do exist. For transferable credit on this material, sit the CLEP Humanities exam under Philosophy.'};
 
 let student=store.get('ku_student');
 let grades=store.get('ku_grades')||[];
@@ -909,16 +933,25 @@ function fallback(txt,ok){
 }
 function renderRehearse(){renderLadder();renderDrillCount();}
 
+const FLAG={free:['free-flag','Free'],paid:['paid-flag','Paid'],credit:['credit-flag','College credit']};
 function renderCerts(){
- document.getElementById('certList').innerHTML=CERTS.map(c=>{
-  const ready=pct(c[3])>=30;
-  const free=c[1].startsWith('Free');
-  return `<div class="cred">
-   <span class="${free?'free-flag':'paid-flag'}">${free?'Free':'Paid'}</span>
-   <h3>${c[0]}</h3>
-   <div class="cost">${c[1]}</div>
-   <div class="actions"><a class="btn ${ready?'gold':'quiet'}" href="${c[2]}" target="_blank" rel="noopener">${ready?'Claim it — you\u2019re ready':'Open the course'}</a></div>
-  </div>`;}).join('');
+ document.getElementById('certList').innerHTML=CURRICULUM.map(course=>{
+  const mine=CERTS.filter(c=>c[3]===course.id);
+  if(!mine.length)return '';
+  const p=pct(course.id),passed=passedUnits(course.id),ready=passed>=1;
+  const cards=mine.map(c=>{
+   const f=FLAG[c[4]]||FLAG.paid;
+   return `<div class="cred">
+    <span class="${f[0]}">${f[1]}</span>
+    <h3>${c[0]}</h3>
+    <div class="cost">${c[1]}</div>
+    <div class="actions"><a class="btn ${ready?'gold':'quiet'}" href="${c[2]}" target="_blank" rel="noopener">${ready?'Claim it — you’re ready':'Open the course'}</a></div>
+   </div>`;}).join('');
+  return `<div class="certgroup">${course.name}</div>
+   <div class="certgroup-sub">${mine.length} credential${mine.length===1?'':'s'} on this course · ${p}% complete${ready?' · claims unlocked — you have passed an exam here':' · pass this course’s exam to unlock the claims'}</div>
+   ${CERT_NOTE[course.id]?`<p class="principle" style="margin:0 0 14px;">${CERT_NOTE[course.id]}</p>`:''}
+   ${cards}`;
+ }).join('');
 }
 function renderGradebook(){
  const rows=grades.map(g=>`<tr><td>${g.name}${g.late?' <span class="late-tag">LATE</span>':''}</td><td class="${g.score>=80?'score-pass':'score-fail'}">${g.score}%</td><td>${scoreLetter(g.score,g.late)}</td><td>${g.date}</td></tr>`).join('');
