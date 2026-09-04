@@ -140,6 +140,53 @@
   #gate .btn{width:100%;margin-top:12px;padding:13px;}
   .gate-rule{width:44px;height:3px;background:var(--bronze);margin:0 auto 22px;border-radius:2px;}
 
+  /* Rehearsal Room */
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-bottom:16px;}
+  .panel h3{font-family:'Fraunces',serif;font-size:18px;font-weight:600;letter-spacing:-.2px;}
+  .panel .lead{color:var(--slate);font-size:13.5px;margin-top:4px;}
+  .cite{font-size:12px;color:var(--slate);margin-top:12px;font-style:italic;}
+  .steps{counter-reset:s;margin-top:14px;}
+  .steps li{list-style:none;counter-increment:s;position:relative;padding:0 0 0 34px;margin-bottom:11px;font-size:14px;}
+  .steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--navy-soft);color:var(--navy);font-family:'Fraunces',serif;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .steps li strong{font-weight:600;}
+
+  .drill{text-align:center;padding:26px 20px;}
+  .drill .prompt{font-family:'Fraunces',serif;font-size:20px;font-weight:600;line-height:1.35;min-height:56px;display:flex;align-items:center;justify-content:center;max-width:44ch;margin:0 auto;}
+  .drill .clock{font-family:'Fraunces',serif;font-size:46px;font-weight:700;letter-spacing:-1px;line-height:1;margin:14px 0 4px;font-variant-numeric:tabular-nums;}
+  .drill .clock.hot{color:var(--red);}
+  .drill .hint{font-size:12.5px;color:var(--slate);}
+  .drill .ctrls{margin-top:16px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+  .repcount{font-size:13px;color:var(--slate);margin-top:14px;padding-top:14px;border-top:1px solid var(--line);}
+  .repcount strong{font-family:'Fraunces',serif;font-size:16px;color:var(--ink);}
+
+  .rung{display:flex;gap:14px;align-items:flex-start;padding:15px 20px;border-bottom:1px solid var(--line);}
+  .rung:last-child{border-bottom:none;}
+  .rung .n{font-family:'Fraunces',serif;font-size:15px;font-weight:700;width:24px;flex-shrink:0;color:var(--slate);text-align:center;padding-top:1px;}
+  .rung .body{flex:1;min-width:0;font-size:14px;}
+  .rung .body .why{font-size:12.5px;color:var(--slate);margin-top:3px;}
+  .rung .act{flex-shrink:0;text-align:right;min-width:96px;}
+  .rung.cur{background:var(--navy-soft);}
+  .rung.cur .n{color:var(--navy);}
+  .rung.done .n{color:var(--green);}
+  .rung.done .body{color:var(--slate);}
+  .rung.lock{opacity:.5;}
+  .rung .reps{font-size:11.5px;font-weight:600;color:var(--slate);display:block;margin-top:5px;}
+  .rung.done .reps{color:var(--green);}
+
+  .script{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--bronze);border-radius:7px;padding:13px 15px;margin:10px 0;font-size:13.5px;line-height:1.6;white-space:pre-wrap;}
+  .script .say{display:block;}
+  .script .stage{color:var(--slate);font-style:italic;font-size:12.5px;}
+  .copyrow{display:flex;justify-content:flex-end;margin-top:-4px;}
+  .copybtn{background:none;border:none;font-family:'Inter';font-size:12px;font-weight:600;color:var(--navy);cursor:pointer;padding:4px 2px;}
+  .copybtn:hover{text-decoration:underline;}
+  .objection{border-bottom:1px solid var(--line);padding:14px 0;}
+  .objection:last-child{border-bottom:none;}
+  .objection .they{font-weight:600;font-size:14px;}
+  .objection .they::before{content:"“";}
+  .objection .they::after{content:"”";}
+  .objection .you{font-size:13.5px;margin-top:6px;padding-left:14px;border-left:2px solid var(--navy-soft);}
+  .objection .note-sm{display:block;color:var(--slate);font-size:12.5px;margin-top:5px;}
+
   footer{border-top:1px solid var(--line);padding:26px 0 60px;color:var(--slate);font-size:12.5px;}
 </style>
 </head>
@@ -166,6 +213,7 @@
   <div class="wrap">
     <button class="active" onclick="go('dash',this)">Dashboard</button>
     <button onclick="go('courses',this)">Curriculum</button>
+    <button onclick="go('rehearse',this)">Rehearsal Room</button>
     <button onclick="go('tests',this)">Exams</button>
     <button onclick="go('certs',this)">Registrar</button>
   </div>
@@ -193,6 +241,119 @@
       <p>Every course opens with video classrooms first, then practice work, then this month's homework. Mark your homework each week — the record keeps you honest.</p>
     </div>
     <div id="courseList"></div>
+  </section>
+
+  <section id="rehearse">
+    <div class="pagehead">
+      <h2>Rehearsal Room</h2>
+      <p>Nerves before a pitch are not a character flaw — they are an untrained skill and an untrained body. This room trains both. Read the protocol, run the drill out loud, then climb the ladder one rung at a time.</p>
+    </div>
+
+    <div class="panel">
+      <h3>The 90-second protocol</h3>
+      <p class="lead">Run this in the parking lot, or in the sixty seconds before you click Join.</p>
+      <ol class="steps">
+        <li><strong>Three physiological sighs.</strong> Two inhales through the nose — a short one, then a second sharp one to top off — followed by one long, slow exhale through the mouth. It is the fastest deliberate way to bring a racing heart rate down in real time.</li>
+        <li><strong>Say "I'm excited" out loud.</strong> Not "calm down." Anxiety and excitement are the same physical arousal wearing different labels, and relabeling costs nothing while suppressing costs everything. In the research, speakers told to get excited were rated more persuasive, competent and confident than the ones told to relax.</li>
+        <li><strong>Name one outcome in one sentence.</strong> "By the end of this call I want a walkthrough scheduled." Not "I want it to go well." A vague goal has no finish line, so your body never gets the all-clear.</li>
+        <li><strong>Stand up. Feet planted, shoulders down.</strong> Your voice comes from your posture. Sit hunched and you will sound like you are apologizing.</li>
+        <li><strong>Drink water.</strong> Dry mouth is what makes a voice crack, and a cracking voice is what convinces you that you are failing.</li>
+        <li><strong>Open by asking, not pitching.</strong> Lead with a question so you get to listen for the first two minutes. Your body settles while they talk — and you learn what to actually sell.</li>
+      </ol>
+      <p class="cite">Reappraisal finding: Alison Wood Brooks, "Get Excited: Reappraising Pre-Performance Anxiety as Excitement," <em>Journal of Experimental Psychology: General</em>, 2014.</p>
+    </div>
+
+    <div class="panel drill">
+      <h3 style="margin-bottom:14px;">Sixty-second drill</h3>
+      <div class="prompt" id="drillPrompt">Press start. You get a prompt and sixty seconds. Say the answer out loud — actually out loud, in a full voice.</div>
+      <div class="clock" id="drillClock">1:00</div>
+      <div class="hint" id="drillHint">No notes. Do not restart because you stumbled — stumble and keep going. That is the whole point.</div>
+      <div class="ctrls">
+        <button class="btn" id="drillBtn" onclick="drillToggle()">Start the drill</button>
+        <button class="btn quiet" onclick="drillSkip()">Different prompt</button>
+      </div>
+      <div class="repcount" id="drillReps"></div>
+    </div>
+
+    <div class="duebox">
+      <div class="boxtitle">The exposure ladder</div>
+      <div id="ladderList"></div>
+    </div>
+    <p class="principle" style="margin-top:14px;"><strong>Why a ladder.</strong> Avoiding the thing you fear is what keeps the fear alive — every time you dodge a call, your nervous system files it as "that really was dangerous." The fix is not confidence first and action after. It is small, survivable exposures in order, repeated until they are boring, and the confidence arrives afterward as a receipt. Three logged reps clear a rung and unlock the next one. You cannot skip.</p>
+
+    <div class="panel">
+      <h3>The script library</h3>
+      <p class="lead">Fluency is not talent, it is having the words already loaded. Read these until they are yours, then say them in your own accent.</p>
+
+      <details open><summary>Opening a cold call</summary>
+        <div class="script"><span class="say">"Hi — this is [your name] with [your business]. I know I'm calling out of the blue, so I'll be quick.</span><span class="stage">— pause, one full second —</span><span class="say">I take care of [what you do] for properties over on [their street]. Is keeping the front of the building looking sharp something that's on your list this year, or is that not really a priority right now?"</span></div>
+        <div class="copyrow"><button class="copybtn" onclick="copyScript(this)">Copy script</button></div>
+        <p class="linklist" style="color:var(--slate);font-size:12.5px;">Naming the awkwardness disarms it. Ending on <em>"or is that not a priority"</em> hands them an easy no — and people relax the moment they know they are allowed to refuse. A relaxed person tells you the truth.</p>
+      </details>
+
+      <details><summary>The discovery five — questions that make them talk</summary>
+        <div class="script"><span class="say">1. "Walk me through how you handle it now."
+2. "What made you start looking at this?"
+3. "What happens if nothing changes for another year?"
+4. "Besides you, who has to be comfortable with this?"
+5. "What would make this an easy yes?"</span></div>
+        <div class="copyrow"><button class="copybtn" onclick="copyScript(this)">Copy script</button></div>
+        <p class="linklist" style="color:var(--slate);font-size:12.5px;">Target: they talk for seventy percent of a discovery call. If you are doing most of the talking, you are guessing at what to sell. Question three is the one that creates urgency without you manufacturing any.</p>
+      </details>
+
+      <details><summary>Saying the price without flinching</summary>
+        <div class="script"><span class="say">"For the full exterior — driveway, walkway, and the front face of the building — it's [one number], and it's done in a day."</span><span class="stage">— then stop talking. Completely. Count to ten in your head. Do not fill the silence, do not add a discount, do not say "but I'm flexible." —</span></div>
+        <div class="copyrow"><button class="copybtn" onclick="copyScript(this)">Copy script</button></div>
+        <p class="linklist" style="color:var(--slate);font-size:12.5px;">Silence after a number feels like an eternity to the person who said it and like ordinary thinking time to everyone else. Whoever speaks first concedes. If they flinch, do not defend the price — label it: <em>"Sounds like that's higher than you had in mind."</em> Then be quiet again.</p>
+      </details>
+
+      <details><summary>The six objections, and what to say back</summary>
+        <div class="objection"><div class="they">It's too expensive.</div><div class="you">"What number were you expecting?"</div><span class="note-sm">You need the size of the gap, not a reason to discount. If you do move, remove scope when you remove dollars — a price that drops for free tells them the first number was fiction.</span></div>
+        <div class="objection"><div class="they">Just send me something in writing.</div><div class="you">"Happy to. So I send you the right thing instead of a generic packet — what's the one part you most need to see: the price, the scope, or the timing?"</div><span class="note-sm">Usually a polite exit. The question turns it back into a conversation, and their answer tells you what the real hesitation is.</span></div>
+        <div class="objection"><div class="they">I need to think about it.</div><div class="you">"Of course. In my experience when someone says that, there's one specific thing that isn't sitting right. What is it?"</div><span class="note-sm">"Think about it" is never about thinking. It is an unspoken objection you did not surface. Ask warmly and they will usually just tell you.</span></div>
+        <div class="objection"><div class="they">We already have someone.</div><div class="you">"Good — that means you actually value getting it done. I'm not asking you to fire anybody. If they're ever booked out, or you want a second number to compare against, can I check back in ninety days?"</div><span class="note-sm">Never attack the incumbent; you insult their judgment for hiring them. Take the calendar date instead — incumbents lose accounts constantly, and the person with the date on file wins it.</span></div>
+        <div class="objection"><div class="they">Call me next quarter.</div><div class="you">"I'll do that. So I don't waste your time — is next quarter a real date, or is it a polite no? Either answer is completely fine."</div><span class="note-sm">A clean no is worth more than a maybe. Maybes are what fill a pipeline with ghosts and make you feel busy while you earn nothing.</span></div>
+        <div class="objection"><div class="they">What makes you different?</div><div class="you">"Honestly? Most of us run the same equipment. What's different is that I show up when I said I would, and you get the same person every time — me. Is that the part that's gone wrong before?"</div><span class="note-sm">Do not recite features. Admit the commodity, name the one thing you genuinely do better, then hand the question back. The follow-up is where the real story comes out.</span></div>
+      </details>
+
+      <details><summary>Video and conference call mechanics</summary>
+        <ul class="linklist">
+          <li><strong>Camera at eye level.</strong> A stack of books under the laptop. Shooting up your nose costs you authority before you speak.</li>
+          <li><strong>Light in front of you, window behind the camera.</strong> A window behind <em>you</em> turns you into a silhouette, and people do not trust a shadow.</li>
+          <li><strong>Look at the lens, not the face on screen</strong> — at two moments specifically: when you say the price, and when you ask for the close. That is what reads as eye contact.</li>
+          <li><strong>Two-second pause after they stop talking.</strong> It kills the interrupting that latency causes, and it makes you sound considered rather than eager.</li>
+          <li><strong>Set your display name to your business name</strong>, not "iPhone" or "user1."</li>
+          <li><strong>Smile before you speak, not while you speak.</strong> Join, smile, then start. The first ten seconds set the temperature of the whole call.</li>
+          <li><strong>Send the agenda beforehand,</strong> three lines. Nerves come from not knowing what happens next; an agenda removes that for both of you.</li>
+          <li><strong>Record yourself once a month and watch it.</strong> Uncomfortable, and it is the single fastest feedback loop you have access to.</li>
+        </ul>
+      </details>
+
+      <details><summary>The one-page proposal</summary>
+        <ol class="steps" style="margin-top:6px;">
+          <li><strong>Their problem, in their words.</strong> One sentence, quoting the phrase they actually used on the call. They should recognize themselves in line one.</li>
+          <li><strong>The outcome.</strong> What it looks like when this is finished — not what you will do, what they will have.</li>
+          <li><strong>Scope.</strong> Three to five bullets. What is included.</li>
+          <li><strong>What is not included.</strong> Nobody does this, and it is the part that builds the most trust — and it is what protects you from scope creep later.</li>
+          <li><strong>Price.</strong> One number. If you must give options, give exactly three and put the one you want them to take in the middle.</li>
+          <li><strong>Timeline.</strong> A start date and a finish date, not "roughly two weeks."</li>
+          <li><strong>One next step, with a deadline.</strong> "Reply 'go' by Friday and I'll hold the 14th for you." A proposal without a deadline is a brochure.</li>
+        </ol>
+        <p class="linklist" style="color:var(--slate);font-size:12.5px;">One page. Every extra page lowers the odds it gets read, and an unread proposal loses to a worse offer that got read.</p>
+      </details>
+
+      <details><summary>The follow-up that isn't begging</summary>
+        <div class="script"><span class="say">Subject: should I close the file?
+
+Hi [name] — I haven't heard back, which usually means one of three things: it isn't a priority right now, you went a different direction, or it's still on the list and the week got away from you.
+
+Any of those is fine. Just tell me which one and I'll either close the file or check back in [month].
+
+— [your name]</span></div>
+        <div class="copyrow"><button class="copybtn" onclick="copyScript(this)">Copy script</button></div>
+        <p class="linklist" style="color:var(--slate);font-size:12.5px;">"Just checking in" makes you sound like you need something. Offering to close the file makes you sound like someone with a full schedule — and it gets replies, because it is easy to answer.</p>
+      </details>
+    </div>
   </section>
 
   <section id="tests">
@@ -223,7 +384,7 @@ return{get:k=>JSON.parse(localStorage.getItem(k)||'null'),set:(k,v)=>localStorag
 catch(e){const m={};return{get:k=>m[k]||null,set:(k,v)=>m[k]=v};}})();
 
 const CURRICULUM=[
- {id:'code',kind:'Major',name:'Software Engineering & Web Design',school:'freeCodeCamp · The Odin Project · Harvard CS50',
+ {id:'code',kind:'Major',short:'Coding',name:'Software Engineering & Web Design',school:'freeCodeCamp · The Odin Project · Harvard CS50',
   watch:[
    ['freeCodeCamp — full-length video courses','https://www.youtube.com/@freecodecamp'],
    ['Harvard CS50 — filmed lectures','https://www.youtube.com/@cs50'],
@@ -241,7 +402,7 @@ const CURRICULUM=[
    'Week 3: rebuild this site from memory — no copying. Compare afterward.',
    'Week 4: 25 JavaScript exercises. Keep notes on var/let/const, functions, arrays.'
   ]},
- {id:'mkt',kind:'Major',name:'Marketing & Social Media',school:'HubSpot Academy · Google · Meta Blueprint',
+ {id:'mkt',kind:'Major',short:'Marketing',name:'Marketing & Social Media',school:'HubSpot Academy · Google · Meta Blueprint',
   watch:[
    ['HubSpot Academy — video lessons','https://www.youtube.com/@HubSpotMarketing'],
    ['Alex Hormozi — offers and money','https://www.youtube.com/@AlexHormozi'],
@@ -258,7 +419,32 @@ const CURRICULUM=[
    'Weeks 2–3: post three times a week on one platform. Log the results.',
    'Week 4: write a one-page marketing plan for a business you own.'
   ]},
- {id:'math',kind:'General education',name:'Mathematics: Algebra to Calculus',school:'Khan Academy mastery path',
+ {id:'biz',kind:'Major',short:'Business communication',name:'Business Communication & Dealmaking',school:'Yale · Michigan · U. Washington · HubSpot · Harvard PON',
+  watch:[
+   ['Chris Voss & The Black Swan Group — tactical empathy on real calls','https://www.youtube.com/@NegotiationMastery'],
+   ['Vinh Giang — voice, pace, presence, and how you actually sound','https://www.youtube.com/@askvinh'],
+   ['Charisma on Command — what confidence looks like on camera','https://www.youtube.com/@Charismaoncommand'],
+   ['Harvard Business Review — management and negotiation explainers','https://www.youtube.com/@harvardbusinessreview']
+  ],
+  links:[
+   ['Yale: Introduction to Negotiation (free to audit)','https://www.coursera.org/learn/negotiation'],
+   ['Michigan: Successful Negotiation — Essential Strategies and Skills','https://www.coursera.org/learn/negotiation-skills'],
+   ['U. Washington: Introduction to Public Speaking (free to audit)','https://www.coursera.org/learn/fundamentals-of-public-speaking'],
+   ['HubSpot: Inbound Sales certification (free)','https://academy.hubspot.com/courses/inbound-sales'],
+   ['HubSpot: Sales Management certification (free)','https://academy.hubspot.com/courses/sales-management'],
+   ['Harvard Program on Negotiation — free articles, daily','https://www.pon.harvard.edu/'],
+   ['SBA — the administration side: entities, contracts, licensing','https://www.sba.gov/'],
+   ['SCORE — free 1-on-1 mentors. Real people to practice pitching on.','https://www.score.org/'],
+   ['Toastmasters — find a club near you and speak in front of strangers','https://www.toastmasters.org/find-a-club']
+  ],
+  homework:[
+   'Week 1: Yale Negotiation modules 1–2. Write your BATNA and your walk-away number for one real deal — on paper, before the call, every time.',
+   'Week 2: HubSpot Inbound Sales certification, start to finish. Then rewrite your cold-call opener in your own words and say it out loud twenty times.',
+   'Week 3: clear two rungs of the exposure ladder in the Rehearsal Room. Reps, not reading.',
+   'Week 4: write one real one-page proposal for a real prospect, and send it with a deadline in it. Then log the outcome — won, lost, or ghosted — and what you would say differently.',
+   'Every week: five sixty-second drills, out loud. Record one of them and watch it back once.'
+  ]},
+ {id:'math',kind:'General education',short:'Math',name:'Mathematics: Algebra to Calculus',school:'Khan Academy mastery path',
   watch:[
    ['3Blue1Brown — math you can see','https://www.youtube.com/@3blue1brown'],
    ['Professor Leonard — full whiteboard lectures','https://www.youtube.com/@ProfessorLeonard'],
@@ -275,7 +461,7 @@ const CURRICULUM=[
    'Weekly: one word problem worked by hand. Photo goes to Notion.',
    'Monthly: the unit exam here plus the Khan course challenge.'
   ]},
- {id:'sci',kind:'General education',name:'Science: Physics to Quantum',school:'Khan Academy → MIT OpenCourseWare',
+ {id:'sci',kind:'General education',short:'Science',name:'Science: Physics to Quantum',school:'Khan Academy → MIT OpenCourseWare',
   watch:[
    ['Veritasium — physics that rewires your head','https://www.youtube.com/@veritasium'],
    ['Crash Course Physics — animated and fast','https://www.youtube.com/playlist?list=PL8dPuuaLjXtN0ge7yDk_UA0ldZJdhwkoV'],
@@ -292,21 +478,48 @@ const CURRICULUM=[
    'Phase 2: MIT 8.01, one lecture a week with the problem sets.',
    'Phase 3, after Calculus: Quantum Mechanics — the hardest science open to a self-learner.'
   ]},
- {id:'eng',kind:'General education',name:'English, Literature & Philosophy',school:'Reading list + writing practice',
+ {id:'eng',kind:'General education',short:'English',name:'English & Literature',school:'Reading list + writing practice',
   watch:[
-   ['Crash Course Philosophy — animated series','https://www.youtube.com/playlist?list=PL8dPuuaLjXtNgK6MZucdYldNkMybYIHKR'],
-   ['Jordan Peterson — lectures','https://www.youtube.com/@JordanBPeterson'],
-   ['TED-Ed — big ideas in five minutes','https://www.youtube.com/@TEDEd']
+   ['TED-Ed — big ideas in five minutes','https://www.youtube.com/@TEDEd'],
+   ['Crash Course Literature — how to actually read a book','https://www.youtube.com/playlist?list=PL8dPuuaLjXtOeEc9ME62zTfqc0h6Pe8vb'],
+   ['Jordan Peterson — lectures','https://www.youtube.com/@JordanBPeterson']
   ],
   links:[
    ['Khan: Grammar','https://www.khanacademy.org/humanities/grammar'],
    ['Project Gutenberg — free classics','https://www.gutenberg.org/'],
-   ['Reading list: 12 Rules for Life, Meditations, Man\u2019s Search for Meaning, As a Man Thinketh, Proverbs','#']
+   ['Reading list: 12 Rules for Life, Man\u2019s Search for Meaning, As a Man Thinketh, Proverbs','#']
   ],
   homework:[
    'Daily: read 20 pages minimum.',
    'Weekly: a half-page reflection — what did the author claim, do you agree, and why.',
    'Monthly: one one-page essay. The grade: could a stranger understand your point.'
+  ]},
+ {id:'phil',kind:'General education',short:'Philosophy',name:'Philosophy: Logic, Ethics & the Examined Life',school:'Open Yale · Harvard Justice · Stanford · Wireless Philosophy',
+  watch:[
+   ['Justice with Michael Sandel — the full Harvard lecture course, free','https://justiceharvard.org/'],
+   ['Wireless Philosophy — logic and critical thinking, built by academics','https://www.youtube.com/@WirelessPhilosophy'],
+   ['Crash Course Philosophy — the animated survey','https://www.youtube.com/playlist?list=PL8dPuuaLjXtNgK6MZucdYldNkMybYIHKR'],
+   ['The School of Life — philosophy applied to an ordinary life','https://www.youtube.com/@theschooloflifetv']
+  ],
+  links:[
+   ['Open Yale PHIL 176: Death — Shelly Kagan, 26 filmed lectures','https://oyc.yale.edu/philosophy/phil-176'],
+   ['Open Yale PLSC 114: Introduction to Political Philosophy','https://oyc.yale.edu/political-science/plsc-114'],
+   ['Stanford: Introduction to Logic (free to audit)','https://www.coursera.org/learn/logic-introduction'],
+   ['Edinburgh: Introduction to Philosophy (free to audit)','https://www.coursera.org/learn/philosophy'],
+   ['Stanford Encyclopedia of Philosophy — the reference scholars actually use','https://plato.stanford.edu/'],
+   ['Internet Encyclopedia of Philosophy — the friendlier second opinion','https://iep.utm.edu/'],
+   ['Primary text: Marcus Aurelius, Meditations','https://www.gutenberg.org/ebooks/2680'],
+   ['Primary text: Epictetus, The Enchiridion','https://www.gutenberg.org/ebooks/45109'],
+   ['Primary text: Plato, The Republic','https://www.gutenberg.org/ebooks/1497'],
+   ['Primary text: Aristotle, Nicomachean Ethics','https://www.gutenberg.org/ebooks/8438'],
+   ['Primary text: Nietzsche, Beyond Good and Evil','https://www.gutenberg.org/ebooks/4363']
+  ],
+  homework:[
+   'Weeks 1–2: logic first, because it is the part that transfers to everything else. Wireless Philosophy critical thinking series, then Stanford Intro to Logic. Learn to name three fallacies on sight.',
+   'Week 3: Justice with Michael Sandel, lectures 1–4. Write down where you disagree with him, and why — one paragraph.',
+   'Week 4: read one primary text directly, not a summary of it. Start with the Enchiridion. It is short, and it is aimed at exactly the problem of caring too much what a room thinks of you.',
+   'Weekly: steelman one belief you hold. Write the strongest case against it — strong enough that its best defender would sign off on your version. If you cannot, you do not yet understand your own position.',
+   'Monthly: one page answering a question with no clean answer. Graded on whether the argument holds, not on whether the conclusion is comfortable.'
   ]}
 ];
 
@@ -335,12 +548,24 @@ const TESTS={
   ['Force equals…',['mass × acceleration','mass × velocity','weight × time'],0],
   ['Gravity accelerates objects at about…',['9.8 m/s²','98 m/s²','1.8 m/s²'],0],
   ['Energy cannot be…',['Transferred','Created or destroyed','Stored'],1]]},
- eng:{name:'English & Philosophy — Unit 1',qs:[
+ eng:{name:'English — Unit 1',qs:[
   ['A thesis statement is…',['Your main claim in one sentence','A quote','A summary of sources'],0],
   ['"Their going to the store" is wrong because…',['It should be They\u2019re','It should be There','It is correct'],0],
-  ['Stoicism teaches…',['Control what you can, accept what you cannot','Avoid all feeling','Wealth is virtue'],0],
+  ['Active voice means…',['The action happens to the subject: "the lot was cleaned"','The subject does the action: "I cleaned the lot"','The sentence is in present tense'],1],
   ['An argument needs…',['A claim and reasons that support it','Strong emotion','Long words'],0],
-  ['Reading 20 pages a day for a year is roughly…',['Over 20 books','2 books','100 pages'],0]]}
+  ['Reading 20 pages a day for a year is roughly…',['Over 20 books','2 books','100 pages'],0]]},
+ biz:{name:'Business Communication — Unit 1',qs:[
+  ['Your BATNA is…',['Your opening price','Your best alternative if this deal falls through','The other side’s budget'],1],
+  ['Right after you say your price, the strongest move is…',['Stop talking and let the silence sit','Offer a discount before they can object','Explain how you calculated it'],0],
+  ['Research on pre-performance nerves found people perform best when they…',['Try hard to calm down','Suppress the feeling entirely','Relabel the nerves as excitement'],2],
+  ['On a good discovery call, most of the talking is done by…',['You','The prospect','Whoever is more prepared'],1],
+  ['"I need to think about it" usually means…',['There is an objection you have not surfaced yet','They are sold and closing soon','Your price is too high'],0]]},
+ phil:{name:'Philosophy — Unit 1',qs:[
+  ['An argument is valid when…',['The conclusion happens to be true','If the premises are true, the conclusion must be true','Everyone in the room agrees with it'],1],
+  ['An ad hominem attacks…',['The person instead of the argument','The weakest evidence offered','The conclusion but not the premises'],0],
+  ['Utilitarianism judges an action by…',['The intention behind it','Its consequences for overall wellbeing','Whether it follows tradition'],1],
+  ['Kant’s categorical imperative asks whether…',['The outcome is pleasant','The majority approves','You could will your rule to become a universal law'],2],
+  ['The Stoic dichotomy of control says…',['Some things are up to us and some are not','Nothing at all is up to us','Feelings should be destroyed'],0]]}
 };
 
 const CERTS=[
@@ -351,7 +576,14 @@ const CERTS=[
  ['HubSpot: Social Media Marketing','Free','https://academy.hubspot.com/courses/social-media','mkt'],
  ['Meta Certified Digital Marketing Associate','About $99 for the exam','https://www.facebook.com/business/learn/certification','mkt'],
  ['Google Digital Marketing & E-commerce','About $49 per month','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce','mkt'],
- ['Khan Academy mastery — Math & Science','Free, tracked as mastery percent','https://www.khanacademy.org/','math']
+ ['Khan Academy mastery — Math & Science','Free, tracked as mastery percent','https://www.khanacademy.org/','math'],
+ ['HubSpot: Inbound Sales','Free','https://academy.hubspot.com/courses/inbound-sales','biz'],
+ ['HubSpot: Sales Management','Free','https://academy.hubspot.com/courses/sales-management','biz'],
+ ['Yale: Introduction to Negotiation','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/negotiation','biz'],
+ ['U. Washington: Introduction to Public Speaking','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/fundamentals-of-public-speaking','biz'],
+ ['Toastmasters Pathways — earned by speaking, not by watching','About $60 every six months in dues','https://www.toastmasters.org/find-a-club','biz'],
+ ['Stanford: Introduction to Logic','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/logic-introduction','phil'],
+ ['Edinburgh: Introduction to Philosophy','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/philosophy','phil']
 ];
 
 let student=store.get('ku_student');
@@ -427,10 +659,10 @@ function renderHero(){
 
 function renderDue(){
  const items=[];
- CURRICULUM.forEach(c=>{const u=nextUnit(c.id);if(u<=10){items.push({t:c.name.split(':')[0].replace(' & Web Design','').replace(' & Social Media','')+' — Unit '+u+' exam',d:unitDue(u)});}});
+ CURRICULUM.forEach(c=>{const u=nextUnit(c.id);if(u<=10){items.push({t:c.short+' — Unit '+u+' exam',d:unitDue(u)});}});
  items.push({t:'Weekly homework — all courses',d:nextSunday()});
  items.sort((a,b)=>a.d-b.d);
- document.getElementById('dueList').innerHTML=items.slice(0,6).map(it=>{
+ document.getElementById('dueList').innerHTML=items.slice(0,8).map(it=>{
   const n=daysLeft(it.d);
   const cls=n<0?'overdue':(n===0?'today':'');
   const when=n<0?(Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' late'):(n===0?'due today':'due '+fmtD(it.d)+' · '+n+'d');
@@ -479,8 +711,8 @@ function renderCourses(){
 }
 
 function renderTestPicker(){
- document.getElementById('testPicker').innerHTML=Object.keys(TESTS).map(k=>
-  `<button class="btn quiet" onclick="openTest('${k}')">${TESTS[k].name}</button>`).join('');
+ document.getElementById('testPicker').innerHTML=CURRICULUM.filter(c=>TESTS[c.id]).map(c=>
+  `<button class="btn quiet" onclick="openTest('${c.id}')">${TESTS[c.id].name}</button>`).join('');
 }
 function openTest(k){
  const t=TESTS[k];
@@ -524,6 +756,122 @@ function gradeTest(k){
  const today=todayKey();if(!days.includes(today)){days.push(today);store.set('ku_days',days);}
  renderDash();renderGradebook();renderCerts();
 }
+/* ---------- Rehearsal Room ---------- */
+const REPS_PER_RUNG=3;
+const LADDER=[
+ ['Record yourself for sixty seconds answering "so what do you do?" — then watch it back once, all the way through.',
+  'Almost nobody has ever watched themselves speak. One viewing removes more imagined flaws than a year of worrying about them.'],
+ ['Say your one-line offer out loud ten times, standing up, in a full voice.',
+  'You cannot be fluent in words you have only ever read. The mouth has to have made the shape before.'],
+ ['Run a two-minute mock pitch on a Zoom call with nobody in it. Camera on. Record it.',
+  'The camera is most of the fear. Get used to the little green light with no stakes attached.'],
+ ['Call one business you do not care about and ask a single question. Thank them, hang up.',
+  'A phone call that costs you nothing teaches your body that a stranger picking up is not danger.'],
+ ['Ask a stranger in person for something small — directions, the time, a recommendation.',
+  'Deliberate low-stakes exposure. The goal is not the answer, it is the ordinary feeling afterward.'],
+ ['Send one real cold email with a real ask in it, to a real prospect.',
+  'Written asks are the cheapest rejection you can buy, and rejection you survive stops counting as a threat.'],
+ ['Book a free SCORE mentor session and pitch your business to them for ten minutes.',
+  'A real, warm, experienced human who cannot fire you or buy from you. The safest live audience that exists.'],
+ ['Cold call five local businesses using your opener. Log all five outcomes, including the bad ones.',
+  'Five in a row matters more than five spread over a month — volume is what collapses the fear, not spacing.'],
+ ['Deliver a live proposal on a video call, camera on, and say your price without discounting it.',
+  'The whole course in one rung: presence, a number, and the discipline to stop talking after it.'],
+ ['Pitch a deal worth more than you are comfortable with. Say the number, then sit in the silence.',
+  'The ceiling on what you earn is usually just the largest number you can say out loud without flinching.']
+];
+const DRILL_PROMPTS=[
+ 'Someone asks "so what do you do?" at a cookout. Answer in one sentence, then ask them something back.',
+ 'A prospect just said your price is too high. Respond without lowering it.',
+ 'Open a cold call to a business that has never heard of you.',
+ 'Explain what your business does to a ten-year-old.',
+ 'They said "just send me something in writing." Keep the conversation alive.',
+ 'Say your price out loud, then stay silent for a full ten seconds. Time it.',
+ 'You are two minutes late joining the call. Open it anyway.',
+ 'A prospect asks what makes you different from the cheaper guy. Answer honestly.',
+ 'Ask for the sale. Out loud. One clear sentence with a date in it.',
+ 'They said "we already have someone." Get a date to follow up.',
+ 'Summarize the last thing you learned this week as if you were teaching it.',
+ 'Someone challenges a belief you hold. Steelman their side first, then answer.',
+ 'Introduce yourself to a room of ten business owners in thirty seconds.',
+ 'A job went wrong and it was your fault. Tell the client, and say what happens next.',
+ 'They went quiet after the proposal. Leave the voicemail that gets a call back.',
+ 'Ask for a referral from a happy customer without sounding desperate.'
+];
+let reps=store.get('ku_reps')||{};
+let drills=store.get('ku_drills')||0;
+
+function rungReps(i){return reps[i]||0;}
+function rungDone(i){return rungReps(i)>=REPS_PER_RUNG;}
+function rungOpen(i){for(let j=0;j<i;j++){if(!rungDone(j))return false;}return true;}
+function currentRung(){for(let i=0;i<LADDER.length;i++){if(!rungDone(i))return i;}return -1;}
+function logRep(i){
+ reps[i]=rungReps(i)+1;store.set('ku_reps',reps);
+ const t=todayKey();if(!days.includes(t)){days.push(t);store.set('ku_days',days);}
+ renderLadder();renderDrillCount();renderHero();
+}
+function renderLadder(){
+ const cur=currentRung();
+ document.getElementById('ladderList').innerHTML=LADDER.map((r,i)=>{
+  const done=rungDone(i),open=rungOpen(i),n=rungReps(i);
+  const cls=done?'done':(i===cur?'cur':(open?'':'lock'));
+  const act=done?'<span class="done" style="color:var(--green);font-weight:600;font-size:12.5px;">Cleared</span>'
+   :open?`<button class="btn small ${i===cur?'':'quiet'}" onclick="logRep(${i})">Log a rep</button>`
+   :'<span style="color:var(--slate);font-size:12.5px;">Locked</span>';
+  return `<div class="rung ${cls}">
+   <div class="n">${i+1}</div>
+   <div class="body">${r[0]}<div class="why">${r[1]}</div>
+    <span class="reps">${done?REPS_PER_RUNG+' of '+REPS_PER_RUNG+' reps':(open?n+' of '+REPS_PER_RUNG+' reps':'Clear rung '+(cur+1)+' first')}</span></div>
+   <div class="act">${act}</div>
+  </div>`;}).join('');
+}
+
+let drillTimer=null,drillLeft=60,drillOn=false;
+function pickPrompt(){return DRILL_PROMPTS[Math.floor(Math.random()*DRILL_PROMPTS.length)];}
+function fmtClock(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function paintClock(){const c=document.getElementById('drillClock');
+ c.textContent=fmtClock(drillLeft);c.className='clock'+(drillOn&&drillLeft<=10?' hot':'');}
+function drillToggle(){
+ if(drillOn){drillStop(false);return;}
+ document.getElementById('drillPrompt').textContent=pickPrompt();
+ drillLeft=60;drillOn=true;paintClock();
+ document.getElementById('drillBtn').textContent='Stop';
+ document.getElementById('drillHint').textContent='Speak. Out loud, full voice. Stumble and keep going.';
+ drillTimer=setInterval(()=>{drillLeft--;paintClock();if(drillLeft<=0)drillStop(true);},1000);
+}
+function drillStop(finished){
+ clearInterval(drillTimer);drillOn=false;drillLeft=60;paintClock();
+ document.getElementById('drillBtn').textContent='Start the drill';
+ if(finished){
+  drills++;store.set('ku_drills',drills);
+  const t=todayKey();if(!days.includes(t)){days.push(t);store.set('ku_days',days);}
+  document.getElementById('drillHint').textContent='Rep logged. Go again — the second one is always better than the first.';
+  renderDrillCount();renderHero();
+ }else{
+  document.getElementById('drillHint').textContent='Stopped. Stopping early is the fear winning a small one. Start it again.';
+ }
+}
+function drillSkip(){document.getElementById('drillPrompt').textContent=pickPrompt();}
+function renderDrillCount(){
+ const cleared=LADDER.filter((_,i)=>rungDone(i)).length;
+ document.getElementById('drillReps').innerHTML=
+  `Drills completed: <strong>${drills}</strong> &nbsp;·&nbsp; Ladder rungs cleared: <strong>${cleared}</strong> of ${LADDER.length}`;
+}
+function copyScript(btn){
+ const box=btn.closest('.copyrow').previousElementSibling;
+ const txt=box.innerText;
+ const ok=()=>{const o=btn.textContent;btn.textContent='Copied';setTimeout(()=>btn.textContent=o,1400);};
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(ok).catch(()=>fallback(txt,ok));}
+ else fallback(txt,ok);
+}
+function fallback(txt,ok){
+ const ta=document.createElement('textarea');ta.value=txt;ta.style.position='fixed';ta.style.opacity='0';
+ document.body.appendChild(ta);ta.select();
+ try{document.execCommand('copy');ok();}catch(e){}
+ document.body.removeChild(ta);
+}
+function renderRehearse(){renderLadder();renderDrillCount();}
+
 function renderCerts(){
  document.getElementById('certList').innerHTML=CERTS.map(c=>{
   const ready=pct(c[3])>=30;
@@ -539,7 +887,7 @@ function renderGradebook(){
  const rows=grades.map(g=>`<tr><td>${g.name}${g.late?' <span class="late-tag">LATE</span>':''}</td><td class="${g.score>=80?'score-pass':'score-fail'}">${g.score}%</td><td>${scoreLetter(g.score,g.late)}</td><td>${g.date}</td></tr>`).join('');
  document.getElementById('gradebook').innerHTML='<tr><th>Exam</th><th>Score</th><th>Grade</th><th>Date</th></tr>'+(rows||'<tr><td colspan="4" style="color:var(--slate);">No exams on record yet.</td></tr>');
 }
-renderDash();renderCourses();renderTestPicker();renderCerts();renderGradebook();
+renderDash();renderCourses();renderRehearse();renderTestPicker();renderCerts();renderGradebook();
 </script>
 </body>
 </html>
