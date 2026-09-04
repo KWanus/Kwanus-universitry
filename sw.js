@@ -9,8 +9,9 @@
  * Your record lives in localStorage, not here. Clearing this cache costs you
  * nothing but a re-download; clearing site data costs you the transcript.
  */
-const VERSION='ku-v2';
-const SHELL=['./','./index.html','./manifest.webmanifest','./icon-192.png','./icon-512.png'];
+const VERSION='ku-v3';
+const SHELL=['./','./index.html','./styles.css','./data.js','./app.js',
+  './manifest.webmanifest','./icon-192.png','./icon-512.png'];
 
 self.addEventListener('install',e=>{
   e.waitUntil(
