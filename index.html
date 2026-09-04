@@ -227,6 +227,35 @@
   .notice .btn{flex-shrink:0;}
   .authrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px;}
 
+  /* Dean */
+  .standing{border-radius:10px;padding:20px;margin-bottom:16px;border:1px solid var(--line);border-left:4px solid var(--slate);background:var(--card);}
+  .standing .verdict{font-family:'Fraunces',serif;font-size:20px;font-weight:700;letter-spacing:-.2px;}
+  .standing p{font-size:14px;color:var(--slate);margin-top:6px;max-width:62ch;}
+  .standing.good{border-left-color:var(--green);}
+  .standing.good .verdict{color:var(--green);}
+  .standing.warn{border-left-color:var(--bronze);}
+  .standing.warn .verdict{color:var(--bronze);}
+  .standing.bad{border-left-color:var(--red);}
+  .standing.bad .verdict{color:var(--red);}
+
+  .order{display:flex;gap:13px;align-items:flex-start;padding:13px 20px;border-bottom:1px solid var(--line);font-size:13.5px;}
+  .order:last-child{border-bottom:none;}
+  .order .rank{font-family:'Fraunces',serif;font-weight:700;font-size:13px;color:var(--slate);width:16px;flex-shrink:0;text-align:right;}
+  .order .body{flex:1;min-width:0;}
+  .order .what{font-weight:600;display:block;}
+  .order .why{font-size:12.5px;color:var(--slate);margin-top:2px;display:block;}
+  .order.late .what{color:var(--red);}
+  .order.soon .what{color:var(--bronze);}
+
+  .statgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px;}
+  .stat{border:1px solid var(--line);border-radius:8px;padding:11px 12px;background:var(--paper);}
+  .stat .v{font-family:'Fraunces',serif;font-size:21px;font-weight:700;line-height:1.1;}
+  .stat .k{font-size:11.5px;color:var(--slate);margin-top:3px;line-height:1.35;}
+  .stat.alert .v{color:var(--red);}
+  .loadnote{font-size:12.5px;color:var(--slate);margin-top:14px;padding-top:12px;border-top:1px solid var(--line);}
+  .loadnote input{width:64px;display:inline-block;padding:4px 7px;font-size:13px;text-align:center;}
+  @media (max-width:620px){.statgrid{grid-template-columns:repeat(2,1fr);}}
+
   .cred{padding:20px;margin-bottom:14px;display:flex;flex-direction:column;gap:4px;}
   .cred h3{font-size:16px;font-weight:600;}
   .cred .cost{font-size:13px;color:var(--slate);}
@@ -317,6 +346,7 @@
   <div class="tabs">
     <div class="wrap" role="tablist" aria-label="Campus sections">
       <button role="tab" id="tab-dash" aria-controls="dash" aria-selected="true" tabindex="0">Dashboard</button>
+      <button role="tab" id="tab-dean" aria-controls="dean" aria-selected="false" tabindex="-1">Dean</button>
       <button role="tab" id="tab-courses" aria-controls="courses" aria-selected="false" tabindex="-1">Curriculum</button>
       <button role="tab" id="tab-tests" aria-controls="tests" aria-selected="false" tabindex="-1">Exams</button>
       <button role="tab" id="tab-certs" aria-controls="certs" aria-selected="false" tabindex="-1">Registrar</button>
@@ -339,6 +369,20 @@
       </div>
       <div class="ledger card" id="dashList"></div>
       <p class="principle"><strong>How this works.</strong> Lessons live on the best video classrooms in the world. This site is the registrar: structure, deadlines, exams, grades, GPA, and the path to real third-party certificates. Each course runs twelve monthly units grouped into four academic years. A late exam costs a third of a letter grade.</p>
+    </section>
+
+    <section id="dean" role="tabpanel" aria-labelledby="tab-dean" tabindex="-1" hidden>
+      <div class="pagehead">
+        <h2>The Dean</h2>
+        <p>Someone has to hold you to this. The Dean reads every course, every deadline and every grade on record, tells you where you actually stand, and gives you today&rsquo;s orders in the order they matter.</p>
+      </div>
+      <div id="standingBox"></div>
+      <div class="card duebox" style="margin-bottom:16px;">
+        <div class="boxtitle-row">Today&rsquo;s orders</div>
+        <div id="ordersBox"></div>
+      </div>
+      <div class="card track" id="paceBox"></div>
+      <div class="card authbox" id="lectureBox"></div>
     </section>
 
     <section id="courses" role="tabpanel" aria-labelledby="tab-courses" tabindex="-1" hidden>
@@ -874,8 +918,29 @@ function termName(){
   const m=start.getMonth(),y=start.getFullYear();
   return (m>=7?'Fall':(m<=4?'Spring':'Summer'))+' '+y;
 }
-/* Unit n is due at the end of the nth month from enrolment. */
-function unitDue(n){return new Date(start.getFullYear(),start.getMonth()+n,0,23,59,59);}
+/* Correct month arithmetic: Jan 31 + 1 month is Feb 28, not Mar 3. */
+function addMonths(d,n){
+  const day=d.getDate();
+  const t=new Date(d.getFullYear(),d.getMonth()+n,1);
+  const lastOfMonth=new Date(t.getFullYear(),t.getMonth()+1,0).getDate();
+  t.setDate(Math.min(day,lastOfMonth));
+  return t;
+}
+/* Every course gets a full month per unit, but the five courses are staggered
+ * six days apart so you never face five exams on the same day. */
+const COURSE_IDX=Object.fromEntries(CURRICULUM.map((c,i)=>[c.id,i]));
+const STAGGER_DAYS=6;
+function unitDue(id,n){
+  const d=addMonths(start,n);
+  d.setDate(d.getDate()+COURSE_IDX[id]*STAGGER_DAYS);
+  d.setHours(23,59,59,0);
+  return d;
+}
+/* The last deadline on the whole program. */
+function programEnd(){
+  const last=CURRICULUM[CURRICULUM.length-1].id;
+  return unitDue(last,PROGRAM.units);
+}
 function monthsElapsed(){
   const now=new Date();
   return (now.getFullYear()-start.getFullYear())*12+(now.getMonth()-start.getMonth());
@@ -1090,7 +1155,7 @@ function renderDue(){
   const items=[];
   CURRICULUM.forEach(c=>{
     const u=nextUnit(c.id);
-    if(u<=PROGRAM.units)items.push({t:c.short+' — Unit '+u+' exam',d:unitDue(u)});
+    if(u<=PROGRAM.units)items.push({t:c.short+' — Unit '+u+' exam',d:unitDue(c.id,u)});
   });
   items.push({t:'Weekly homework — all courses',d:nextSunday()});
   items.sort((a,b)=>a.d-b.d);
@@ -1145,7 +1210,7 @@ function renderCourses(){
     const years=[1,2,3,4].map(y=>{
       const us=c.units.filter(u=>yearOfUnit(u.n)===y).map(u=>{
         const passed=isPassed(c.id,u.n);
-        const due=unitDue(u.n),n=daysLeft(due);
+        const due=unitDue(c.id,u.n),n=daysLeft(due);
         const late=!passed&&n<0;
         const cls=passed?'passed':(u.n===owed?'now':'');
         const stat=passed?'<span class="ustat p">Passed</span>'
@@ -1229,7 +1294,7 @@ function openTest(id){
     renderAuth();return;
   }
 
-  const due=unitDue(unit),n=daysLeft(due);
+  const due=unitDue(id,unit),n=daysLeft(due);
   const warn=n<0
     ?'<span class="duewarn late">This exam is '+Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' past due — passing now costs a third of a letter grade.</span>'
     :n===0?'<span class="duewarn today">Due today. Pass it before midnight or the late penalty applies.</span>'
@@ -1285,7 +1350,7 @@ function gradeTest(){
 
   const score=Math.round(correct/qs.length*100);
   const passed=score>=PROGRAM.pass;
-  const late=new Date()>unitDue(unit);
+  const late=new Date()>unitDue(id,unit);
   const letter=scoreLetter(score,late);
 
   grades.push({id:id,course:COURSE[id].short,name:COURSE[id].units[unit-1].name,
@@ -1404,8 +1469,9 @@ function copyPrompt(){
     navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));
   }else fallbackCopy(text,done);
 }
-/* Clipboard API is unavailable over file:// and in some mobile browsers. */
-function fallbackCopy(text,done){
+/* Clipboard API is unavailable over file:// and in some mobile browsers.
+ * onFail lets each caller put the text somewhere the user can actually reach. */
+function fallbackCopy(text,onOk,onFail){
   const ta=document.createElement('textarea');
   ta.value=text;ta.setAttribute('readonly','');
   ta.style.cssText='position:fixed;top:0;left:-9999px;';
@@ -1413,7 +1479,8 @@ function fallbackCopy(text,done){
   let ok=false;
   try{ok=document.execCommand('copy');}catch(e){ok=false;}
   ta.remove();
-  if(ok)done();
+  if(ok)onOk();
+  else if(onFail)onFail();
   else{
     document.getElementById('aPaste').value=text;
     authStatus('Could not reach the clipboard, so the prompt is in the box above. '+
@@ -1508,6 +1575,256 @@ function deleteQ(i){
   list.splice(i,1);
   store.set('ku_bank',userBank);
   renderAuth();renderTestPicker();
+}
+
+/* ---------- the Dean ----------
+ * Deterministic. No network, no model, no excuses — it reads the same record
+ * you do and works out what you owe today. The lecture is a separate button.
+ */
+let hoursPerUnit=store.get('ku_hpu')||40;
+
+function programStats(){
+  const now=new Date(),end=programEnd();
+  const totalUnits=CURRICULUM.length*PROGRAM.units;
+  const passed=CURRICULUM.reduce((a,c)=>a+passedUnits(c.id),0);
+  /* Expected by now = every unit whose deadline has already gone by. */
+  let expected=0,overdue=0;
+  CURRICULUM.forEach(c=>{
+    for(let u=1;u<=PROGRAM.units;u++){
+      if(unitDue(c.id,u)<now){expected++;if(!isPassed(c.id,u))overdue++;}
+    }
+  });
+  const left=totalUnits-passed;
+  const remaining=Math.max(0,daysLeft(end));
+  const hours=left*hoursPerUnit;
+  return {
+    end:end,
+    totalDays:Math.round((end-start)/86400000),
+    elapsed:Math.max(0,daysLeft(start)*-1),
+    remaining:remaining,
+    totalUnits:totalUnits,passed:passed,expected:expected,overdue:overdue,left:left,
+    behind:Math.max(0,expected-passed),
+    hours:hours,
+    perDay:remaining>0?hours/remaining:hours
+  };
+}
+
+function deanOrders(){
+  const now=new Date(),out=[];
+  CURRICULUM.forEach(c=>{
+    const u=nextUnit(c.id);
+    if(u>PROGRAM.units)return;
+    const due=unitDue(c.id,u),n=daysLeft(due),have=questionsFor(c.id,u).length;
+
+    if(n<0)out.push({p:0,cls:'late',
+      what:'Sit the '+c.short+' Unit '+u+' exam — '+Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' late',
+      why:'It is already costing you a third of a letter grade. Waiting longer costs nothing more, but the unit behind it is not going to learn itself.'});
+    else if(n<=3)out.push({p:1,cls:'soon',
+      what:'Sit the '+c.short+' Unit '+u+' exam — '+(n===0?'due today':n+' day'+(n===1?'':'s')+' left'),
+      why:esc(c.units[u-1].name)+'. Review before you open it; it is closed book and eight of ten passes.'});
+    else if(n<=7)out.push({p:2,cls:'',
+      what:c.short+' Unit '+u+' exam in '+n+' days',
+      why:'Finish the unit work now so the exam is a formality, not a gamble.'});
+
+    if(have<PROGRAM.qPerExam&&n<=14)out.push({p:1,cls:'soon',
+      what:'Write '+(PROGRAM.qPerExam-have)+' more questions for '+c.short+' Unit '+u,
+      why:'The exam is locked until it has '+PROGRAM.qPerExam+'. The Dean cannot grade an exam that does not exist.'});
+  });
+
+  const unlogged=CURRICULUM.filter(c=>!hwDoneThisWeek(c.id));
+  if(unlogged.length)out.push({p:3,cls:'',
+    what:'Log this week’s homework: '+unlogged.map(c=>esc(c.short)).join(', '),
+    why:'Due Sunday. Five ticks a week is the floor, and the record is the only thing keeping you honest.'});
+
+  if(!days.includes(todayKey()))out.push({p:4,cls:'',
+    what:'Log today’s study session',
+    why:'The streak is at '+streak()+'. It resets the day you skip.'});
+
+  /* The actual work, drawn from the unit you are currently in. */
+  CURRICULUM.forEach(c=>{
+    const u=nextUnit(c.id);
+    if(u>PROGRAM.units)return;
+    const w=c.units[u-1].work;
+    out.push({p:5,cls:'',what:esc(c.short)+': '+esc(w[0]),
+      why:'Unit '+u+' — '+esc(c.units[u-1].name)+'.'});
+  });
+
+  return out.sort((a,b)=>a.p-b.p);
+}
+
+function deanStanding(){
+  const s=programStats();
+  if(s.expected===0&&s.passed===0)
+    return {tone:'',verdict:'Term has begun.',
+      text:'Nothing is due yet. Use that. The first deadline is '+fmtD(unitDue(CURRICULUM[0].id,1))+
+      ', and the students who fail this program are the ones who treat month one as a warm-up.'};
+  if(s.behind===0&&s.overdue===0)
+    return {tone:'good',verdict:'You are on schedule.',
+      text:s.passed+' of '+s.totalUnits+' units passed, nothing overdue, cumulative GPA '+
+      (cumGPA()===null?'not yet set':cumGPA().toFixed(2))+'. Keep the pace and do not celebrate — '+
+      s.left+' units and '+s.remaining+' days remain.'};
+  if(s.behind<=2)
+    return {tone:'warn',verdict:'You are slipping.',
+      text:'You should have '+s.expected+' units passed by now and you have '+s.passed+'. That is '+
+      s.behind+' behind — recoverable this week, and only this week. '+
+      (s.overdue?s.overdue+' exam'+(s.overdue===1?' is':'s are')+' past due. Sit '+(s.overdue===1?'it':'them')+' today.':'Close the gap before the next deadline lands on top of it.')};
+  return {tone:'bad',verdict:'You are behind, and it is compounding.',
+    text:s.behind+' units behind schedule with '+s.overdue+' exam'+(s.overdue===1?'':'s')+' past due. '+
+    projection(s)+' '+
+    'Pick the single most overdue exam, sit it today, and do not open anything else until it is passed.'};
+}
+/* Projected finish from the pace you have actually held, not from optimism. */
+function projection(s){
+  const elapsed=Math.max(1,s.elapsed);
+  if(s.passed===0)return 'At your current pace — no units passed in '+elapsed+' days — you do not finish at all.';
+  const perDay=s.passed/elapsed;
+  const needed=Math.round(s.left/perDay);
+  const over=needed-s.remaining;
+  if(over<=0)return 'Your pace still clears it, but only just: '+needed+' more days of work against '+s.remaining+' remaining.';
+  return 'At the pace you have actually held ('+s.passed+' units in '+elapsed+' days) the remaining '+
+    s.left+' take about '+needed+' more days — roughly '+over+' days past the deadline.';
+}
+
+function renderDean(){
+  const st=deanStanding(),s=programStats(),orders=deanOrders();
+
+  document.getElementById('standingBox').innerHTML=
+    '<div class="standing '+st.tone+'"><div class="verdict">'+st.verdict+'</div><p>'+st.text+'</p></div>';
+
+  document.getElementById('ordersBox').innerHTML=orders.length
+    ? orders.slice(0,9).map((o,i)=>'<div class="order '+o.cls+'"><span class="rank">'+(i+1)+'</span>'+
+        '<span class="body"><span class="what">'+o.what+'</span><span class="why">'+o.why+'</span></span></div>').join('')
+    : '<div class="empty">Nothing outstanding. That has never once been true — check your deadlines.</div>';
+
+  const dayLoad=s.perDay.toFixed(1);
+  document.getElementById('paceBox').innerHTML=
+    '<div class="boxtitle">The numbers</div>'+
+    '<div class="sub">Twelve monthly cycles, five courses staggered six days apart, '+s.totalDays+' days from enrolment to the final deadline.</div>'+
+    '<div class="statgrid">'+
+      '<div class="stat"><div class="v">'+s.remaining+'</div><div class="k">days left of '+s.totalDays+'</div></div>'+
+      '<div class="stat"><div class="v">'+s.passed+' / '+s.totalUnits+'</div><div class="k">units passed</div></div>'+
+      '<div class="stat'+(s.behind?' alert':'')+'"><div class="v">'+(s.behind?'−'+s.behind:'0')+'</div><div class="k">units behind schedule</div></div>'+
+      '<div class="stat'+(s.perDay>8?' alert':'')+'"><div class="v">'+dayLoad+'h</div><div class="k">a day to finish on time</div></div>'+
+    '</div>'+
+    '<div class="loadnote">That last number assumes <input type="text" id="hpuIn" value="'+hoursPerUnit+
+      '" aria-label="Hours of work per unit" inputmode="numeric"> hours of real work per unit '+
+      '<button class="btn small quiet" type="button" onclick="saveHPU()">Recalculate</button><br>'+
+      s.left+' units left × '+hoursPerUnit+' hours = '+s.hours.toLocaleString()+' hours, across '+s.remaining+' days. '+
+      'A four-year degree is roughly 5,400 hours; this program is a compressed version of one, not a credit-for-credit copy. '+
+      'If the number above is above eight, the schedule is fiction — either raise your hours or extend the enrolment date in the Registrar.</div>';
+
+  renderLecture();
+}
+
+function saveHPU(){
+  const v=parseFloat(document.getElementById('hpuIn').value);
+  if(!isFinite(v)||v<=0||v>500)return;
+  hoursPerUnit=v;store.set('ku_hpu',v);renderDean();
+}
+
+/* ---------- the lecture: full program state, handed to Claude ---------- */
+function buildBriefing(kind){
+  const s=programStats(),st=deanStanding();
+  const lines=[];
+  lines.push('You are my lecturer and academic advisor at KWanus University, a private, self-directed');
+  lines.push('program that compresses a four-year degree into twelve months. I am the only student.');
+  lines.push('Be direct. Hold me to the standard. Do not congratulate me for work I have not done.');
+  lines.push('');
+  lines.push('== WHERE I STAND ==');
+  lines.push('Student: '+(student||'unknown')+'. Enrolled '+startISO+'. Day '+s.elapsed+' of '+s.totalDays+'.');
+  lines.push('Academic year '+currentAcademicYear()+' of 4, month '+currentUnitByCalendar()+' of 12.');
+  lines.push('Units passed: '+s.passed+' of '+s.totalUnits+'. Expected by now: '+s.expected+'.');
+  lines.push('Overdue exams: '+s.overdue+'. Cumulative GPA: '+(cumGPA()===null?'none yet':cumGPA().toFixed(2)+' ('+letterOf(cumGPA())+')'));
+  lines.push('Study streak: '+streak()+' days. Dean’s assessment: '+st.verdict);
+  lines.push('');
+  lines.push('== EVERY COURSE ==');
+  CURRICULUM.forEach(c=>{
+    const u=nextUnit(c.id),g=courseGPA(c.id);
+    lines.push('');
+    lines.push(c.name+' ('+c.kind+')');
+    lines.push('  Passed '+passedUnits(c.id)+'/'+PROGRAM.units+' units. Grade: '+letterOf(g)+
+      (g===null?'':' ('+g.toFixed(2)+')')+'. Homework this week: '+(hwDoneThisWeek(c.id)?'logged':'NOT logged'));
+    if(u<=PROGRAM.units){
+      const unit=c.units[u-1],due=unitDue(c.id,u),n=daysLeft(due);
+      lines.push('  Current unit '+u+': '+unit.name);
+      lines.push('  Covers: '+unit.focus);
+      lines.push('  Due: '+due.toDateString()+' ('+(n<0?Math.abs(n)+' DAYS OVERDUE':n+' days away')+')');
+      lines.push('  Exam bank: '+questionsFor(c.id,u).length+'/'+PROGRAM.qPerExam+
+        (examReady(c.id,u)?' — unlocked':' — LOCKED, questions still needed'));
+      unit.work.forEach(w=>lines.push('    - '+w));
+    }else lines.push('  All twelve units complete.');
+  });
+
+  const recent=grades.slice(-8).reverse();
+  if(recent.length){
+    lines.push('');
+    lines.push('== RECENT EXAM RESULTS (newest first) ==');
+    recent.forEach(g=>lines.push('  '+g.date+'  '+(g.course||g.id)+' Unit '+g.unit+': '+g.score+'% '+
+      scoreLetter(g.score,g.late)+(g.late?' (late)':'')+(g.score>=PROGRAM.pass?'':'  <-- FAILED')));
+  }
+
+  lines.push('');
+  lines.push('== WHAT I NEED FROM YOU ==');
+  if(kind==='daily'){
+    lines.push('Give me today’s plan. Pick the two or three things that actually matter most given');
+    lines.push('what is overdue and what is due soonest, put them in order, and say roughly how long');
+    lines.push('each should take. Then teach me the single hardest concept in my most urgent unit —');
+    lines.push('properly, with an example I can work, not a summary. End with one question that tests');
+    lines.push('whether I understood it.');
+  }else if(kind==='weekly'){
+    lines.push('Run my weekly review. Tell me what I actually accomplished against what was scheduled,');
+    lines.push('name the course I am neglecting and why that is dangerous given what is coming, and set');
+    lines.push('specific targets for the next seven days with days attached. If I am behind, say so');
+    lines.push('plainly and tell me what to drop to catch up. Do not be encouraging for its own sake.');
+  }else if(kind==='debrief'){
+    lines.push('I failed or struggled with a recent exam (see results above). Work out what I most');
+    lines.push('likely do not understand, teach that concept from the ground up, give me three worked');
+    lines.push('examples of increasing difficulty, then five practice problems with answers hidden');
+    lines.push('until the end. Tell me whether I am ready to retake it.');
+  }else if(kind==='lecture'){
+    lines.push('Deliver an actual lecture on the current unit of the course I am most behind in.');
+    lines.push('Assume I have done the reading and nothing more. Build from first principles, derive');
+    lines.push('rather than assert, and use concrete examples. Aim for something I could take notes on');
+    lines.push('for forty minutes. Finish with the three things a professor would expect me to be able');
+    lines.push('to do afterwards.');
+  }else{
+    lines.push('[Type your question here, then send.]');
+  }
+  return lines.join('\n');
+}
+
+function renderLecture(){
+  document.getElementById('lectureBox').innerHTML=
+   '<h3>Office hours</h3>'+
+   '<p class="rules">These copy your entire academic record — every course, unit, deadline, exam '+
+   'result and gap — into a prompt for Claude. Paste it in and you get a lecturer who already knows '+
+   'exactly where you are. No key, no cost beyond what you already pay, nothing about you leaves '+
+   'this browser until you paste it yourself.</p>'+
+   '<div class="authrow">'+
+     '<button class="btn" type="button" onclick="copyBriefing(\'daily\')">Today’s plan</button>'+
+     '<button class="btn quiet" type="button" onclick="copyBriefing(\'weekly\')">Weekly review</button>'+
+     '<button class="btn quiet" type="button" onclick="copyBriefing(\'lecture\')">Lecture me</button>'+
+     '<button class="btn quiet" type="button" onclick="copyBriefing(\'debrief\')">Exam debrief</button>'+
+     '<button class="btn quiet" type="button" onclick="copyBriefing(\'ask\')">Ask a question</button>'+
+   '</div>'+
+   '<div id="lectureStatus"></div>';
+}
+
+function copyBriefing(kind){
+  const text=buildBriefing(kind);
+  const el=document.getElementById('lectureStatus');
+  const ok=()=>{el.className='status ok';
+    el.textContent='Briefing copied ('+text.split('\n').length+' lines). Paste it into Claude.';};
+  const fail=()=>{
+    el.className='status err';
+    el.textContent='Could not reach the clipboard. The briefing is selected below — copy it manually.';
+    const ta=document.createElement('textarea');
+    ta.value=text;ta.style.cssText='width:100%;margin-top:10px;min-height:200px;';
+    el.appendChild(ta);ta.select();
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText)
+    navigator.clipboard.writeText(text).then(ok).catch(()=>fallbackCopy(text,ok,fail));
+  else fallbackCopy(text,ok,fail);
 }
 
 /* ---------- registrar ---------- */
@@ -1659,13 +1976,13 @@ function importAll(e){
 function wipeAll(){
   if(!confirm('Erase the entire record — grades, streak, homework and every question you wrote?\n\nExport first if you want it back.'))return;
   if(!confirm('Last check. This permanently deletes everything.'))return;
-  ['ku_student','ku_grades','ku_days','ku_hw','ku_bank','ku_start','ku_lastexport'].forEach(k=>store.del(k));
+  ['ku_student','ku_grades','ku_days','ku_hw','ku_bank','ku_start','ku_lastexport','ku_hpu'].forEach(k=>store.del(k));
   location.reload();
 }
 
 /* ---------- boot ---------- */
 function renderAll(){
-  renderDash();renderCourses();renderTestPicker();
+  renderDash();renderDean();renderCourses();renderTestPicker();
   renderAuth();renderCerts();renderGradebook();renderStanding();renderAdmin();
 }
 if(student){closeGate();setChip();}else{openGate();}
