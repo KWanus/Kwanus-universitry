@@ -1,0 +1,17 @@
+{
+  "name": "KWanus University",
+  "short_name": "KWanus U",
+  "description": "A four-year curriculum in twelve months. Real deadlines, real exams, real grades.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FAFAF8",
+  "theme_color": "#1E3A5F",
+  "categories": ["education", "productivity"],
+  "icons": [
+    { "src": "./icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icon-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

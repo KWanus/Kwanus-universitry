@@ -10,6 +10,10 @@
 <meta property="og:title" content="KWanus University">
 <meta property="og:description" content="A four-year degree, structured across twelve months. Real deadlines, real grades.">
 <meta property="og:type" content="website">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="KWanus U">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%231E3A5F'/><text x='32' y='45' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%23D6B268' text-anchor='middle'>K</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -216,6 +220,13 @@
   .status.ok{background:var(--green-soft);color:var(--green);}
   .status.err{background:var(--red-soft);color:var(--red);}
 
+  .notice{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+    background:var(--bronze-soft);border:1px solid var(--line);border-left:3px solid var(--bronze);
+    border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;}
+  .notice strong{color:var(--ink);}
+  .notice .btn{flex-shrink:0;}
+  .authrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px;}
+
   .cred{padding:20px;margin-bottom:14px;display:flex;flex-direction:column;gap:4px;}
   .cred h3{font-size:16px;font-weight:600;}
   .cred .cost{font-size:13px;color:var(--slate);}
@@ -319,6 +330,7 @@
         <h2>Your academic record</h2>
         <p>Four academic years, compressed into twelve months. Grades come from exams, deadlines are real, and the streak resets if you skip a day.</p>
       </div>
+      <div id="noticeBox"></div>
       <div class="hero card" id="heroBox"></div>
       <div class="track card" id="trackBox"></div>
       <div class="duebox card">
@@ -1092,8 +1104,25 @@ function renderDue(){
   }).join('');
 }
 
+/* The record only exists in this browser. Nag, but only once it is worth losing. */
+function renderNotice(){
+  const box=document.getElementById('noticeBox');
+  if(!box)return;
+  const last=store.get('ku_lastexport');
+  const days=last?Math.floor((new Date()-keyToDate(last))/86400000):null;
+  const worth=grades.length>=3;
+  if(!worth||(days!==null&&days<14)){box.innerHTML='';return;}
+  box.innerHTML='<div class="notice"><span><strong>Back up the record.</strong> '+
+    grades.length+' exam'+(grades.length===1?'':'s')+' and '+days_countText()+' live only in this browser'+
+    (last?', last exported '+days+' days ago':' and have never been exported')+'.</span>'+
+    '<button class="btn small" type="button" onclick="exportAll()">Export now</button></div>';
+}
+function days_countText(){
+  return days.length+' study day'+(days.length===1?'':'s');
+}
+
 function renderDash(){
-  renderHero();renderTrack();renderDue();
+  renderHero();renderTrack();renderDue();renderNotice();
   document.getElementById('dashList').innerHTML=CURRICULUM.map(c=>{
     const p=pct(c.id),cg=courseGPA(c.id),done=passedUnits(c.id);
     return '<div class="ledger-row">'+
@@ -1307,8 +1336,11 @@ function renderAuth(){
    '<div class="field"><label for="aPaste">Paste questions</label>'+
    '<div class="fmt">Question text on the first line\n* The correct answer (marked with a star)\nA wrong answer\nA wrong answer\n&gt; Why the right answer is right (optional)\n\n(blank line between questions — JSON is also accepted)</div>'+
    '<textarea id="aPaste" placeholder="What does the derivative of a function represent?&#10;* The instantaneous rate of change&#10;The area under the curve&#10;The average slope over an interval&#10;&gt; It is the limit of the difference quotient as h approaches zero."></textarea></div>'+
-   '<button class="btn" type="button" onclick="importQuestions()">Add to the bank</button> '+
-   '<button class="btn quiet" type="button" onclick="fillSample()">Insert the format as a sample</button>'+
+   '<div class="authrow">'+
+     '<button class="btn" type="button" onclick="importQuestions()">Add to the bank</button>'+
+     '<button class="btn gold" type="button" onclick="copyPrompt()">Copy a prompt to generate these</button>'+
+     '<button class="btn quiet" type="button" onclick="fillSample()">Show the format</button>'+
+   '</div>'+
    '<div id="authStatus"></div>'+
 
    (own.length?'<div class="banklist"><strong style="font-size:13px;">Your questions for Unit '+unit+'</strong>'+
@@ -1323,6 +1355,70 @@ function renderAuth(){
   document.getElementById('aUnit').addEventListener('change',e=>{
     authUnit=+e.target.value;renderAuth();
   });
+}
+
+/* Closes the loop: this builds the whole request, you paste it into an AI or
+ * hand it to a tutor, and whatever comes back drops straight into the box above. */
+function buildPrompt(){
+  const c=COURSE[authCourse];
+  const unit=Math.min(authUnit,PROGRAM.units);
+  const u=c.units[unit-1];
+  const have=questionsFor(authCourse,unit);
+  const need=Math.max(1,PROGRAM.qPerExam-have.length);
+  const year=YEAR_NAMES[yearOfUnit(unit)-1];
+
+  return 'Write '+need+' exam questions for a university unit test.\n\n'+
+   'Course: '+c.name+'\n'+
+   'Program stage: '+year+' of a four-year degree ('+c.kind.toLowerCase()+')\n'+
+   'Unit '+unit+' of '+PROGRAM.units+': '+u.name+'\n'+
+   'Material covered: '+u.focus+'\n\n'+
+   'Coursework this unit is built on:\n'+u.work.map(w=>'- '+w).join('\n')+'\n\n'+
+   'Requirements:\n'+
+   '- Difficulty must match a real '+year.toLowerCase()+' university exam, not a quiz. '+
+     'Test understanding and application, never recall of a definition.\n'+
+   '- Exactly four options per question. Wrong options must be plausible to '+
+     'someone who half-learned the material — no obvious throwaways.\n'+
+   '- Exactly one defensible correct answer per question.\n'+
+   '- Each question ends with one line explaining why the right answer is right.\n'+
+   '- Do not repeat any of the questions already in this unit, listed at the end.\n\n'+
+   'Return them in exactly this plain-text format and nothing else — no numbering, '+
+   'no headings, no commentary:\n\n'+
+   'Question text on one line\n'+
+   '* The correct option\n'+
+   'A wrong option\n'+
+   'A wrong option\n'+
+   'A wrong option\n'+
+   '> One line on why the correct answer is correct.\n\n'+
+   '(one blank line between questions)\n\n'+
+   (have.length
+     ? 'Questions already in this unit — do not duplicate these:\n'+
+       have.map((q,i)=>(i+1)+'. '+q[0]).join('\n')
+     : 'This unit has no questions yet.');
+}
+
+function copyPrompt(){
+  const text=buildPrompt();
+  const done=()=>authStatus('Prompt copied. Paste it into Claude, then paste the '+
+    'questions it returns into the box above and press "Add to the bank".',true);
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(done).catch(()=>fallbackCopy(text,done));
+  }else fallbackCopy(text,done);
+}
+/* Clipboard API is unavailable over file:// and in some mobile browsers. */
+function fallbackCopy(text,done){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.setAttribute('readonly','');
+  ta.style.cssText='position:fixed;top:0;left:-9999px;';
+  document.body.appendChild(ta);ta.select();
+  let ok=false;
+  try{ok=document.execCommand('copy');}catch(e){ok=false;}
+  ta.remove();
+  if(ok)done();
+  else{
+    document.getElementById('aPaste').value=text;
+    authStatus('Could not reach the clipboard, so the prompt is in the box above. '+
+      'Cut it, paste it into Claude, then replace it with the questions you get back.',true);
+  }
 }
 
 function fillSample(){
@@ -1530,6 +1626,8 @@ function exportAll(){
   a.href=url;a.download='kwanus-record-'+todayKey()+'.json';
   document.body.appendChild(a);a.click();a.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
+  store.set('ku_lastexport',todayKey());
+  renderNotice();
   adminStatus('Exported. Keep it somewhere that is not this browser.',true);
 }
 function importAll(e){
@@ -1561,7 +1659,7 @@ function importAll(e){
 function wipeAll(){
   if(!confirm('Erase the entire record — grades, streak, homework and every question you wrote?\n\nExport first if you want it back.'))return;
   if(!confirm('Last check. This permanently deletes everything.'))return;
-  ['ku_student','ku_grades','ku_days','ku_hw','ku_bank','ku_start'].forEach(k=>store.del(k));
+  ['ku_student','ku_grades','ku_days','ku_hw','ku_bank','ku_start','ku_lastexport'].forEach(k=>store.del(k));
   location.reload();
 }
 
@@ -1573,6 +1671,15 @@ function renderAll(){
 if(student){closeGate();setChip();}else{openGate();}
 renderAll();
 openTest(currentCourse);
+
+/* Offline support. Needs a real origin — opening the file directly is fine,
+ * it just means no install prompt and no offline cache. */
+if('serviceWorker' in navigator&&location.protocol.startsWith('http')){
+  window.addEventListener('load',()=>{
+    navigator.serviceWorker.register('./sw.js')
+      .catch(err=>console.warn('Offline support unavailable:',err.message));
+  });
+}
 </script>
 </body>
 </html>
