@@ -508,8 +508,6 @@ const CURRICULUM=[
    ['Edinburgh: Introduction to Philosophy (free to audit)','https://www.coursera.org/learn/philosophy'],
    ['Stanford Encyclopedia of Philosophy — the reference scholars actually use','https://plato.stanford.edu/'],
    ['Internet Encyclopedia of Philosophy — the friendlier second opinion','https://iep.utm.edu/'],
-   ['Primary text: Marcus Aurelius, Meditations','https://www.gutenberg.org/ebooks/2680'],
-   ['Primary text: Epictetus, The Enchiridion','https://www.gutenberg.org/ebooks/45109'],
    ['Primary text: Plato, The Republic','https://www.gutenberg.org/ebooks/1497'],
    ['Primary text: Aristotle, Nicomachean Ethics','https://www.gutenberg.org/ebooks/8438'],
    ['Primary text: Nietzsche, Beyond Good and Evil','https://www.gutenberg.org/ebooks/4363']
@@ -517,9 +515,38 @@ const CURRICULUM=[
   homework:[
    'Weeks 1–2: logic first, because it is the part that transfers to everything else. Wireless Philosophy critical thinking series, then Stanford Intro to Logic. Learn to name three fallacies on sight.',
    'Week 3: Justice with Michael Sandel, lectures 1–4. Write down where you disagree with him, and why — one paragraph.',
-   'Week 4: read one primary text directly, not a summary of it. Start with the Enchiridion. It is short, and it is aimed at exactly the problem of caring too much what a room thinks of you.',
+   'Week 4: read one primary text directly, not a summary of it. Republic Book I is the argument that starts everything — Socrates against a man who says justice is just whatever the strong can get away with. For the Stoic texts, see the Stoicism course; they get their own month.',
    'Weekly: steelman one belief you hold. Write the strongest case against it — strong enough that its best defender would sign off on your version. If you cannot, you do not yet understand your own position.',
    'Monthly: one page answering a question with no clean answer. Graded on whether the argument holds, not on whether the conclusion is comfortable.'
+  ]},
+ {id:'stoic',kind:'General education',short:'Stoicism',name:'Stoicism: The Discipline of What Is Up to You',school:'Modern Stoicism · Donald Robertson · the primary texts',
+  note:'<strong>Why this is a course and not a mood.</strong> Stoicism is the direct ancestor of modern cognitive behavioural therapy. Albert Ellis credited Epictetus when he built rational emotive behaviour therapy, and Aaron Beck named the Stoics as the philosophical origin of cognitive therapy in his own treatment manual for depression. Epictetus wrote that men are disturbed not by things, but by their judgments about things — that is the cognitive model, stated eighteen centuries early. Which is exactly why this course sits beside the Rehearsal Room: the ladder trains the body, and this trains the judgment that fires before the body does.',
+  watch:[
+   ['Gregory B. Sadler — an academic walking the actual texts, line by line','https://www.youtube.com/@GregoryBSadler'],
+   ['Daily Stoic — Ryan Holiday, short and applied','https://www.youtube.com/@DailyStoic'],
+   ['Modern Stoicism — talks from the people who run the research','https://www.youtube.com/@modernstoicism'],
+   ['Einzelgänger — essays on detachment, ego and self-control','https://www.youtube.com/@Einzelgange']
+  ],
+  links:[
+   ['Modern Stoicism — Stoic Week and SMRT, free structured courses','https://modernstoicism.com/'],
+   ['Learn Modern Stoicism — the free course platform itself','https://learn.modernstoicism.com/'],
+   ['Donald Robertson: Crash Course in Stoicism (free) — a CBT therapist teaching it','https://learn.donaldrobertson.name/p/stoicism-in-five-minutes'],
+   ['Stanford Encyclopedia: Stoicism — the scholarly account','https://plato.stanford.edu/entries/stoicism/'],
+   ['Internet Encyclopedia: Stoicism — the readable one','https://iep.utm.edu/stoicism/'],
+   ['Primary text: Epictetus, The Enchiridion — the whole handbook, one sitting','https://www.gutenberg.org/ebooks/45109'],
+   ['Primary text: Epictetus, Discourses','https://www.gutenberg.org/ebooks/10661'],
+   ['Primary text: Marcus Aurelius, Meditations — a private journal, never meant for you','https://www.gutenberg.org/ebooks/2680'],
+   ['Primary text: Seneca, Moral Letters to Lucilius — 124 letters, free','https://en.wikisource.org/wiki/Moral_letters_to_Lucilius'],
+   ['The Tao of Seneca — the letters as free audio','https://tim.blog/2017/07/06/tao-of-seneca/'],
+   ['Stoic Fellowship — find a real group that meets','https://stoicfellowship.com/']
+  ],
+  homework:[
+   'Week 1 — the dichotomy of control. Read Enchiridion 1 through 10; it is four pages. Then daily, split what is bothering you into two columns: up to me, not up to me. Whether they say yes is column two. Whether you called at all is column one. Nearly all the suffering is people trying to control column two.',
+   'Week 2 — premeditatio malorum, applied to a real pitch. Before the call, write the three worst realistic outcomes and your response to each. Not to scare yourself: a fear you have already answered on paper stops being an ambush. Pair this with whichever rung of the exposure ladder you are on.',
+   'Week 3 — the two routines. Morning, from Meditations Book 2: name what will be difficult today before it happens. Evening, from Seneca: what did I do badly, what did I do well, what will I do differently. Write both. Three lines each is enough; doing it every day is the part that counts.',
+   'Week 4 — voluntary discomfort, once. Take the cold shower, skip the meal, make the call you have been avoiding for a week. The point is not toughness for its own sake; it is proving to yourself that the thing you dread is survivable, which is the same mechanism the ladder runs on.',
+   'Weekly: the view from above. One paragraph on the thing currently eating you, written as if you were reading about a stranger five years from now. Most of it will not survive the change in altitude.',
+   'Monthly: one page on a judgment you actually changed this month — what you believed, what happened, what you believe now. Graded on honesty, not on sounding wise.'
   ]}
 ];
 
@@ -565,7 +592,13 @@ const TESTS={
   ['An ad hominem attacks…',['The person instead of the argument','The weakest evidence offered','The conclusion but not the premises'],0],
   ['Utilitarianism judges an action by…',['The intention behind it','Its consequences for overall wellbeing','Whether it follows tradition'],1],
   ['Kant’s categorical imperative asks whether…',['The outcome is pleasant','The majority approves','You could will your rule to become a universal law'],2],
-  ['The Stoic dichotomy of control says…',['Some things are up to us and some are not','Nothing at all is up to us','Feelings should be destroyed'],0]]}
+  ['The Stoic dichotomy of control says…',['Some things are up to us and some are not','Nothing at all is up to us','Feelings should be destroyed'],0]]},
+ stoic:{name:'Stoicism — Unit 1',qs:[
+  ['The dichotomy of control says…',['Everything is up to us if we try hard enough','Some things are up to us and some are not','Nothing at all is up to us'],1],
+  ['Epictetus wrote that men are disturbed not by things, but by…',['Other people','Fate','Their judgments about things'],2],
+  ['Premeditatio malorum is the practice of…',['Rehearsing what could go wrong, and your response to each','Expecting the worst so you give up early','Picturing only the best case'],0],
+  ['Modern cognitive behavioural therapy traces its philosophical origins to…',['Existentialism','Stoicism','Utilitarianism'],1],
+  ['To a Stoic, a bad outcome you genuinely could not control is…',['Proof you did not want it badly enough','Always somebody else’s fault','Not a failure of character'],2]]}
 };
 
 const CERTS=[
@@ -583,7 +616,10 @@ const CERTS=[
  ['U. Washington: Introduction to Public Speaking','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/fundamentals-of-public-speaking','biz'],
  ['Toastmasters Pathways — earned by speaking, not by watching','About $60 every six months in dues','https://www.toastmasters.org/find-a-club','biz'],
  ['Stanford: Introduction to Logic','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/logic-introduction','phil'],
- ['Edinburgh: Introduction to Philosophy','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/philosophy','phil']
+ ['Edinburgh: Introduction to Philosophy','Free to audit · about $49/mo for the certificate','https://www.coursera.org/learn/philosophy','phil'],
+ ['Modern Stoicism: Stoic Week','Free · runs each October, one week','https://modernstoicism.com/','stoic'],
+ ['Modern Stoicism: Stoic Mindfulness & Resilience Training','Free · four weeks, about 20 minutes a day','https://learn.modernstoicism.com/','stoic'],
+ ['Donald Robertson: Crash Course in Stoicism','Free','https://learn.donaldrobertson.name/p/stoicism-in-five-minutes','stoic']
 ];
 
 let student=store.get('ku_student');
@@ -662,7 +698,7 @@ function renderDue(){
  CURRICULUM.forEach(c=>{const u=nextUnit(c.id);if(u<=10){items.push({t:c.short+' — Unit '+u+' exam',d:unitDue(u)});}});
  items.push({t:'Weekly homework — all courses',d:nextSunday()});
  items.sort((a,b)=>a.d-b.d);
- document.getElementById('dueList').innerHTML=items.slice(0,8).map(it=>{
+ document.getElementById('dueList').innerHTML=items.slice(0,CURRICULUM.length+1).map(it=>{
   const n=daysLeft(it.d);
   const cls=n<0?'overdue':(n===0?'today':'');
   const when=n<0?(Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' late'):(n===0?'due today':'due '+fmtD(it.d)+' · '+n+'d');
@@ -694,6 +730,7 @@ function renderCourses(){
    <span class="kind ${c.kind==='General education'?'gen':''}">${c.kind}</span>
    <h3>${c.name}</h3>
    <div class="school">${c.school}</div>
+   ${c.note?`<p class="principle" style="margin-top:14px;">${c.note}</p>`:''}
    <div class="hwline">
     <span>Homework weeks logged: ${wkCount} of ${weeksElapsed()} — due Sundays</span>
     ${done?'<span class="done">This week done</span>':`<button class="btn small quiet" onclick="markHW('${c.id}')">Mark week done</button>`}
