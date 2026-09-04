@@ -4,226 +4,411 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KWanus University</title>
+<meta name="description" content="A private four-year curriculum compressed into twelve months. Real deadlines, real exams, real grades, and a path to real third-party certificates.">
+<meta name="theme-color" content="#FAFAF8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#12161C" media="(prefers-color-scheme: dark)">
+<meta property="og:title" content="KWanus University">
+<meta property="og:description" content="A four-year degree, structured across twelve months. Real deadlines, real grades.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='12' fill='%231E3A5F'/><text x='32' y='45' font-family='Georgia,serif' font-size='34' font-weight='700' fill='%23D6B268' text-anchor='middle'>K</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --paper:#FAFAF8; --card:#FFFFFF; --ink:#182230; --slate:#5C6B7A;
-    --line:#E4E4DE; --navy:#1E3A5F; --navy-soft:#EBF0F7;
-    --bronze:#9A7B34; --green:#1F7A4D; --green-soft:#EAF4EE; --red:#B4432F; --red-soft:#FBEDE9;
+    --line:#E4E4DE; --navy:#1E3A5F; --navy-soft:#EBF0F7; --navy-hover:#16304F;
+    --bronze:#7A6128; --bronze-soft:#F6F0E2; --bronze-hover:#5F4B1E;
+    --green:#1F7A4D; --green-soft:#EAF4EE; --green-line:#BFDCCB;
+    --red:#B4432F; --red-soft:#FBEDE9; --red-line:#E8C4BA;
+    --shadow:0 1px 2px rgba(24,34,48,.04);
   }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#12161C; --card:#191F27; --ink:#E8EDF3; --slate:#9AA9B8;
+      --line:#2A323C; --navy:#8FB4E0; --navy-soft:#1C2836; --navy-hover:#A8C6EA;
+      --bronze:#D6B268; --bronze-soft:#2A2418; --bronze-hover:#E4C685;
+      --green:#5FCB92; --green-soft:#14251C; --green-line:#2C4A38;
+      --red:#F08B72; --red-soft:#2A1712; --red-line:#4C2A20;
+      --shadow:none;
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#12161C; --card:#191F27; --ink:#E8EDF3; --slate:#9AA9B8;
+    --line:#2A323C; --navy:#8FB4E0; --navy-soft:#1C2836; --navy-hover:#A8C6EA;
+    --bronze:#D6B268; --bronze-soft:#2A2418; --bronze-hover:#E4C685;
+    --green:#5FCB92; --green-soft:#14251C; --green-line:#2C4A38;
+    --red:#F08B72; --red-soft:#2A1712; --red-line:#4C2A20;
+    --shadow:none;
+  }
+
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.65;}
-  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,-apple-system,sans-serif;font-size:15px;line-height:1.65;-webkit-text-size-adjust:100%;}
+  .wrap{max-width:780px;margin:0 auto;padding:0 20px;}
   a{color:var(--navy);text-decoration:none;}
   a:hover{text-decoration:underline;}
   h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;}
+  [hidden]{display:none !important;}
+  .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+  :focus-visible{outline:2px solid var(--navy);outline-offset:2px;border-radius:3px;}
 
   .topbar{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40;}
-  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:58px;}
   .wordmark{font-family:'Fraunces',serif;font-weight:700;font-size:19px;letter-spacing:-.2px;}
   .wordmark em{font-style:normal;color:var(--bronze);}
+  .topright{display:flex;align-items:center;gap:12px;}
   #studentChip{font-size:12.5px;color:var(--slate);}
   #studentChip strong{color:var(--ink);font-weight:600;}
+  .themebtn{background:none;border:1px solid var(--line);border-radius:6px;color:var(--slate);cursor:pointer;line-height:0;padding:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .themebtn:hover{color:var(--ink);border-color:var(--slate);}
 
   .tabs{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:39;}
-  .tabs .wrap{display:flex;gap:2px;overflow-x:auto;}
-  .tabs button{background:none;border:none;border-bottom:2px solid transparent;font-family:'Inter';font-size:13.5px;font-weight:500;color:var(--slate);padding:12px 14px;cursor:pointer;white-space:nowrap;}
-  .tabs button.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:600;}
-  .tabs button:focus-visible{outline:2px solid var(--navy);outline-offset:-2px;}
+  .tabs .wrap{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;}
+  .tabs .wrap::-webkit-scrollbar{display:none;}
+  .tabs button{background:none;border:none;border-bottom:2px solid transparent;font-family:inherit;font-size:13.5px;font-weight:500;color:var(--slate);padding:12px 14px;cursor:pointer;white-space:nowrap;}
+  .tabs button[aria-selected="true"]{color:var(--navy);border-bottom-color:var(--navy);font-weight:600;}
+  .tabs button:focus-visible{outline:2px solid var(--navy);outline-offset:-3px;}
 
-  section{display:none;padding:34px 0 72px;}
-  section.show{display:block;}
+  section[role="tabpanel"]{padding:34px 0 72px;}
+  section[role="tabpanel"]:focus{outline:none;}
   .pagehead h2{font-size:30px;font-weight:600;letter-spacing:-.4px;line-height:1.2;}
-  .pagehead p{color:var(--slate);margin:8px 0 30px;max-width:56ch;}
+  .pagehead p{color:var(--slate);margin:8px 0 30px;max-width:58ch;}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:var(--shadow);}
 
   /* GPA hero */
-  .hero{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-bottom:16px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+  .hero{padding:22px 20px;margin-bottom:16px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
   .hero .gpa{text-align:center;padding-right:20px;border-right:1px solid var(--line);}
   .hero .gpa .big{font-family:'Fraunces',serif;font-size:44px;font-weight:700;line-height:1;letter-spacing:-1px;}
   .hero .gpa .lab{font-size:12px;color:var(--slate);margin-top:4px;}
-  .hero .meta{flex:1;min-width:180px;}
+  .hero .meta{flex:1;min-width:190px;}
   .hero .term{font-family:'Fraunces',serif;font-size:17px;font-weight:600;}
   .hero .sub{font-size:13px;color:var(--slate);margin-top:2px;}
   .streakline{margin-top:10px;font-size:13.5px;}
   .streakline strong{font-family:'Fraunces',serif;font-size:16px;}
   .btn-log{margin-top:10px;}
 
+  /* Year track */
+  .track{padding:18px 20px;margin-bottom:16px;}
+  .track .boxtitle{font-family:'Fraunces',serif;font-size:16px;font-weight:600;margin-bottom:4px;}
+  .track .sub{font-size:12.5px;color:var(--slate);margin-bottom:14px;}
+  .yearstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .yr{border:1px solid var(--line);border-radius:8px;padding:10px 11px;background:var(--paper);}
+  .yr .n{font-family:'Fraunces',serif;font-size:13px;font-weight:700;color:var(--slate);}
+  .yr .t{font-size:11.5px;color:var(--slate);line-height:1.35;margin-top:2px;}
+  .yr.now{border-color:var(--navy);background:var(--navy-soft);}
+  .yr.now .n{color:var(--navy);}
+  .yr.done{border-color:var(--green-line);background:var(--green-soft);}
+  .yr.done .n{color:var(--green);}
+
   /* Due list */
-  .duebox{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px;}
-  .duebox .boxtitle{font-family:'Fraunces',serif;font-size:16px;font-weight:600;padding:14px 20px;border-bottom:1px solid var(--line);}
+  .duebox{overflow:hidden;margin-bottom:16px;}
+  .boxtitle-row{font-family:'Fraunces',serif;font-size:16px;font-weight:600;padding:14px 20px;border-bottom:1px solid var(--line);}
   .due-row{display:flex;justify-content:space-between;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13.5px;}
   .due-row:last-child{border-bottom:none;}
   .due-row .when{color:var(--slate);white-space:nowrap;}
   .due-row.overdue{background:var(--red-soft);}
   .due-row.overdue .when{color:var(--red);font-weight:600;}
+  .due-row.today{background:var(--bronze-soft);}
   .due-row.today .when{color:var(--bronze);font-weight:600;}
+  .due-row.soon .when{color:var(--bronze);font-weight:600;}
 
-  .ledger{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .ledger{overflow:hidden;}
   .ledger-row{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line);}
   .ledger-row:last-child{border-bottom:none;}
   .ledger-row .info{flex:1;min-width:0;}
   .ledger-row h3{font-size:16.5px;font-weight:600;letter-spacing:-.2px;}
   .ledger-row .school{font-size:12.5px;color:var(--slate);margin-top:2px;}
   .kind{font-size:11.5px;font-weight:600;color:var(--navy);background:var(--navy-soft);padding:2px 9px;border-radius:20px;display:inline-block;margin-bottom:6px;}
-  .kind.gen{color:var(--bronze);background:#F6F0E2;}
-  .gradechip{font-family:'Fraunces',serif;font-size:18px;font-weight:700;width:40px;text-align:center;flex-shrink:0;}
-  .prog{width:86px;flex-shrink:0;text-align:right;}
+  .kind.gen{color:var(--bronze);background:var(--bronze-soft);}
+  .gradechip{font-family:'Fraunces',serif;font-size:18px;font-weight:700;width:42px;text-align:center;flex-shrink:0;}
+  .prog{width:92px;flex-shrink:0;text-align:right;}
   .prog .num{font-family:'Fraunces',serif;font-size:17px;font-weight:600;}
+  .prog .ucount{font-size:11px;color:var(--slate);}
   .bar{height:4px;background:var(--line);border-radius:4px;margin-top:6px;overflow:hidden;}
   .bar i{display:block;height:100%;background:var(--navy);border-radius:4px;transition:width .5s ease;}
 
-  .principle{border-left:3px solid var(--bronze);padding:4px 0 4px 16px;margin-top:28px;color:var(--slate);font-size:13.5px;max-width:58ch;}
+  .principle{border-left:3px solid var(--bronze);padding:4px 0 4px 16px;margin-top:28px;color:var(--slate);font-size:13.5px;max-width:60ch;}
   .principle strong{color:var(--ink);font-weight:600;}
 
-  .course{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-bottom:16px;}
+  .course{padding:22px 20px;margin-bottom:16px;}
   .course h3{font-size:18px;font-weight:600;letter-spacing:-.2px;margin:6px 0 2px;}
   .course .school{font-size:13px;color:var(--slate);margin-bottom:6px;}
-  .hwline{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:10px 12px;margin-top:12px;font-size:13px;}
+  .hwline{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:10px 12px;margin-top:12px;font-size:13px;}
   .hwline .done{color:var(--green);font-weight:600;}
   details{border-top:1px solid var(--line);margin-top:12px;padding-top:12px;}
   summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--navy);list-style:none;display:flex;align-items:center;gap:8px;}
-  summary::before{content:"+";font-family:'Fraunces',serif;font-size:16px;color:var(--slate);width:14px;}
-  details[open] summary::before{content:"–";}
+  summary::-webkit-details-marker{display:none;}
+  summary::before{content:"+";font-family:'Fraunces',serif;font-size:16px;color:var(--slate);width:14px;flex-shrink:0;}
+  details[open] summary::before{content:"\2013";}
   summary:hover{color:var(--ink);}
   .linklist{margin:10px 0 4px;font-size:14px;}
   .linklist li{margin:8px 0 8px 20px;}
   .linklist .note-sm{color:var(--slate);font-size:12.5px;}
 
-  .btn{display:inline-block;background:var(--navy);color:#fff;border:none;font-family:'Inter';font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:7px;cursor:pointer;}
-  .btn:hover{background:#16304F;text-decoration:none;}
+  .unitwrap{margin:12px 0 2px;}
+  .yearblock{margin-top:14px;}
+  .yearblock .ytitle{font-family:'Fraunces',serif;font-size:13.5px;font-weight:700;color:var(--bronze);letter-spacing:.02em;text-transform:uppercase;margin-bottom:8px;}
+  .unitwrap .unit{border:1px solid var(--line);border-left:3px solid var(--line);border-radius:7px;padding:11px 13px;margin-bottom:8px;background:var(--paper);}
+  .unitwrap .unit.now{border-left-color:var(--navy);background:var(--navy-soft);}
+  .unitwrap .unit.passed{border-left-color:var(--green);}
+  .unitwrap .uh{display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap;}
+  .unitwrap .un{font-size:13.5px;font-weight:600;}
+  .unitwrap .ud{font-size:11.5px;color:var(--slate);white-space:nowrap;}
+  .unitwrap .uf{font-size:12.5px;color:var(--slate);margin-top:3px;}
+  .unitwrap .uw{font-size:12.5px;margin-top:7px;}
+  .unitwrap .uw li{margin:4px 0 4px 18px;}
+  .unitwrap .ustat{font-size:11px;font-weight:600;padding:1px 8px;border-radius:20px;}
+  .ustat.p{color:var(--green);background:var(--green-soft);}
+  .ustat.o{color:var(--red);background:var(--red-soft);}
+
+  .btn{display:inline-block;background:var(--navy);color:var(--paper);border:none;font-family:inherit;font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:7px;cursor:pointer;text-align:center;}
+  .btn:hover{background:var(--navy-hover);text-decoration:none;}
   .btn.quiet{background:var(--card);color:var(--navy);border:1px solid var(--line);}
   .btn.quiet:hover{border-color:var(--navy);background:var(--navy-soft);}
-  .btn.gold{background:var(--bronze);}
-  .btn.gold:hover{background:#7F6528;}
+  .btn.quiet[aria-pressed="true"]{border-color:var(--navy);background:var(--navy-soft);font-weight:600;}
+  .btn.gold{background:var(--bronze);color:var(--card);}
+  .btn.gold:hover{background:var(--bronze-hover);}
+  .btn.danger{background:var(--card);color:var(--red);border:1px solid var(--red-line);}
+  .btn.danger:hover{background:var(--red-soft);}
   .btn.small{font-size:12.5px;padding:7px 13px;}
-  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+  .btn[disabled]{opacity:.5;cursor:not-allowed;}
 
-  .pickrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
-  .exam{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-top:14px;}
+  .pickrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+  .exam{padding:22px 20px;margin-top:14px;}
   .exam .rules{font-size:12.5px;color:var(--slate);margin:2px 0 18px;}
-  .duewarn{font-size:12.5px;font-weight:600;margin:0 0 14px;padding:8px 12px;border-radius:7px;background:var(--navy-soft);color:var(--navy);display:inline-block;}
+  .duewarn{font-size:12.5px;font-weight:600;margin:0 0 16px;padding:8px 12px;border-radius:7px;background:var(--navy-soft);color:var(--navy);display:inline-block;}
   .duewarn.late{background:var(--red-soft);color:var(--red);}
-  .q{margin-bottom:18px;}
-  .q p{font-weight:500;margin-bottom:8px;}
+  .duewarn.today{background:var(--bronze-soft);color:var(--bronze);}
+  fieldset.q{border:none;margin-bottom:20px;}
+  fieldset.q legend{font-weight:500;margin-bottom:8px;padding:0;}
   .q label{display:block;padding:11px 13px;border:1px solid var(--line);border-radius:7px;margin-bottom:7px;cursor:pointer;font-size:14px;background:var(--paper);}
   .q label:hover{border-color:var(--navy);}
   .q input{margin-right:9px;accent-color:var(--navy);}
-  .result{display:none;margin-top:14px;padding:13px 15px;border-radius:7px;font-size:14px;font-weight:500;}
-  .result.pass{display:block;background:var(--green-soft);color:var(--green);border:1px solid #BFDCCB;}
-  .result.fail{display:block;background:var(--red-soft);color:var(--red);border:1px solid #E8C4BA;}
+  .q.wrong legend{color:var(--red);}
+  .q label.pick-wrong{border-color:var(--red-line);background:var(--red-soft);}
+  .q label.pick-right{border-color:var(--green-line);background:var(--green-soft);}
+  .why{font-size:12.5px;color:var(--slate);margin-top:6px;padding-left:2px;border-left:2px solid var(--line);padding:2px 0 2px 10px;}
+  .result{margin-top:14px;padding:13px 15px;border-radius:7px;font-size:14px;font-weight:500;}
+  .result.pass{background:var(--green-soft);color:var(--green);border:1px solid var(--green-line);}
+  .result.fail{background:var(--red-soft);color:var(--red);border:1px solid var(--red-line);}
+  .empty{padding:22px 20px;color:var(--slate);font-size:13.5px;}
 
-  .cred{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:14px;display:flex;flex-direction:column;gap:4px;}
+  /* Question authoring */
+  .authbox{padding:22px 20px;margin-top:22px;}
+  .authbox h3{font-size:17px;font-weight:600;margin-bottom:2px;}
+  .authbox .rules{font-size:12.5px;color:var(--slate);margin-bottom:16px;}
+  .field{margin-bottom:12px;}
+  .field label{display:block;font-size:12.5px;font-weight:600;color:var(--slate);margin-bottom:4px;}
+  input[type="text"],select,textarea{width:100%;padding:10px 12px;font-family:inherit;font-size:14px;background:var(--paper);border:1px solid var(--line);border-radius:7px;color:var(--ink);}
+  textarea{min-height:170px;resize:vertical;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.6;}
+  .tworow{display:flex;gap:10px;flex-wrap:wrap;}
+  .tworow .field{flex:1;min-width:150px;}
+  .fmt{background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:12px 14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;color:var(--slate);white-space:pre;overflow-x:auto;margin:8px 0 14px;line-height:1.7;}
+  .banklist{margin-top:16px;border-top:1px solid var(--line);padding-top:14px;}
+  .bank-row{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px;}
+  .bank-row:last-child{border-bottom:none;}
+  .bank-row .bq{flex:1;min-width:0;}
+  .bank-row .ba{font-size:12px;color:var(--green);margin-top:2px;}
+  .linkbtn{background:none;border:none;color:var(--red);font-family:inherit;font-size:12.5px;cursor:pointer;padding:2px 4px;text-decoration:underline;flex-shrink:0;}
+  .status{font-size:12.5px;font-weight:600;margin-top:10px;padding:8px 12px;border-radius:7px;}
+  .status.ok{background:var(--green-soft);color:var(--green);}
+  .status.err{background:var(--red-soft);color:var(--red);}
+
+  .cred{padding:20px;margin-bottom:14px;display:flex;flex-direction:column;gap:4px;}
   .cred h3{font-size:16px;font-weight:600;}
   .cred .cost{font-size:13px;color:var(--slate);}
+  .cred .gate-note{font-size:12px;color:var(--slate);margin-top:2px;}
   .cred .actions{margin-top:10px;}
-  .free-flag{font-size:11.5px;font-weight:600;color:var(--green);background:var(--green-soft);padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
-  .paid-flag{font-size:11.5px;font-weight:600;color:var(--bronze);background:#F6F0E2;padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
+  .flag{font-size:11.5px;font-weight:600;padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
+  .flag.free{color:var(--green);background:var(--green-soft);}
+  .flag.paid{color:var(--bronze);background:var(--bronze-soft);}
 
   table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
   th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);}
   tr:last-child td{border-bottom:none;}
   th{font-weight:600;color:var(--slate);font-size:12.5px;background:var(--paper);}
+  tfoot td{font-weight:600;background:var(--paper);}
   .score-pass{color:var(--green);font-weight:600;}
   .score-fail{color:var(--red);font-weight:600;}
   .late-tag{font-size:11px;font-weight:600;color:var(--red);}
   .transcript-head{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:30px 0 12px;}
+  .tablescroll{overflow-x:auto;}
+
+  .adminbox{padding:20px;margin-top:16px;}
+  .adminbox h3{font-size:16px;font-weight:600;margin-bottom:2px;}
+  .adminbox .rules{font-size:12.5px;color:var(--slate);margin-bottom:14px;}
+  .adminrow{display:flex;gap:8px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px;}
+  .adminrow .field{margin-bottom:0;}
 
   #gate{position:fixed;inset:0;background:var(--paper);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;}
-  #gate .box{max-width:400px;width:100%;text-align:center;}
-  #gate h1{font-size:34px;font-weight:700;letter-spacing:-.5px;line-height:1.15;}
-  #gate h1 em{font-style:normal;color:var(--bronze);}
+  #gate .box{max-width:410px;width:100%;text-align:center;}
+  #gate h2{font-size:34px;font-weight:700;letter-spacing:-.5px;line-height:1.15;}
+  #gate h2 em{font-style:normal;color:var(--bronze);}
   #gate .tag{color:var(--slate);margin:10px 0 28px;font-size:14.5px;}
-  #gate input{width:100%;padding:13px 15px;font-family:'Inter';font-size:16px;background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--ink);}
-  #gate input:focus{outline:2px solid var(--navy);border-color:var(--navy);}
+  #gate input{font-size:16px;background:var(--card);text-align:center;}
   #gate .btn{width:100%;margin-top:12px;padding:13px;}
   .gate-rule{width:44px;height:3px;background:var(--bronze);margin:0 auto 22px;border-radius:2px;}
 
   footer{border-top:1px solid var(--line);padding:26px 0 60px;color:var(--slate);font-size:12.5px;}
+
+  @media (max-width:620px){
+    .pagehead h2{font-size:25px;}
+    .hero{padding:18px 16px;gap:14px;}
+    /* the divider only makes sense while the hero is still on one line */
+    .hero .gpa{padding:0 0 14px;border-right:none;border-bottom:1px solid var(--line);width:100%;text-align:left;}
+    .hero .gpa .big{font-size:38px;}
+    .ledger-row{flex-wrap:wrap;padding:16px;}
+    .ledger-row .info{flex-basis:100%;}
+    .ledger-row .gradechip{width:auto;text-align:left;}
+    .prog{width:auto;flex:1;}
+    .yearstrip{grid-template-columns:repeat(2,1fr);}
+    .course,.exam,.authbox,.cred,.adminbox,.track{padding:18px 16px;}
+    .boxtitle-row,.due-row{padding-left:16px;padding-right:16px;}
+    th,td{padding:10px;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important;}
+  }
+  @media print{
+    .topbar,.tabs,#gate,.authbox,.adminbox,footer,.btn,.pickrow{display:none !important;}
+    body{background:#fff;color:#000;font-size:11pt;}
+    section[role="tabpanel"]{display:block !important;padding:0 0 18pt;}
+    .card,table{border:1px solid #999;box-shadow:none;}
+    .wrap{max-width:none;padding:0;}
+    a{color:#000;text-decoration:none;}
+    details{display:none;}
+    tr,.ledger-row,.cred{break-inside:avoid;}
+  }
 </style>
 </head>
 <body>
 
+<div class="topbar">
+  <div class="wrap">
+    <h1 class="wordmark">KWanus <em>University</em></h1>
+    <div class="topright">
+      <div id="studentChip"></div>
+      <button class="themebtn" id="themeBtn" type="button" title="Switch color theme">
+        <svg width="15" height="15" viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.4"></circle>
+          <path d="M8 1.5A6.5 6.5 0 0 1 8 14.5Z" fill="currentColor"></path>
+        </svg>
+        <span class="sr-only" id="themeLabel">Switch color theme</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="campus">
+  <div class="tabs">
+    <div class="wrap" role="tablist" aria-label="Campus sections">
+      <button role="tab" id="tab-dash" aria-controls="dash" aria-selected="true" tabindex="0">Dashboard</button>
+      <button role="tab" id="tab-courses" aria-controls="courses" aria-selected="false" tabindex="-1">Curriculum</button>
+      <button role="tab" id="tab-tests" aria-controls="tests" aria-selected="false" tabindex="-1">Exams</button>
+      <button role="tab" id="tab-certs" aria-controls="certs" aria-selected="false" tabindex="-1">Registrar</button>
+    </div>
+  </div>
+
+  <main class="wrap">
+
+    <section id="dash" role="tabpanel" aria-labelledby="tab-dash" tabindex="-1">
+      <div class="pagehead">
+        <h2>Your academic record</h2>
+        <p>Four academic years, compressed into twelve months. Grades come from exams, deadlines are real, and the streak resets if you skip a day.</p>
+      </div>
+      <div class="hero card" id="heroBox"></div>
+      <div class="track card" id="trackBox"></div>
+      <div class="duebox card">
+        <div class="boxtitle-row">Due next</div>
+        <div id="dueList"></div>
+      </div>
+      <div class="ledger card" id="dashList"></div>
+      <p class="principle"><strong>How this works.</strong> Lessons live on the best video classrooms in the world. This site is the registrar: structure, deadlines, exams, grades, GPA, and the path to real third-party certificates. Each course runs twelve monthly units grouped into four academic years. A late exam costs a third of a letter grade.</p>
+    </section>
+
+    <section id="courses" role="tabpanel" aria-labelledby="tab-courses" tabindex="-1" hidden>
+      <div class="pagehead">
+        <h2>Curriculum</h2>
+        <p>Each course is a full four-year program run at four times speed: twelve units, one a month, three units per academic year. Watch first, practice second, then the unit work. Mark homework weekly &mdash; the record keeps you honest.</p>
+      </div>
+      <div id="courseList"></div>
+    </section>
+
+    <section id="tests" role="tabpanel" aria-labelledby="tab-tests" tabindex="-1" hidden>
+      <div class="pagehead">
+        <h2>Unit exams</h2>
+        <p>Ten questions per unit, 80% to pass, closed book, options shuffled every attempt. Each unit is due by the end of its month &mdash; pass it late and the grade drops a third of a letter. Below Unit 4, write your own questions and the exam unlocks.</p>
+      </div>
+      <div class="pickrow" id="testPicker" role="group" aria-label="Choose a course"></div>
+      <div id="testArea" aria-live="polite"></div>
+      <div class="authbox card" id="authBox"></div>
+    </section>
+
+    <section id="certs" role="tabpanel" aria-labelledby="tab-certs" tabindex="-1" hidden>
+      <div class="pagehead">
+        <h2>Registrar</h2>
+        <p>Certificates come from real institutions, not from this site. Each one unlocks when you have earned the coursework behind it.</p>
+      </div>
+      <div id="certList"></div>
+      <h3 class="transcript-head">Transcript</h3>
+      <div class="tablescroll"><table id="gradebook"></table></div>
+      <h3 class="transcript-head">Standing by course</h3>
+      <div class="tablescroll"><table id="standing"></table></div>
+      <div class="adminbox card" id="adminBox"></div>
+    </section>
+
+    <footer>KWanus University &mdash; a personal institution. Founded 2026, Georgia.</footer>
+  </main>
+</div>
+
 <div id="gate">
   <div class="box">
     <div class="gate-rule"></div>
-    <h1>KWanus <em>University</em></h1>
-    <p class="tag">A private curriculum. Real deadlines, real grades, real credentials.</p>
-    <input id="nameIn" type="text" placeholder="Your name" value="KWanus" aria-label="Your name">
-    <button class="btn" onclick="enroll()">Enter campus</button>
+    <h2>KWanus <em>University</em></h2>
+    <p class="tag">A four-year curriculum in twelve months. Real deadlines, real grades, real credentials.</p>
+    <form id="gateForm">
+      <input id="nameIn" type="text" placeholder="Your name" value="KWanus" aria-label="Your name" autocomplete="name">
+      <button class="btn" type="submit">Enter campus</button>
+    </form>
   </div>
-</div>
-
-<div class="topbar">
-  <div class="wrap">
-    <div class="wordmark">KWanus <em>University</em></div>
-    <div id="studentChip"></div>
-  </div>
-</div>
-
-<div class="tabs">
-  <div class="wrap">
-    <button class="active" onclick="go('dash',this)">Dashboard</button>
-    <button onclick="go('courses',this)">Curriculum</button>
-    <button onclick="go('tests',this)">Exams</button>
-    <button onclick="go('certs',this)">Registrar</button>
-  </div>
-</div>
-
-<div class="wrap">
-
-  <section id="dash" class="show">
-    <div class="pagehead">
-      <h2>Your academic record</h2>
-      <p>Grades come from exams. Deadlines are real. The streak resets if you skip a day.</p>
-    </div>
-    <div class="hero" id="heroBox"></div>
-    <div class="duebox">
-      <div class="boxtitle">Due next</div>
-      <div id="dueList"></div>
-    </div>
-    <div class="ledger" id="dashList"></div>
-    <p class="principle"><strong>How this works.</strong> Lessons live on the best video classrooms in the world. This site is the registrar: schedule, deadlines, exams, grades, GPA, and the path to real third-party certificates. Late exams cost a third of a letter grade.</p>
-  </section>
-
-  <section id="courses">
-    <div class="pagehead">
-      <h2>Curriculum</h2>
-      <p>Every course opens with video classrooms first, then practice work, then this month's homework. Mark your homework each week — the record keeps you honest.</p>
-    </div>
-    <div id="courseList"></div>
-  </section>
-
-  <section id="tests">
-    <div class="pagehead">
-      <h2>Monthly exams</h2>
-      <p>Five questions per unit, 80% to pass, closed book. Each unit is due by the end of its month — pass it late and the grade drops a third of a letter.</p>
-    </div>
-    <div class="pickrow" id="testPicker"></div>
-    <div id="testArea"></div>
-  </section>
-
-  <section id="certs">
-    <div class="pagehead">
-      <h2>Registrar</h2>
-      <p>Certificates come from real institutions, not from this site. When a program crosses 30%, its claim button unlocks.</p>
-    </div>
-    <div id="certList"></div>
-    <div class="transcript-head">Transcript</div>
-    <table id="gradebook"></table>
-  </section>
-
-  <footer>KWanus University — a personal institution. Founded 2026, Georgia.</footer>
 </div>
 
 <script>
-const store=(()=>{try{localStorage.setItem('_t','1');localStorage.removeItem('_t');
-return{get:k=>JSON.parse(localStorage.getItem(k)||'null'),set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};}
-catch(e){const m={};return{get:k=>m[k]||null,set:(k,v)=>m[k]=v};}})();
+"use strict";
 
+/* ---------- storage (safe against corrupt or blocked storage) ---------- */
+const store=(()=>{
+  let ok=true;
+  try{localStorage.setItem('_t','1');localStorage.removeItem('_t');}catch(e){ok=false;}
+  const mem={};
+  return{
+    get(k){
+      if(!ok)return k in mem?mem[k]:null;
+      try{const raw=localStorage.getItem(k);return raw===null?null:JSON.parse(raw);}
+      catch(e){console.warn('Unreadable key '+k+', ignoring.');return null;}
+    },
+    set(k,v){
+      if(!ok){mem[k]=v;return;}
+      try{localStorage.setItem(k,JSON.stringify(v));}catch(e){console.warn('Could not save '+k);}
+    },
+    del(k){if(!ok){delete mem[k];return;}try{localStorage.removeItem(k);}catch(e){}}
+  };
+})();
+
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ---------- program shape: 4 academic years in 12 months ---------- */
+const PROGRAM={units:12,unitsPerYear:3,years:4,pass:80,qPerExam:10};
+const YEAR_NAMES=['Year One','Year Two','Year Three','Year Four'];
+const yearOfUnit=u=>Math.ceil(u/PROGRAM.unitsPerYear);
+
+/* ---------- curriculum ---------- */
 const CURRICULUM=[
- {id:'code',kind:'Major',name:'Software Engineering & Web Design',school:'freeCodeCamp · The Odin Project · Harvard CS50',
+ {id:'code',kind:'Major',short:'Software Engineering',name:'Software Engineering & Web Design',
+  school:'freeCodeCamp · The Odin Project · Harvard CS50 · MIT OCW',
   watch:[
    ['freeCodeCamp — full-length video courses','https://www.youtube.com/@freecodecamp'],
    ['Harvard CS50 — filmed lectures','https://www.youtube.com/@cs50'],
@@ -231,315 +416,1163 @@ const CURRICULUM=[
    ['Fireship — visual explainers in 100 seconds','https://www.youtube.com/@Fireship']
   ],
   links:[
-   ['freeCodeCamp: Responsive Web Design','https://www.freecodecamp.org/learn/2022/responsive-web-design/'],
-   ['freeCodeCamp: JavaScript Algorithms','https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/'],
-   ['The Odin Project: Full Stack path','https://www.theodinproject.com/paths/full-stack-javascript'],
-   ['Harvard CS50x','https://cs50.harvard.edu/x/']
+   ['freeCodeCamp — full curriculum','https://www.freecodecamp.org/learn/'],
+   ['The Odin Project — Full Stack JavaScript','https://www.theodinproject.com/paths/full-stack-javascript'],
+   ['Harvard CS50x','https://cs50.harvard.edu/x/'],
+   ['MDN Web Docs — the reference you keep open','https://developer.mozilla.org/en-US/docs/Web'],
+   ['MIT 6.006 — Introduction to Algorithms','https://ocw.mit.edu/courses/6-006-introduction-to-algorithms-spring-2020/']
+  ],
+  units:[
+   {n:1,name:'HTML, CSS & the Box Model',focus:'Document semantics, the cascade, specificity, box model, flexbox and grid.',
+    work:['Finish the freeCodeCamp Responsive Web Design projects end to end.','Rebuild one page you admire from screenshot only — no inspecting.','Write out the specificity rules from memory, then check them against MDN.']},
+   {n:2,name:'JavaScript Fundamentals',focus:'Types and coercion, scope and closures, arrays and objects, pure functions.',
+    work:['CS50 Week 0–1 plus the freeCodeCamp JavaScript Algorithms section.','Solve 30 array/string exercises without looking up syntax.','Explain closures in writing to someone who does not code.']},
+   {n:3,name:'The DOM, Events & Async',focus:'DOM traversal, event delegation, the event loop, promises, fetch and error handling.',
+    work:['Rebuild this registrar site from memory, then diff it against the source.','Build a small app that fetches a public API and handles the failure case.','Trace the event loop on paper for a mixed sync/promise/timeout snippet.']},
+   {n:4,name:'Data Structures',focus:'Arrays, hash maps, stacks, queues, linked lists, trees and when each is correct.',
+    work:['Implement each structure from scratch, no library.','Solve 25 problems that force a specific structure.','Write down the access, search, insert and delete cost of each.']},
+   {n:5,name:'Algorithms & Complexity',focus:'Big-O analysis, sorting, searching, recursion, greedy and dynamic programming.',
+    work:['MIT 6.006 lectures 1–6 with the problem sets.','Hand-trace merge sort and quicksort on an eight-element array.','Solve 20 problems and state the complexity of each solution before coding.']},
+   {n:6,name:'Tooling, Git & Testing',focus:'Version control, branching, code review, unit tests, debugging and the terminal.',
+    work:['Put every project you own under Git with real commit messages.','Write tests for the grading logic on this site until they catch a bug.','Learn the debugger. Delete every console.log you were using instead.']},
+   {n:7,name:'Servers, HTTP & REST APIs',focus:'The request lifecycle, status codes, Node, routing, JSON APIs and statelessness.',
+    work:['Build a REST API with full create, read, update and delete.','Explain what happens between typing a URL and seeing pixels.','Consume your own API from a separate front end.']},
+   {n:8,name:'Databases & SQL',focus:'Relational modelling, normalisation, joins, indexes, transactions and migrations.',
+    work:['Model this university as a real relational schema.','Write 30 queries including multi-table joins and aggregates.','Add an index and measure the difference on a large table.']},
+   {n:9,name:'Authentication & Security',focus:'Hashing, sessions and tokens, XSS, CSRF, SQL injection, secrets handling.',
+    work:['Add real signup and login to your API. Never store a plain password.','Attack your own app: try XSS and injection until something breaks.','Audit this site for the same class of bug and write up what you find.']},
+   {n:10,name:'React & Component Architecture',focus:'Declarative UI, component state, effects, data flow and composition.',
+    work:['Rebuild the registrar as components with real state management.','Learn why a key prop matters by breaking a list on purpose.','Ship one interface a stranger can use without instructions.']},
+   {n:11,name:'System Design & Deployment',focus:'Architecture tradeoffs, caching, CI/CD, monitoring, cost and scale.',
+    work:['Deploy a full stack app to a real domain with automated deploys.','Draw the architecture of a system that serves a million users.','Add logging and an alert that actually wakes you up.']},
+   {n:12,name:'Capstone: Ship a Real Product',focus:'One production application, built alone, used by someone who is not you.',
+    work:['Ship it. Real users, real domain, real error handling.','Write the README, the tests and the deployment guide.','Get five people to use it and fix everything they trip on.']}
   ],
   homework:[
    'Weeks 1–2: watch CS50 Lecture 0 and finish freeCodeCamp HTML/CSS. Build the Tribute Page.',
    'Week 3: rebuild this site from memory — no copying. Compare afterward.',
-   'Week 4: 25 JavaScript exercises. Keep notes on var/let/const, functions, arrays.'
+   'Week 4: 25 JavaScript exercises. Keep notes on scope, closures and array methods.'
   ]},
- {id:'mkt',kind:'Major',name:'Marketing & Social Media',school:'HubSpot Academy · Google · Meta Blueprint',
+
+ {id:'mkt',kind:'Major',short:'Marketing',name:'Marketing & Social Media',
+  school:'HubSpot Academy · Google · Meta Blueprint',
   watch:[
    ['HubSpot Academy — video lessons','https://www.youtube.com/@HubSpotMarketing'],
    ['Alex Hormozi — offers and money','https://www.youtube.com/@AlexHormozi'],
    ['Think Media — content that grows','https://www.youtube.com/@ThinkMediaTV']
   ],
   links:[
-   ['HubSpot: Digital Marketing certification (free)','https://academy.hubspot.com/courses/digital-marketing'],
-   ['HubSpot: Social Media certification (free)','https://academy.hubspot.com/courses/social-media'],
-   ['Google Digital Marketing & E-commerce (Coursera)','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce'],
-   ['Meta Blueprint','https://www.facebook.com/business/learn']
+   ['HubSpot Academy — free certifications','https://academy.hubspot.com/'],
+   ['Google Digital Marketing & E-commerce','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce'],
+   ['Meta Blueprint','https://www.facebook.com/business/learn'],
+   ['Google Analytics Skillshop','https://skillshop.withgoogle.com/']
+  ],
+  units:[
+   {n:1,name:'Positioning & the Offer',focus:'Who it is for, what changes for them, why you, and at what price.',
+    work:['Write the one-sentence offer for Reset Pressure Washing. Rewrite it ten times.','Price on the value of the outcome, not on your cost. Justify the number.','Add a guarantee that moves the risk off the buyer.']},
+   {n:2,name:'Content & Platform Mechanics',focus:'Hooks, retention curves, distribution signals and the compounding of consistency.',
+    work:['Post three times a week on one platform for the whole month.','Log every post: hook, format, views, retention, leads.','Rewrite the three worst-performing hooks and repost.']},
+   {n:3,name:'Funnels, Email & Conversion',focus:'Awareness to conversion, lead magnets, nurture sequences, landing pages.',
+    work:['Build one landing page with exactly one call to action.','Write a five-email nurture sequence that handles the top objection.','Compute your conversion rate at every step and find the leak.']},
+   {n:4,name:'Copywriting & Persuasion',focus:'Headlines, specificity, objection handling, proof and the ethics of the ask.',
+    work:['Hand-copy ten great sales letters to learn the rhythm.','Rewrite your offer page three ways and test which converts.','Collect three real testimonials with numbers in them.']},
+   {n:5,name:'Paid Acquisition',focus:'Auctions, targeting, creative testing, CPM, CPC, CPA and budget discipline.',
+    work:['Run a small campaign with a hard budget cap. Track it daily.','Test five creatives against one audience, not the reverse.','Calculate your true cost per booked job, not per lead.']},
+   {n:6,name:'Analytics & Attribution',focus:'Events, funnels, cohorts, attribution windows and lying dashboards.',
+    work:['Instrument one site with real conversion events.','Build a dashboard that shows booked jobs, not impressions.','Find one metric you have been reporting that means nothing.']},
+   {n:7,name:'SEO & Organic Search',focus:'Intent, keyword research, on-page structure, technical SEO, local search.',
+    work:['Rank one local page for one real buying-intent phrase.','Fix the technical basics: titles, speed, structure, sitemap.','Claim and fully complete a local business profile.']},
+   {n:8,name:'Brand & Creative Strategy',focus:'Category, voice, visual identity and what makes a brand chargeable.',
+    work:['Write the brand guide: voice, promise, three things you never do.','Design a visual identity that survives being printed in black and white.','Audit a competitor and name exactly what you will do differently.']},
+   {n:9,name:'Sales & CRM',focus:'Pipelines, discovery calls, objection handling, follow-up and closing.',
+    work:['Run ten real discovery calls. Script the first two minutes.','Build a pipeline in a CRM and move every lead through stages.','Track your close rate weekly and raise it by one improvement.']},
+   {n:10,name:'Pricing & Unit Economics',focus:'Margin, CAC, LTV, payback period and pricing power.',
+    work:['Compute CAC, LTV and payback for one real business you own.','Raise a price and measure what actually happens to volume.','Model the business at 3x volume and find what breaks first.']},
+   {n:11,name:'Retention & Lifecycle',focus:'Churn, repeat purchase, referral loops and why keeping beats getting.',
+    work:['Build a referral mechanic that costs less than an ad.','Win back ten lapsed customers with a single sequence.','Measure repeat rate. Move it.']},
+   {n:12,name:'Capstone: Full Go-to-Market Plan',focus:'One business, one complete plan, executed and measured.',
+    work:['Write and execute a 90-day go-to-market plan for a business you own.','Report actual revenue against the plan, honestly.','Write the post-mortem: what worked, what you would never repeat.']}
   ],
   homework:[
    'Week 1: HubSpot modules 1–3. Write the one-sentence offer for Reset Pressure Washing.',
    'Weeks 2–3: post three times a week on one platform. Log the results.',
    'Week 4: write a one-page marketing plan for a business you own.'
   ]},
- {id:'math',kind:'General education',name:'Mathematics: Algebra to Calculus',school:'Khan Academy mastery path',
+
+ {id:'math',kind:'General education',short:'Mathematics',name:'Mathematics: Algebra to Calculus',
+  school:'Khan Academy · MIT OCW · OpenStax',
   watch:[
    ['3Blue1Brown — math you can see','https://www.youtube.com/@3blue1brown'],
    ['Professor Leonard — full whiteboard lectures','https://www.youtube.com/@ProfessorLeonard'],
    ['Khan Academy — short video lessons','https://www.youtube.com/@khanacademy']
   ],
   links:[
-   ['Khan: Algebra 1','https://www.khanacademy.org/math/algebra'],
-   ['Khan: Algebra 2','https://www.khanacademy.org/math/algebra2'],
-   ['Khan: Precalculus','https://www.khanacademy.org/math/precalculus'],
-   ['Khan: Calculus (AP AB)','https://www.khanacademy.org/math/ap-calculus-ab']
+   ['Khan Academy — all math','https://www.khanacademy.org/math'],
+   ['Paul’s Online Math Notes','https://tutorial.math.lamar.edu/'],
+   ['OpenStax — free textbooks','https://openstax.org/subjects/math'],
+   ['MIT 18.06 — Linear Algebra','https://ocw.mit.edu/courses/18-06-linear-algebra-spring-2010/'],
+   ['MIT 18.01 — Single Variable Calculus','https://ocw.mit.edu/courses/18-01sc-single-variable-calculus-fall-2010/']
+  ],
+  units:[
+   {n:1,name:'Algebra I',focus:'Linear equations and inequalities, systems, exponents, factoring, functions.',
+    work:['Khan Algebra 1 to full mastery. No skipping the practice.','Work 20 problems a week by hand on paper.','Re-derive the quadratic formula by completing the square.']},
+   {n:2,name:'Algebra II & Functions',focus:'Quadratics, polynomials, rationals, logarithms, exponentials, complex numbers.',
+    work:['Khan Algebra 2 to mastery.','Graph every function family by hand before touching a calculator.','Explain in writing why logarithms turn multiplication into addition.']},
+   {n:3,name:'Geometry & Trigonometry',focus:'Proof, the unit circle, identities, laws of sines and cosines, radians.',
+    work:['Memorise the unit circle cold.','Prove ten geometric theorems from axioms.','Solve 20 triangles including ambiguous cases.']},
+   {n:4,name:'Precalculus',focus:'Function transformation, sequences, series, vectors, polar and limits at the door.',
+    work:['Khan Precalculus to mastery.','Sketch transformations without plotting points.','Build the intuition for a limit before the definition arrives.']},
+   {n:5,name:'Limits & Continuity',focus:'The formal limit, one-sided limits, continuity, asymptotes, the squeeze theorem.',
+    work:['Work the epsilon-delta definition until it stops being frightening.','Evaluate 30 limits including indeterminate forms.','Explain continuity without using the word "unbroken".']},
+   {n:6,name:'Derivatives',focus:'The definition, rules, chain rule, implicit and higher-order derivatives.',
+    work:['Derive the power rule from the limit definition.','Differentiate 50 functions by hand.','Explain what a derivative means physically, in one paragraph.']},
+   {n:7,name:'Applications of Derivatives',focus:'Optimisation, related rates, curve sketching, the mean value theorem.',
+    work:['Solve 15 optimisation problems drawn from real situations.','Sketch curves from derivative information alone.','Model one real business decision as an optimisation.']},
+   {n:8,name:'Integration',focus:'Riemann sums, the fundamental theorem, substitution, parts, areas and volumes.',
+    work:['Compute an integral as a limit of sums before using the shortcut.','Integrate 50 functions by hand.','State the fundamental theorem in your own words and defend it.']},
+   {n:9,name:'Series & Advanced Applications',focus:'Sequences, convergence tests, Taylor and Maclaurin series, differential equations.',
+    work:['Derive the Taylor series for e^x, sin x and cos x.','Test 20 series for convergence and justify each test.','Solve separable differential equations from real models.']},
+   {n:10,name:'Linear Algebra',focus:'Vectors, matrices, determinants, eigenvalues, span and linear transformations.',
+    work:['MIT 18.06 lectures 1–10 with the problem sets.','Watch 3Blue1Brown Essence of Linear Algebra twice.','Explain an eigenvector geometrically without formulas.']},
+   {n:11,name:'Probability & Statistics',focus:'Distributions, expectation, variance, inference, hypothesis testing, regression.',
+    work:['Work through OpenStax Introductory Statistics.','Run a real hypothesis test on data you collected yourself.','Find one statistic in the news that is being reported dishonestly.']},
+   {n:12,name:'Discrete Mathematics',focus:'Logic, proof techniques, combinatorics, graph theory and number theory.',
+    work:['Prove twenty results by induction and contradiction.','Solve combinatorics problems until counting stops being guessing.','Model one real network as a graph and analyse it.']}
   ],
   homework:[
-   'Daily: 30 minutes of Khan mastery. Algebra 1 → Algebra 2 → Precalculus → Calculus.',
-   'Weekly: one word problem worked by hand. Photo goes to Notion.',
-   'Monthly: the unit exam here plus the Khan course challenge.'
+   'Daily: 30 minutes of Khan mastery, following the unit you are currently in.',
+   'Weekly: one hard problem worked fully by hand. Photo goes to your notes.',
+   'Monthly: the unit exam here plus the matching Khan course challenge.'
   ]},
- {id:'sci',kind:'General education',name:'Science: Physics to Quantum',school:'Khan Academy → MIT OpenCourseWare',
+
+ {id:'sci',kind:'General education',short:'Science',name:'Science: Physics to Quantum',
+  school:'Khan Academy → MIT OpenCourseWare',
   watch:[
    ['Veritasium — physics that rewires your head','https://www.youtube.com/@veritasium'],
-   ['Crash Course Physics — animated and fast','https://www.youtube.com/playlist?list=PL8dPuuaLjXtN0ge7yDk_UA0ldZJdhwkoV'],
    ['MIT 8.01 — filmed lectures','https://www.youtube.com/playlist?list=PLyQSN7X0ro203puVhQsmCj9qhlFQ-As8e'],
-   ['Kurzgesagt — animated science','https://www.youtube.com/@kurzgesagt']
+   ['Kurzgesagt — animated science','https://www.youtube.com/@kurzgesagt'],
+   ['PBS Space Time — serious physics, patiently','https://www.youtube.com/@pbsspacetime']
   ],
   links:[
-   ['Khan: Physics','https://www.khanacademy.org/science/physics'],
-   ['MIT OCW 8.01: Classical Mechanics','https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/'],
-   ['MIT OCW 8.04: Quantum Mechanics','https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/']
+   ['Khan Academy — Physics','https://www.khanacademy.org/science/physics'],
+   ['MIT 8.01 — Classical Mechanics','https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/'],
+   ['MIT 8.02 — Electricity & Magnetism','https://ocw.mit.edu/courses/8-02-physics-ii-electricity-and-magnetism-spring-2019/'],
+   ['MIT 8.04 — Quantum Physics I','https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/'],
+   ['OpenStax — University Physics','https://openstax.org/subjects/science']
+  ],
+  units:[
+   {n:1,name:'Kinematics',focus:'Displacement, velocity, acceleration, graphs of motion and projectiles.',
+    work:['Derive the kinematic equations rather than memorising them.','Solve 25 motion problems including two-dimensional projectiles.','Sketch position, velocity and acceleration graphs for one motion.']},
+   {n:2,name:'Newtonian Dynamics',focus:'The three laws, free-body diagrams, friction, tension and circular motion.',
+    work:['Draw a free-body diagram for every problem before any algebra.','Solve 25 dynamics problems including inclines and pulleys.','Explain why the third-law pair does not cancel.']},
+   {n:3,name:'Energy & Momentum',focus:'Work, kinetic and potential energy, conservation, collisions and impulse.',
+    work:['Solve every problem twice: once with forces, once with energy.','Work 20 collision problems, elastic and inelastic.','Explain conservation of momentum to someone with no physics.']},
+   {n:4,name:'Rotation & Gravitation',focus:'Torque, moment of inertia, angular momentum, orbits and Kepler.',
+    work:['MIT 8.01 rotation lectures with the problem sets.','Derive orbital velocity from first principles.','Explain why a spinning skater speeds up when they pull their arms in.']},
+   {n:5,name:'Waves & Thermodynamics',focus:'Oscillation, resonance, sound, heat, entropy and the laws of thermodynamics.',
+    work:['Model simple harmonic motion mathematically and physically.','Work through the four laws and state each in plain language.','Explain entropy without saying the word "disorder".']},
+   {n:6,name:'Electricity & Magnetism',focus:'Charge, fields, potential, circuits, induction and Maxwell in outline.',
+    work:['MIT 8.02 with the problem sets.','Build and analyse a real circuit. Measure it.','Explain how a motor works, from field to torque.']},
+   {n:7,name:'Optics & Modern Physics',focus:'Reflection, refraction, interference, the photoelectric effect, atomic structure.',
+    work:['Work the double-slit experiment mathematically.','Explain why the photoelectric effect broke classical physics.','Solve 15 optics problems with ray diagrams drawn by hand.']},
+   {n:8,name:'Special Relativity',focus:'Postulates, time dilation, length contraction, simultaneity, mass-energy.',
+    work:['Derive time dilation from the light-clock thought experiment.','Work the twin paradox until it is no longer a paradox.','Explain E=mc² correctly, including what it does not mean.']},
+   {n:9,name:'Chemistry Foundations',focus:'Atomic structure, bonding, stoichiometry, thermochemistry and equilibrium.',
+    work:['Work through OpenStax Chemistry chapters 1–9.','Balance 30 equations and solve stoichiometry problems.','Explain why the periodic table is shaped the way it is.']},
+   {n:10,name:'Quantum Mechanics I',focus:'Wave functions, superposition, the Schrödinger equation, the particle in a box.',
+    work:['MIT 8.04 lectures 1–10. Do not skip the mathematics.','Solve the infinite square well completely.','Explain superposition without using the cat.']},
+   {n:11,name:'Quantum Mechanics II',focus:'Operators, uncertainty, angular momentum, spin, the hydrogen atom, entanglement.',
+    work:['Derive the uncertainty principle rather than quoting it.','Work the hydrogen atom through to the energy levels.','Explain entanglement and why it does not permit faster-than-light signalling.']},
+   {n:12,name:'Capstone: Physics in Writing',focus:'One rigorous piece of physical explanation, at a level you can defend.',
+    work:['Write a ten-page explanation of one modern physics result.','Include the mathematics and derive it yourself.','Present it to someone and survive their questions.']}
   ],
   homework:[
-   'Phase 1: Khan Physics — motion, forces, energy. Three lessons a week.',
-   'Phase 2: MIT 8.01, one lecture a week with the problem sets.',
-   'Phase 3, after Calculus: Quantum Mechanics — the hardest science open to a self-learner.'
+   'Weekly: three lessons in the current unit, plus the problem sets.',
+   'Weekly: one problem worked fully by hand with a diagram.',
+   'Monthly: the unit exam here. Quantum comes after Calculus, not before.'
   ]},
- {id:'eng',kind:'General education',name:'English, Literature & Philosophy',school:'Reading list + writing practice',
+
+ {id:'eng',kind:'General education',short:'English & Philosophy',name:'English, Literature & Philosophy',
+  school:'Reading list · Writing practice · Stanford Encyclopedia',
   watch:[
    ['Crash Course Philosophy — animated series','https://www.youtube.com/playlist?list=PL8dPuuaLjXtNgK6MZucdYldNkMybYIHKR'],
-   ['Jordan Peterson — lectures','https://www.youtube.com/@JordanBPeterson'],
+   ['The School of Life — ideas that apply','https://www.youtube.com/@theschooloflifetv'],
    ['TED-Ed — big ideas in five minutes','https://www.youtube.com/@TEDEd']
   ],
   links:[
-   ['Khan: Grammar','https://www.khanacademy.org/humanities/grammar'],
+   ['Khan Academy — Grammar','https://www.khanacademy.org/humanities/grammar'],
    ['Project Gutenberg — free classics','https://www.gutenberg.org/'],
-   ['Reading list: 12 Rules for Life, Meditations, Man\u2019s Search for Meaning, As a Man Thinketh, Proverbs','#']
+   ['Stanford Encyclopedia of Philosophy','https://plato.stanford.edu/'],
+   ['Purdue OWL — writing and citation','https://owl.purdue.edu/owl/purdue_owl.html'],
+   ['Reading list: Meditations, Man’s Search for Meaning, 12 Rules for Life, As a Man Thinketh, Proverbs','#']
+  ],
+  units:[
+   {n:1,name:'Grammar & Sentence Craft',focus:'Clauses, agreement, punctuation, modifiers and the sentence as a unit of thought.',
+    work:['Khan Grammar to mastery. Yes, all of it.','Write 200 words daily and edit them the next morning.','Find and fix ten errors in something you wrote last year.']},
+   {n:2,name:'Rhetoric & Argument',focus:'Ethos, pathos, logos, validity and soundness, and the common fallacies.',
+    work:['Name the fallacy in ten real arguments you encounter this month.','Write one argument, then write the strongest case against it.','Read Aristotle on rhetoric and take notes by hand.']},
+   {n:3,name:'The Essay & Close Reading',focus:'Thesis, structure, evidence, revision, diction, syntax and tone.',
+    work:['Write four one-page essays. Revise each one twice.','Close-read one page of great prose and annotate every choice.','Give an essay to a stranger. If they miss the point, it is your fault.']},
+   {n:4,name:'Ancient Philosophy',focus:'The pre-Socratics, Socrates, Plato’s forms and Aristotle’s ethics.',
+    work:['Read the Apology and the Republic Book VII.','Write a dialogue in the Socratic form on a question you care about.','Explain the theory of forms and then argue against it.']},
+   {n:5,name:'Stoicism & Ethics',focus:'The dichotomy of control, virtue ethics, duty, consequences and applied ethics.',
+    work:['Read Meditations and Epictetus’ Enchiridion in full.','Keep a Stoic journal every morning for the month.','Take a hard moral case and argue it three ways: virtue, duty, consequence.']},
+   {n:6,name:'Classic Literature',focus:'Narrative structure, character, theme and why old books survive.',
+    work:['Read three classics cover to cover. 20 pages minimum daily.','Write a full essay on one of them with textual evidence.','Identify the author’s claim about human nature and test it.']},
+   {n:7,name:'Modern Philosophy',focus:'Descartes, empiricism, Kant, and the problem of knowledge.',
+    work:['Read Descartes’ Meditations and one empiricist reply.','Explain Kant’s categorical imperative and apply it to a real decision.','Write on what you can actually claim to know, and how.']},
+   {n:8,name:'Logic & Reasoning',focus:'Formal logic, deduction and induction, probability and cognitive bias.',
+    work:['Work through propositional and predicate logic exercises.','Formalise ten everyday arguments into symbolic form.','Catch yourself in three biases and write them down.']},
+   {n:9,name:'Research & Long-Form Writing',focus:'Sources, citation, synthesis, structure at length and intellectual honesty.',
+    work:['Write a 3,000-word researched essay with real citations.','Use at least eight sources and steelman the opposition.','Cut the finished draft by 20% without losing an argument.']},
+   {n:10,name:'Political Philosophy',focus:'The social contract, liberty, justice, rights and legitimate authority.',
+    work:['Read Locke, Mill and one thinker you expect to disagree with.','Write your own account of what makes authority legitimate.','Argue the position you hold least sympathetically, and well.']},
+   {n:11,name:'Existentialism & Meaning',focus:'Nietzsche, Kierkegaard, Camus, Frankl, and the question of how to live.',
+    work:['Read Man’s Search for Meaning and The Myth of Sisyphus.','Write your own answer to the question of meaning. Defend it.','Reread what you wrote in Unit 1 and judge how far your writing has moved.']},
+   {n:12,name:'Capstone: Thesis',focus:'One sustained argument, researched, structured and defended.',
+    work:['Write a 5,000-word thesis on a question you genuinely care about.','Defend it in conversation against someone who disagrees.','Revise it once more after the defence.']}
   ],
   homework:[
-   'Daily: read 20 pages minimum.',
+   'Daily: read 20 pages minimum and write 200 words.',
    'Weekly: a half-page reflection — what did the author claim, do you agree, and why.',
-   'Monthly: one one-page essay. The grade: could a stranger understand your point.'
+   'Monthly: one full essay. The grade: could a stranger understand your point.'
   ]}
 ];
 
-const TESTS={
- code:{name:'Coding — Unit 1',qs:[
-  ['In JavaScript, const means…',['Can be changed anytime','Cannot be reassigned','A type of loop'],1],
-  ['HTML is for…',['Structure of the page','Coloring the page','Storing the database'],0],
-  ['CSS is for…',['Page logic','Styling and layout','Server code'],1],
-  ['A function is…',['A reusable block of code you can call','A style rule','A browser'],0],
-  ['Which is a valid array?',['[1, 2, 3]','{1, 2, 3}','(1, 2, 3)'],0]]},
- mkt:{name:'Marketing — Unit 1',qs:[
-  ['An "offer" is…',['A discount only','What you give, at what price, with what promise','A follow-back'],1],
-  ['Organic reach means…',['Paid ads','Views you did not pay for','Email lists'],1],
-  ['A call to action is…',['Telling the viewer exactly what to do next','A hashtag','A logo'],0],
-  ['Best first metric for a service business…',['Followers','Booked jobs and leads','Likes'],1],
-  ['Consistency matters because…',['Algorithms and audiences reward showing up','It does not','Hashtags expire'],0]]},
- math:{name:'Math — Algebra Unit 1',qs:[
-  ['Solve: 3x + 5 = 20',['x = 5','x = 15','x = 3'],0],
-  ['Simplify: 2(x + 4)',['2x + 4','2x + 8','x + 8'],1],
-  ['The slope in y = 2x + 1 is…',['1','2','3'],1],
-  ['If x = 4, then x² − 3 =',['13','5','16'],0],
-  ['−6 + 9 =',['−3','3','15'],1]]},
- sci:{name:'Physics — Unit 1',qs:[
-  ['Velocity is…',['Speed with a direction','Just speed','Mass times gravity'],0],
-  ['Newton\u2019s first law: an object in motion…',['Stops on its own','Stays in motion unless acted on','Speeds up forever'],1],
-  ['Force equals…',['mass × acceleration','mass × velocity','weight × time'],0],
-  ['Gravity accelerates objects at about…',['9.8 m/s²','98 m/s²','1.8 m/s²'],0],
-  ['Energy cannot be…',['Transferred','Created or destroyed','Stored'],1]]},
- eng:{name:'English & Philosophy — Unit 1',qs:[
-  ['A thesis statement is…',['Your main claim in one sentence','A quote','A summary of sources'],0],
-  ['"Their going to the store" is wrong because…',['It should be They\u2019re','It should be There','It is correct'],0],
-  ['Stoicism teaches…',['Control what you can, accept what you cannot','Avoid all feeling','Wealth is virtue'],0],
-  ['An argument needs…',['A claim and reasons that support it','Strong emotion','Long words'],0],
-  ['Reading 20 pages a day for a year is roughly…',['Over 20 books','2 books','100 pages'],0]]}
+const COURSE=Object.fromEntries(CURRICULUM.map(c=>[c.id,c]));
+
+/* ---------- built-in exam bank: [prompt, options, correctIndex, why] ---------- */
+const BANK={
+ code:{
+  1:[
+   ['With box-sizing: border-box, an element set to width:300px with 20px padding and a 5px border has a content width of…',['300px','250px','350px','270px'],1,'border-box makes width include padding and border: 300 − 40 − 10 = 250.'],
+   ['Which selector wins on specificity?',['#nav .item a','.nav .item .link','ul li a.link','a.link:hover'],0,'An ID outranks any number of classes. (1,1,1) beats (0,3,0).'],
+   ['position:absolute positions an element relative to…',['The viewport always','The nearest ancestor whose position is not static','Its direct parent always','The document body always'],1,'It resolves against the nearest positioned ancestor, falling back to the initial containing block.'],
+   ['flex: 1 1 0 differs from flex: 1 1 auto because…',['One is invalid CSS','The flex-basis starts at zero rather than the content size','Only one allows shrinking','They are identical'],1,'With basis 0 all free space is split evenly; with auto, content size is reserved first.'],
+   ['Vertical margin collapsing happens between…',['Any two elements','Adjacent vertical margins of block-level boxes in normal flow','Flex items','Horizontally adjacent elements'],1,'Collapsing applies to block-level boxes in normal flow, not to flex or grid items.'],
+   ['z-index has no effect on an element when…',['Its position is static and it is not a flex or grid item','The value is above 100','It has a background','It is inside a div'],0,'z-index applies to positioned elements and to flex/grid items only.'],
+   ['1rem is measured against…',['The parent element font size','The root element font size','The viewport width','A fixed 16px'],1,'rem is relative to the root; em is relative to the parent.'],
+   ['The correct reason to use <section> instead of <div> is…',['It has default styling','It carries document meaning and should have a heading','It is faster to render','It is required by HTML5'],1,'section is a semantic sectioning element; div carries no meaning.'],
+   ['Two rules of equal specificity target the same element. Which applies?',['The first one declared','The last one declared','Neither','Both, averaged'],1,'When specificity ties, source order decides and the later rule wins.'],
+   ['display:none differs from visibility:hidden because…',['It removes the element from layout entirely','It only hides text','It fades the element out','There is no difference'],0,'visibility:hidden still reserves the element’s space; display:none does not.']
+  ],
+  2:[
+   ['typeof null evaluates to…',['"null"','"object"','"undefined"','Throws an error'],1,'A long-standing bug in the language, kept for backward compatibility.'],
+   ['0.1 + 0.2 === 0.3 evaluates to…',['true','false','NaN','undefined'],1,'Binary floating point cannot represent these exactly; the sum is 0.30000000000000004.'],
+   ['Using let instead of var in a for loop that creates closures matters because…',['let is faster','let creates a fresh binding on each iteration','var cannot be used in loops','They behave identically'],1,'Each iteration gets its own binding, so closures capture distinct values.'],
+   ['[1,2,3].map(x => x * 2) does what to the original array?',['Doubles it in place','Leaves it unchanged and returns a new array','Empties it','Sorts it'],1,'map is non-mutating; it returns a new array.'],
+   ['The difference between == and === is…',['=== is deprecated','== coerces types before comparing','== only works on numbers','They are the same'],1,'Loose equality applies type coercion; strict equality does not.'],
+   ['A const declaration before its line is…',['Not hoisted at all','Hoisted but in the temporal dead zone','Initialised to undefined','Automatically a var'],1,'let and const are hoisted but cannot be accessed until initialised.'],
+   ['In strict mode, `this` inside a plain function called on its own is…',['The global object','undefined','The function itself','null'],1,'Strict mode stops `this` defaulting to the global object.'],
+   ['Arrow functions differ from function declarations because…',['They cannot take arguments','They do not bind their own this','They are always async','They cannot be nested'],1,'Arrows inherit `this` lexically, which is why they suit callbacks.'],
+   ['The second argument to reduce is…',['The array length','The initial value of the accumulator','The index to start at','A comparator'],1,'Without it, reduce uses the first element and starts at index 1.'],
+   ['{...obj} produces…',['A deep clone','A shallow copy — nested objects stay shared','A frozen object','A reference to the same object'],1,'Spread copies one level; nested references still point at the same objects.']
+  ],
+  3:[
+   ['Event bubbling means an event…',['Travels from the target up through its ancestors','Fires on every element at once','Only fires on the document','Cancels itself'],0,'After the capture phase, the event propagates upward from the target.'],
+   ['preventDefault() differs from stopPropagation() because it…',['Stops the event travelling','Cancels the browser’s default action','Removes the listener','Deletes the element'],1,'One cancels default behaviour, the other stops propagation. They are independent.'],
+   ['A pending Promise can settle…',['Many times','Exactly once, as fulfilled or rejected','Only as fulfilled','Only if awaited'],1,'A promise settles once and its state is then immutable.'],
+   ['An async function always returns…',['The raw value','A Promise','undefined','A generator'],1,'Return values are wrapped in a resolved promise automatically.'],
+   ['In the event loop, microtasks such as promise callbacks run…',['After all timers','Before the next macrotask, after the current one finishes','Only on page load','In a separate thread'],1,'The microtask queue drains completely before the next macrotask.'],
+   ['addEventListener is preferred over an onclick attribute because…',['It is faster','It allows multiple independent listeners and separates behaviour from markup','onclick is invalid HTML','It works without JavaScript'],1,'Assigning onclick overwrites any previous handler.'],
+   ['querySelectorAll returns…',['A live HTMLCollection','A static NodeList','An array','A single element'],1,'It is static: later DOM changes are not reflected. getElementsByClassName is live.'],
+   ['await inside a for loop over independent requests causes them to…',['Run concurrently','Run one after another','Fail','Run twice'],1,'Each await pauses the loop. Promise.all runs them concurrently.'],
+   ['Event delegation works because…',['Listeners are copied to children','Events bubble to a shared ancestor that can inspect the target','The DOM caches handlers','Children inherit handlers'],1,'One listener on a parent handles current and future children.'],
+   ['fetch() rejects its promise when…',['The response is 404','The response is 500','The network request itself fails','Any error occurs'],2,'HTTP error statuses still resolve. You must check response.ok yourself.']
+  ]
+ },
+ mkt:{
+  1:[
+   ['A complete value proposition states…',['Your company history','Who it is for, the outcome they get, and why you over the alternative','Your price only','Your follower count'],1,'Audience, outcome and differentiation. Missing any one makes it generic.'],
+   ['Value-based pricing anchors the price to…',['Your costs plus a margin','What the outcome is worth to the buyer','The cheapest competitor','An industry average'],1,'Cost-plus caps your upside at your own inefficiency.'],
+   ['Risk reversal raises conversion because it…',['Lowers your price','Moves the perceived risk from the buyer to the seller','Adds urgency','Increases reach'],1,'A guarantee removes the buyer’s main reason to delay.'],
+   ['Choosing a narrow niche tends to…',['Shrink revenue permanently','Sharpen the message and lower acquisition cost','Remove the need for marketing','Guarantee higher prices'],1,'A specific message converts far better than a general one, so you pay less per customer.'],
+   ['For a pressure-washing business, the correct primary metric is…',['Follower count','Booked jobs and qualified leads','Impressions','Post likes'],1,'Measure the thing that pays. Everything else is a leading indicator at best.'],
+   ['TAM, SAM and SOM stand for total, serviceable available, and…',['Serviceable obtainable market','Sales operations margin','Standard operating model','Secondary offer market'],0,'SOM is the slice you can realistically win in a given period.'],
+   ['Meaningful differentiation must be…',['Loud','Valued by the buyer and hard for a competitor to copy','Cheaper','Newer'],1,'A difference the buyer does not care about is not differentiation.'],
+   ['You are being treated as a commodity. The strongest response is to…',['Cut the price','Change what is being compared — speed, guarantee, scope, outcome','Advertise harder','Rebrand the logo'],1,'Competing on price in a commodity comparison is a race you win by losing margin.'],
+   ['An offer, in the strict sense, is…',['A discount','What they get, at what price, with what promise and what risk removed','A social media post','A price list'],1,'Discount is one lever inside an offer, not the offer itself.'],
+   ['The clearest sign your positioning is wrong is…',['Low follower growth','Buyers constantly asking why you cost more than the cheapest option','Slow website','Few likes'],1,'That question means they see no difference. That is a positioning failure.']
+  ],
+  2:[
+   ['Modern feed distribution is driven primarily by…',['Follower count','Early engagement and retention per impression','Hashtag volume','Posting time alone'],1,'Platforms test content on a small audience and expand based on measured response.'],
+   ['The job of the first three seconds is to…',['Introduce yourself','Stop the scroll and open a specific curiosity gap','Show the logo','List credentials'],1,'Attention is the only currency at the start. Everything else comes after.'],
+   ['Retention curve matters because platforms optimise for…',['Total posts','Watch time and completion','Comments only','Upload frequency'],1,'A short video watched fully often outperforms a long one abandoned early.'],
+   ['The correct way to repurpose across platforms is to…',['Cross-post the identical file','Adapt format, aspect ratio and hook to each platform','Post only on one','Automate reposting'],1,'Raw cross-posts read as foreign and underperform on every platform but the origin.'],
+   ['A content pillar is…',['A hashtag group','A recurring theme tied to your offer that you can post about indefinitely','A posting schedule','A design template'],1,'Pillars stop you inventing a topic from nothing every day.'],
+   ['A call to action performs best when placed…',['At the very start','After value has actually been delivered','In every sentence','Only in the bio'],1,'Asking before earning attention wastes the ask.'],
+   ['Which of these is the clearest vanity metric for a service business?',['Booked jobs','Impressions','Cost per lead','Close rate'],1,'Impressions cost nothing to accumulate and correlate weakly with revenue.'],
+   ['A valid content test changes…',['Everything at once','One variable, compared against a like-for-like control','Only the platform','Nothing'],1,'Change the hook alone, or you cannot attribute the result.'],
+   ['Compared with feed posts, search-driven content tends to…',['Decay faster','Compound over time','Never reach anyone','Cost more'],1,'Feed posts have a short half-life; search content keeps earning.'],
+   ['You post consistently for two months with rising views and flat leads. The likely fault is…',['The algorithm','A mismatch between the content topic and the offer','Posting too often','Video quality'],1,'You are reaching people, just not people who want what you sell.']
+  ],
+  3:[
+   ['The standard funnel stages are…',['Post, like, share, repeat','Awareness, consideration, conversion, retention','Cold, warm, hot, sold','Traffic, traffic, traffic, sale'],1,'Each stage needs its own content and its own metric.'],
+   ['1,000 visitors produce 40 leads and 8 sales. The close rate is…',['0.8%','20%','4%','8%'],1,'Close rate is sales over leads: 8 / 40 = 20%. The 0.8% figure is visitor-to-sale.'],
+   ['A good lead magnet…',['Covers everything you know','Solves one narrow problem fast and points at the paid offer','Is as long as possible','Is unrelated to the offer'],1,'A magnet that attracts the wrong people fills your list with non-buyers.'],
+   ['Email deliverability is most damaged by…',['Sending weekly','Purchased lists and spam complaints','Using images','Short subject lines'],1,'Complaint rate is the signal providers punish hardest.'],
+   ['The purpose of a nurture sequence is to…',['Fill the calendar','Build trust and answer objections before the ask','Increase unsubscribes','Boost open rates alone'],1,'Most buyers do not convert on first contact; the sequence closes that gap.'],
+   ['A landing page converts best with…',['Several equally weighted actions','One primary action','No call to action','A full site navigation'],1,'Every extra choice on the page costs conversion.'],
+   ['A rule of thumb for a healthy business is that LTV should exceed CAC by roughly…',['1x','3x','0.5x','100x'],1,'Below 3:1 there is rarely enough margin left to fund growth.'],
+   ['An A/B test is only valid when…',['It runs for one hour','Sample size is adequate and one variable changed','You prefer the result','Traffic sources differ'],1,'Small samples produce confident nonsense.'],
+   ['Payback period measures…',['Total revenue','How long until a customer repays their acquisition cost','Profit margin','Refund rate'],1,'A long payback period can bankrupt a growing, profitable-on-paper business.'],
+   ['Your funnel leaks hardest between leads and sales. The right first move is…',['Buy more traffic','Fix the offer and objection handling at that step','Redesign the logo','Post more often'],1,'Adding traffic to a leaking funnel multiplies the waste.']
+  ]
+ },
+ math:{
+  1:[
+   ['Solve 3(2x − 4) = 5x + 7',['x = 19','x = 5','x = −5','x = 1'],0,'6x − 12 = 5x + 7, so x = 19.'],
+   ['Factor x² − 5x − 14',['(x − 7)(x + 2)','(x + 7)(x − 2)','(x − 7)(x − 2)','(x − 14)(x + 1)'],0,'−7 and +2 multiply to −14 and add to −5.'],
+   ['The slope of the line through (2, −3) and (6, 5) is…',['2','−2','1/2','8'],0,'(5 − (−3)) / (6 − 2) = 8/4 = 2.'],
+   ['Solve |2x − 5| = 9',['x = 7 only','x = 7 or x = −2','x = −2 only','No solution'],1,'2x − 5 = 9 gives 7; 2x − 5 = −9 gives −2.'],
+   ['Simplify (x³y²)(x⁻¹y⁴)',['x²y⁶','x²y⁸','x⁴y⁶','x³y⁶'],0,'Add exponents on like bases: 3 + (−1) = 2 and 2 + 4 = 6.'],
+   ['Solve the system y = 2x + 1 and y = −x + 7',['(2, 5)','(5, 2)','(1, 3)','(3, 4)'],0,'2x + 1 = −x + 7 gives x = 2, so y = 5.'],
+   ['Solve −3x + 4 > 13',['x > −3','x < −3','x > 3','x < 3'],1,'−3x > 9, and dividing by a negative flips the inequality.'],
+   ['The domain of f(x) = 1/(x − 4) is…',['All reals','All reals except 4','x > 4 only','All reals except 0'],1,'The denominator cannot be zero.'],
+   ['Simplify (x² − 9)/(x + 3)',['x − 3, where x ≠ −3','x + 3','x − 9','x² − 3'],0,'Factor the difference of squares and cancel, but the restriction survives.'],
+   ['If f(x) = 2x² − x, then f(−3) =',['21','15','−21','−15'],0,'2(9) − (−3) = 18 + 3 = 21.']
+  ],
+  2:[
+   ['The discriminant of 2x² + 3x + 5 tells you the equation has…',['Two real roots','One real root','No real roots','Infinitely many roots'],2,'b² − 4ac = 9 − 40 = −31, which is negative.'],
+   ['Solve x² + 4x − 21 = 0',['x = 3 or x = −7','x = −3 or x = 7','x = 21 or x = −1','x = −4 or x = 21'],0,'(x − 3)(x + 7) = 0.'],
+   ['log₂(32) =',['4','5','6','16'],1,'2⁵ = 32.'],
+   ['log(a) + log(b) equals…',['log(a + b)','log(ab)','log(a/b)','log(a)·log(b)'],1,'Logarithms convert multiplication into addition.'],
+   ['Solve 2^(x+1) = 32',['x = 4','x = 5','x = 16','x = 6'],0,'32 = 2⁵, so x + 1 = 5.'],
+   ['The inverse of f(x) = 3x − 6 is…',['(x + 6)/3','3x + 6','(x − 6)/3','1/(3x − 6)'],0,'Swap and solve: y = 3x − 6 becomes x = (y + 6)/3.'],
+   ['The vertex of y = x² − 6x + 5 is…',['(3, −4)','(−3, −4)','(3, 4)','(6, 5)'],0,'x = −b/2a = 3, and y(3) = 9 − 18 + 5 = −4.'],
+   ['The sum of the roots of x² − 7x + 12 = 0 is…',['7','12','−7','5'],0,'By Vieta’s formula the sum is −b/a = 7.'],
+   ['(2 + 3i)(2 − 3i) =',['13','−5','4 − 9i','4 + 9i'],0,'A complex conjugate pair gives a² + b² = 4 + 9.'],
+   ['f(x) = (2x + 1)/(x − 3) has a horizontal asymptote at…',['y = 2','y = 3','y = 0','y = 1/3'],0,'Equal degrees, so the ratio of leading coefficients gives y = 2.']
+  ],
+  3:[
+   ['sin²θ + cos²θ =',['1','0','2','tan²θ'],0,'The Pythagorean identity, straight off the unit circle.'],
+   ['A right triangle with legs 5 and 12 has a hypotenuse of…',['13','17','15','11'],0,'25 + 144 = 169.'],
+   ['sin(30°) =',['1/2','√3/2','√2/2','1'],0,'From the 30-60-90 triangle.'],
+   ['180° in radians is…',['π','2π','π/2','π/4'],0,'A half turn is π radians.'],
+   ['The area of a circle of radius 6 is…',['36π','12π','6π','72π'],0,'A = πr².'],
+   ['The law of cosines states c² =',['a² + b² − 2ab·cos(C)','a² + b²','a² − b² + 2ab','a² + b² + 2ab·cos(C)'],0,'It generalises Pythagoras to any triangle.'],
+   ['The period of y = sin(2x) is…',['π','2π','4π','π/2'],0,'Period = 2π / |b|.'],
+   ['tanθ equals…',['sinθ / cosθ','cosθ / sinθ','1 / sinθ','sinθ · cosθ'],0,'Which is why tangent is undefined where cosine is zero.'],
+   ['The volume of a cylinder is…',['πr²h','2πrh','πr²','(4/3)πr³'],0,'Base area times height.'],
+   ['The interior angles of a hexagon sum to…',['720°','540°','900°','360°'],0,'(n − 2) × 180 = 4 × 180.']
+  ]
+ },
+ sci:{
+  1:[
+   ['Velocity differs from speed because it…',['Includes direction','Is always larger','Is measured in m/s²','Applies only to falling objects'],0,'Velocity is a vector; speed is its magnitude.'],
+   ['An object dropped from rest falls approximately how far in 3 seconds?',['44 m','29 m','15 m','88 m'],0,'d = ½gt² = 0.5 × 9.8 × 9 ≈ 44 m.'],
+   ['At the highest point of a projectile’s arc…',['All motion stops','Vertical velocity is zero but acceleration is still 9.8 m/s² downward','Acceleration is zero','Horizontal velocity is zero'],1,'Gravity never switches off, even where the vertical velocity passes through zero.'],
+   ['The slope of a velocity-time graph gives…',['Acceleration','Displacement','Distance','Force'],0,'Rate of change of velocity is acceleration.'],
+   ['The area under a velocity-time graph gives…',['Displacement','Acceleration','Speed','Momentum'],0,'Integrating velocity over time gives displacement.'],
+   ['A car goes from 0 to 27 m/s in 9 seconds. Its acceleration is…',['3 m/s²','27 m/s²','9 m/s²','0.33 m/s²'],0,'a = Δv/Δt = 27/9.'],
+   ['Displacement differs from distance because it…',['Is a vector and can be zero on a round trip','Is always larger','Cannot be negative','Is measured in seconds'],0,'Return to the start and displacement is zero while distance is not.'],
+   ['A heavy ball and a light ball are dropped in a vacuum. They…',['Land together','The heavy one lands first','The light one lands first','Neither falls'],0,'Acceleration due to gravity is independent of mass.'],
+   ['Which equation is dimensionally valid for constant acceleration?',['v = v₀ + at','v = v₀ + at²','v = v₀t + a','v = at/2'],0,'Velocity equals initial velocity plus acceleration times time.'],
+   ['A ball thrown straight up returns to the thrower’s hand with…',['The same speed it left, ignoring air resistance','Zero speed','Twice the speed','Half the speed'],0,'Energy conservation in the absence of drag.']
+  ],
+  2:[
+   ['Newton’s second law states…',['F = ma','F = mv','F = m/a','F = ma²'],0,'Net force equals mass times acceleration.'],
+   ['Third-law force pairs do not cancel because they…',['Are different sizes','Act on different objects','Act at different times','Are not really equal'],1,'Only forces on the same object can cancel in a free-body diagram.'],
+   ['If the net force on an object is zero, the object…',['Must be at rest','Moves at constant velocity, which may be zero','Is accelerating','Has no mass'],1,'Newton’s first law: zero net force means zero acceleration, not zero velocity.'],
+   ['A 10 kg mass weighs approximately…',['98 N','10 N','9.8 N','980 N'],0,'W = mg = 10 × 9.8.'],
+   ['The force of friction is modelled as…',['μN','μm','N/μ','μma'],0,'Coefficient of friction times the normal force.'],
+   ['A 2 kg object experiences a net force of 10 N. Its acceleration is…',['5 m/s²','20 m/s²','0.2 m/s²','10 m/s²'],0,'a = F/m = 10/2.'],
+   ['Inertia depends on…',['Mass','Velocity','Shape','Temperature'],0,'Mass is the measure of resistance to a change in motion.'],
+   ['In an ideal massless rope over a frictionless pulley, tension is…',['The same throughout','Greater at the top','Zero','Different on each side'],0,'A massless rope transmits tension unchanged.'],
+   ['Centripetal acceleration equals…',['v²/r, directed toward the centre','v/r, directed outward','vr, tangential','v²r, toward the centre'],0,'There is no outward force; the "centrifugal" sensation is inertia in a rotating frame.'],
+   ['A book rests on a level table. The normal force…',['Equals the book’s weight here, because nothing else acts vertically','Always equals weight in every situation','Is zero','Exceeds weight'],0,'They match in this case, but on an incline or in a lift they do not.']
+  ],
+  3:[
+   ['Kinetic energy equals…',['½mv²','mv','mgh','½mv'],0,'Note the square: energy grows with the square of speed.'],
+   ['Doubling an object’s speed changes its kinetic energy by a factor of…',['4','2','8','1.5'],0,'Energy goes with v², which is why crash severity climbs so fast.'],
+   ['Momentum is defined as…',['mv','ma','½mv²','mgh'],0,'A vector quantity, conserved in an isolated system.'],
+   ['In an inelastic collision…',['Momentum is conserved but kinetic energy is not','Both are conserved','Neither is conserved','Only kinetic energy is conserved'],0,'Momentum is always conserved in an isolated system; kinetic energy only in elastic collisions.'],
+   ['Work done by a force equals…',['F·d·cosθ','F·d always','F/d','F·d²'],0,'Only the component of force along the displacement does work.'],
+   ['Gravitational potential energy near Earth’s surface is…',['mgh','½mv²','mv','mg/h'],0,'Mass times gravity times height above the chosen reference.'],
+   ['Power is…',['Work divided by time, in watts','Force times distance, in joules','Energy times time','Mass times acceleration'],0,'Power is the rate of doing work.'],
+   ['A 2 kg object moving at 3 m/s has kinetic energy of…',['9 J','6 J','18 J','3 J'],0,'½ × 2 × 9 = 9 J.'],
+   ['Conservation of energy states that energy…',['Changes form but the total in a closed system is constant','Can be created','Is always lost','Only exists as motion'],0,'It transforms; it does not appear or vanish.'],
+   ['Impulse equals…',['FΔt, and equals the change in momentum','ma','½mv²','mgh'],0,'Which is why airbags work: extend Δt and F falls for the same Δp.']
+  ]
+ },
+ eng:{
+  1:[
+   ['"Their going to the store" is wrong because it should be…',['They’re','There','Theirs','It is correct'],0,'They’re is the contraction of "they are".'],
+   ['A comma splice is…',['Two independent clauses joined by only a comma','A missing Oxford comma','A comma inside quotation marks','Too many commas'],0,'Fix it with a period, a semicolon, or a coordinating conjunction.'],
+   ['A semicolon correctly joins…',['Two closely related independent clauses','A clause and a fragment','Two adjectives','A list to its introduction'],0,'Each side must be able to stand alone as a sentence.'],
+   ['"The ball was thrown by John" is in…',['The passive voice','The active voice','The subjunctive mood','The imperative'],0,'The grammatical subject receives the action rather than performing it.'],
+   ['"It’s" is correctly used to mean…',['It is','Belonging to it','Its own','Either'],0,'The possessive "its" takes no apostrophe.'],
+   ['"The list of items ___ on the desk." The correct verb is…',['is','are','were','have'],0,'The subject is "list", singular. "Of items" is a prepositional phrase.'],
+   ['"Walking to the store, the rain began to fall" contains…',['A dangling modifier','A comma splice','A split infinitive','No error'],0,'The rain was not walking. The modifier has no logical subject to attach to.'],
+   ['Use "fewer" rather than "less" when the noun is…',['Countable','Abstract','Plural in form only','Always'],0,'Fewer chairs, less furniture.'],
+   ['"She likes hiking, swimming, and to run" fails the test of…',['Parallel structure','Subject-verb agreement','Pronoun case','Tense'],0,'All items in a series should take the same grammatical form.'],
+   ['The clearest reason to prefer the active voice is that it…',['Names the actor and shortens the sentence','Is always more formal','Is required in academic writing','Avoids all pronouns'],0,'Passive voice has legitimate uses, but it hides responsibility by default.']
+  ],
+  2:[
+   ['Ethos, pathos and logos appeal respectively to…',['Credibility, emotion, logic','Logic, credibility, emotion','Emotion, logic, credibility','Style, length, evidence'],0,'Aristotle’s three modes of persuasion.'],
+   ['A thesis statement is…',['An arguable claim stated in one sentence','A summary of your sources','A question','A quotation'],0,'If nobody could disagree with it, it is a topic, not a thesis.'],
+   ['An argument that is valid but not sound has…',['Correct form but at least one false premise','Correct premises but bad form','No premises','A true conclusion always'],0,'Validity is about structure; soundness requires validity plus true premises.'],
+   ['Attacking the arguer instead of the argument is…',['Ad hominem','Straw man','False dilemma','Circular reasoning'],0,'A fallacy of relevance: the person’s character does not bear on the claim’s truth.'],
+   ['Misrepresenting an opponent’s position to defeat it more easily is…',['A straw man','An appeal to authority','Begging the question','A slippery slope'],0,'The steelman is the opposite: argue against their strongest version.'],
+   ['Begging the question means…',['Assuming the conclusion inside a premise','Raising an obvious question','Changing the subject','Asking for evidence'],0,'The argument moves in a circle and proves nothing.'],
+   ['Deductive reasoning differs from inductive because it aims at…',['Certainty given true premises','Probability','Persuasion','Novelty'],0,'Induction generalises from cases and can only ever be probable.'],
+   ['Presenting only two options when more exist is…',['A false dilemma','A red herring','Ad populum','Equivocation'],0,'"Either you agree with me or you hate progress" is the classic shape.'],
+   ['Including a counterargument strengthens an essay because it…',['Shows you understand the opposition and defuses it in advance','Fills space','Weakens your claim','Is required by style guides'],0,'An unanswered objection is the reader’s exit from your argument.'],
+   ['That two things rise together shows…',['Correlation, which does not establish causation','Causation','Nothing at all','Reverse causation always'],0,'A third variable, coincidence, or reversed direction all remain possible.']
+  ],
+  3:[
+   ['A topic sentence should…',['State the paragraph’s single controlling idea','Quote a source','Ask a question','Summarise the essay'],0,'One idea per paragraph is the test.'],
+   ['A strong conclusion…',['Resolves the argument without introducing new evidence','Introduces the best new point','Repeats the introduction verbatim','Adds a fresh source'],0,'New evidence in a conclusion signals a body paragraph you failed to write.'],
+   ['Close reading attends primarily to…',['The text’s own language and structure','The author’s biography','Contemporary reviews','Your emotional reaction'],0,'Evidence comes from the page before it comes from context.'],
+   ['A primary source is…',['The original material itself','A scholar’s commentary on it','An encyclopaedia entry','A textbook'],0,'Secondary sources interpret primary ones.'],
+   ['"Show, do not tell" asks the writer to…',['Use concrete detail instead of abstract assertion','Write shorter sentences','Avoid dialogue','Use more adjectives'],0,'Detail lets the reader conclude for themselves, which is more persuasive.'],
+   ['Revision differs from proofreading because it addresses…',['Argument and structure rather than surface errors','Spelling','Punctuation','Formatting'],0,'Proofreading last; revision is where the essay is actually made.'],
+   ['Diction refers to word choice; syntax refers to…',['Sentence structure','Tone','Theme','Rhythm of vowels'],0,'Together they produce voice.'],
+   ['Tone is the author’s attitude; mood is…',['The feeling produced in the reader','The plot','The setting','The thesis'],0,'One is produced, the other is received.'],
+   ['Citing sources correctly serves primarily to…',['Let a reader verify your claims and credit prior work','Increase length','Impress the reader','Satisfy a word count'],0,'Verification is the point; plagiarism avoidance follows from it.'],
+   ['The best test of whether an essay works is…',['A stranger reads it and can state your claim back to you','It reaches the word count','It uses long words','You are happy with it'],0,'If the point does not survive transmission, the writing failed.']
+  ]
+ }
 };
 
-const CERTS=[
- ['freeCodeCamp: Responsive Web Design','Free','https://www.freecodecamp.org/learn/2022/responsive-web-design/','code'],
- ['freeCodeCamp: JavaScript Algorithms','Free','https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/','code'],
- ['Harvard CS50x — Verified Certificate','$199 (course itself is free)','https://cs50.harvard.edu/x/','code'],
- ['HubSpot: Digital Marketing','Free','https://academy.hubspot.com/courses/digital-marketing','mkt'],
- ['HubSpot: Social Media Marketing','Free','https://academy.hubspot.com/courses/social-media','mkt'],
- ['Meta Certified Digital Marketing Associate','About $99 for the exam','https://www.facebook.com/business/learn/certification','mkt'],
- ['Google Digital Marketing & E-commerce','About $49 per month','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce','mkt'],
- ['Khan Academy mastery — Math & Science','Free, tracked as mastery percent','https://www.khanacademy.org/','math']
-];
-
+/* ---------- state ---------- */
 let student=store.get('ku_student');
 let grades=store.get('ku_grades')||[];
 let days=store.get('ku_days')||[];
 let hw=store.get('ku_hw')||{};
+let userBank=store.get('ku_bank')||{};
+let activeExam=null;
+let currentCourse=CURRICULUM[0].id;
+let authCourse=CURRICULUM[0].id;
+let authUnit=1;
 
-/* Term calendar */
+/* ---------- dates: all local, never UTC ---------- */
+function dayKey(d){
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+  return y+'-'+m+'-'+day;
+}
+const todayKey=()=>dayKey(new Date());
+function keyToDate(k){const p=k.split('-').map(Number);return new Date(p[0],p[1]-1,p[2]);}
+
 let startISO=store.get('ku_start');
-if(!startISO){startISO=new Date().toISOString().slice(0,10);store.set('ku_start',startISO);}
-const start=new Date(startISO+'T00:00:00');
-function termName(){const m=start.getMonth();const y=start.getFullYear();return (m>=7?'Fall':(m<=4?'Spring':'Summer'))+' '+y+' term';}
+if(!startISO||!/^\d{4}-\d{2}-\d{2}$/.test(startISO)){startISO=todayKey();store.set('ku_start',startISO);}
+let start=keyToDate(startISO);
+
+function termName(){
+  const m=start.getMonth(),y=start.getFullYear();
+  return (m>=7?'Fall':(m<=4?'Spring':'Summer'))+' '+y;
+}
+/* Unit n is due at the end of the nth month from enrolment. */
 function unitDue(n){return new Date(start.getFullYear(),start.getMonth()+n,0,23,59,59);}
-function nextSunday(){const d=new Date();const add=(7-d.getDay())%7||7;const s=new Date(d);s.setDate(d.getDate()+(d.getDay()===0?0:add));s.setHours(23,59,59,0);return s;}
-function fmtD(d){return d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}
-function daysLeft(d){return Math.ceil((d-new Date())/86400000);}
-
-/* Streak */
-function todayKey(){return new Date().toISOString().slice(0,10);}
-function logDay(){const t=todayKey();if(!days.includes(t)){days.push(t);store.set('ku_days',days);}renderHero();}
-function streak(){let s=0;let d=new Date();if(!days.includes(todayKey()))d.setDate(d.getDate()-1);
- for(;;){const k=d.toISOString().slice(0,10);if(days.includes(k)){s++;d.setDate(d.getDate()-1);}else break;}return s;}
-
-/* Grades and GPA */
-function passedUnits(id){const u=new Set();grades.forEach(g=>{if(g.id===id&&g.score>=80)u.add(g.unit||1);});return u.size;}
-function pct(id){return Math.min(100,passedUnits(id)*10);}
-function nextUnit(id){return passedUnits(id)+1;}
-function pts(score,late){let p=score>=100?4:score>=80?3:score>=60?1:0;if(late&&p>0)p=Math.max(0,+(p-0.3).toFixed(2));return p;}
-function bestByUnit(id){const best={};grades.forEach(g=>{if(g.id!==id)return;const u=g.unit||1;
- if(!(u in best)||g.score>best[u].score||(g.score===best[u].score&&!g.late&&best[u].late))best[u]=g;});return best;}
-function courseGPA(id){const best=bestByUnit(id);const vals=Object.values(best).map(g=>pts(g.score,g.late));
- return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;}
-function cumGPA(){const v=CURRICULUM.map(c=>courseGPA(c.id)).filter(x=>x!==null);
- return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
-function letterOf(g){if(g===null)return '—';
- return g>=3.85?'A':g>=3.5?'A−':g>=3.15?'B+':g>=2.85?'B':g>=2.5?'B−':g>=2.15?'C+':g>=1.85?'C':g>=1.5?'C−':g>=1.0?'D':'F';}
-function scoreLetter(score,late){const p=pts(score,late);return letterOf(p===0?0:p);}
-
-/* Homework weeks */
-function weekKey(){const d=new Date();const j=new Date(d.getFullYear(),0,1);
- const w=Math.ceil((((d-j)/86400000)+j.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
-function weeksElapsed(){return Math.max(1,Math.ceil(((new Date())-start)/604800000));}
-function markHW(id){const k=weekKey();hw[id]=hw[id]||[];
- if(!hw[id].includes(k)){hw[id].push(k);store.set('ku_hw',hw);}renderCourses();}
-function hwDoneThisWeek(id){return (hw[id]||[]).includes(weekKey());}
-
-function enroll(){
- const n=document.getElementById('nameIn').value.trim()||'Student';
- student=n;store.set('ku_student',n);
- document.getElementById('gate').style.display='none';setChip();
+function monthsElapsed(){
+  const now=new Date();
+  return (now.getFullYear()-start.getFullYear())*12+(now.getMonth()-start.getMonth());
 }
-function setChip(){document.getElementById('studentChip').innerHTML='Enrolled: <strong>'+student+'</strong>';}
-if(student){document.getElementById('gate').style.display='none';setChip();}
-
-function go(id,btn){
- document.querySelectorAll('section').forEach(s=>s.classList.remove('show'));
- document.getElementById(id).classList.add('show');
- document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
- btn.classList.add('active');window.scrollTo(0,0);
+function currentUnitByCalendar(){return Math.min(PROGRAM.units,Math.max(1,monthsElapsed()+1));}
+function currentAcademicYear(){return yearOfUnit(currentUnitByCalendar());}
+function nextSunday(){
+  const d=new Date();const s=new Date(d);
+  s.setDate(d.getDate()+((7-d.getDay())%7));
+  s.setHours(23,59,59,0);return s;
+}
+const fmtD=d=>d.toLocaleDateString(undefined,{month:'short',day:'numeric'});
+/* Calendar-day difference, so the due date itself reads as 0. */
+function daysLeft(d){
+  const a=new Date();a.setHours(0,0,0,0);
+  const b=new Date(d);b.setHours(0,0,0,0);
+  return Math.round((b-a)/86400000);
 }
 
+/* ---------- streak ---------- */
+function logDay(){
+  const t=todayKey();
+  if(!days.includes(t)){days.push(t);store.set('ku_days',days);}
+  renderHero();
+}
+function streak(){
+  let n=0;const d=new Date();
+  if(!days.includes(todayKey()))d.setDate(d.getDate()-1);
+  for(;;){if(days.includes(dayKey(d))){n++;d.setDate(d.getDate()-1);}else break;}
+  return n;
+}
+
+/* ---------- question bank ---------- */
+function builtIn(id,unit){return (BANK[id]&&BANK[id][unit])||[];}
+function mine(id,unit){return (userBank[id]&&userBank[id][unit])||[];}
+function questionsFor(id,unit){return builtIn(id,unit).concat(mine(id,unit));}
+function examReady(id,unit){return questionsFor(id,unit).length>=PROGRAM.qPerExam;}
+
+/* ---------- grading ---------- */
+function passedUnits(id){
+  const s=new Set();
+  grades.forEach(g=>{if(g.id===id&&g.score>=PROGRAM.pass)s.add(g.unit);});
+  return s.size;
+}
+function isPassed(id,unit){return grades.some(g=>g.id===id&&g.unit===unit&&g.score>=PROGRAM.pass);}
+function pct(id){return Math.round(passedUnits(id)/PROGRAM.units*100);}
+/* The next unit you owe: the earliest unpassed one. */
+function nextUnit(id){
+  for(let u=1;u<=PROGRAM.units;u++)if(!isPassed(id,u))return u;
+  return PROGRAM.units+1;
+}
+/* A failed attempt is recorded but never counted toward GPA. */
+function pts(score,late){
+  if(score<PROGRAM.pass)return null;
+  let p=score>=97?4.0:score>=93?3.7:score>=90?3.3:score>=87?3.0:score>=83?2.7:2.3;
+  if(late)p=Math.max(0.7,+(p-0.3).toFixed(2));
+  return p;
+}
+function bestByUnit(id){
+  const best={};
+  grades.forEach(g=>{
+    if(g.id!==id||g.score<PROGRAM.pass)return;
+    const cur=best[g.unit];
+    const better=!cur||g.score>cur.score||(g.score===cur.score&&!g.late&&cur.late);
+    if(better)best[g.unit]=g;
+  });
+  return best;
+}
+function courseGPA(id){
+  const vals=Object.values(bestByUnit(id)).map(g=>pts(g.score,g.late)).filter(v=>v!==null);
+  return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;
+}
+function cumGPA(){
+  const v=CURRICULUM.map(c=>courseGPA(c.id)).filter(x=>x!==null);
+  return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;
+}
+function letterOf(g){
+  if(g===null||g===undefined)return '—';
+  return g>=3.85?'A':g>=3.5?'A−':g>=3.15?'B+':g>=2.85?'B':g>=2.5?'B−':g>=2.15?'C+':g>=1.85?'C':g>=1.5?'C−':g>=1.0?'D':'F';
+}
+function scoreLetter(score,late){
+  const p=pts(score,late);
+  return p===null?'F':letterOf(p);
+}
+
+/* ---------- homework weeks (local, keyed to the Sunday they are due) ---------- */
+const weekKey=()=>dayKey(nextSunday());
+function weeksElapsed(){
+  const diff=(new Date()-start)/604800000;
+  return Math.min(52,Math.max(1,Math.ceil(diff)||1));
+}
+function markHW(id){
+  const k=weekKey();
+  hw[id]=hw[id]||[];
+  if(!hw[id].includes(k)){hw[id].push(k);store.set('ku_hw',hw);}
+  renderCourses();
+}
+const hwDoneThisWeek=id=>(hw[id]||[]).includes(weekKey());
+
+/* ---------- certificates: threshold is the coursework each one represents ---------- */
+const CERTS=[
+ ['freeCodeCamp: Responsive Web Design','Free','https://www.freecodecamp.org/learn/2022/responsive-web-design/','code',25],
+ ['freeCodeCamp: JavaScript Algorithms','Free','https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/','code',50],
+ ['Harvard CS50x — Verified Certificate','$199 (the course itself is free)','https://cs50.harvard.edu/x/','code',75],
+ ['HubSpot: Digital Marketing','Free','https://academy.hubspot.com/courses/digital-marketing','mkt',25],
+ ['HubSpot: Social Media Marketing','Free','https://academy.hubspot.com/courses/social-media','mkt',50],
+ ['Meta Certified Digital Marketing Associate','About $99 for the exam','https://www.facebook.com/business/learn/certification','mkt',75],
+ ['Google Digital Marketing & E-commerce','About $49 per month','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce','mkt',50],
+ ['Khan Academy mastery — Math & Science','Free, tracked as mastery percent','https://www.khanacademy.org/','math',25]
+];
+
+/* ---------- enrolment gate ---------- */
+const gate=document.getElementById('gate');
+const campus=document.getElementById('campus');
+function openGate(){
+  gate.hidden=false;
+  campus.setAttribute('inert','');campus.setAttribute('aria-hidden','true');
+  document.getElementById('nameIn').focus();
+}
+function closeGate(){
+  gate.hidden=true;
+  campus.removeAttribute('inert');campus.removeAttribute('aria-hidden');
+}
+document.getElementById('gateForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  student=document.getElementById('nameIn').value.trim()||'Student';
+  store.set('ku_student',student);
+  closeGate();setChip();
+});
+function setChip(){
+  document.getElementById('studentChip').innerHTML='Enrolled: <strong>'+esc(student)+'</strong>';
+}
+
+/* ---------- theme ---------- */
+const themeBtn=document.getElementById('themeBtn');
+function applyTheme(t){
+  if(t==='dark'||t==='light')document.documentElement.setAttribute('data-theme',t);
+  else document.documentElement.removeAttribute('data-theme');
+  store.set('ku_theme',t);
+  const next=t==='auto'?'dark':t==='dark'?'light':'system';
+  const label='Theme: '+(t==='auto'?'system':t)+'. Switch to '+next+'.';
+  themeBtn.title=label;
+  document.getElementById('themeLabel').textContent=label;
+}
+themeBtn.addEventListener('click',()=>{
+  const cur=store.get('ku_theme')||'auto';
+  applyTheme(cur==='auto'?'dark':cur==='dark'?'light':'auto');
+});
+applyTheme(store.get('ku_theme')||'auto');
+
+/* ---------- tabs (real tablist with arrow-key navigation) ---------- */
+const tabs=Array.from(document.querySelectorAll('[role="tab"]'));
+function selectTab(tab,focusPanel){
+  tabs.forEach(t=>{
+    const on=t===tab;
+    t.setAttribute('aria-selected',on?'true':'false');
+    t.tabIndex=on?0:-1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden=!on;
+  });
+  if(focusPanel){
+    const panel=document.getElementById(tab.getAttribute('aria-controls'));
+    panel.focus();
+  }
+  window.scrollTo(0,0);
+}
+tabs.forEach((tab,i)=>{
+  tab.addEventListener('click',()=>selectTab(tab,false));
+  tab.addEventListener('keydown',e=>{
+    const map={ArrowRight:1,ArrowLeft:-1,Home:'first',End:'last'};
+    if(!(e.key in map))return;
+    e.preventDefault();
+    const to=map[e.key]==='first'?tabs[0]:map[e.key]==='last'?tabs[tabs.length-1]
+      :tabs[(i+map[e.key]+tabs.length)%tabs.length];
+    to.focus();selectTab(to,false);
+  });
+});
+
+/* ---------- renderers ---------- */
 function renderHero(){
- const g=cumGPA();const s=streak();const logged=days.includes(todayKey());
- document.getElementById('heroBox').innerHTML=`
-  <div class="gpa"><div class="big">${g===null?'—':g.toFixed(2)}</div><div class="lab">Cumulative GPA ${g===null?'':'· '+letterOf(g)}</div></div>
-  <div class="meta">
-   <div class="term">${termName()}</div>
-   <div class="sub">Enrolled ${fmtD(start)} — deadlines run monthly from this date.</div>
-   <div class="streakline">Study streak: <strong>${s}</strong> day${s===1?'':'s'}${logged?' — today is logged.':''}</div>
-   ${logged?'':'<button class="btn small btn-log" onclick="logDay()">Log today\u2019s study session</button>'}
-  </div>`;
+  const g=cumGPA(),s=streak(),logged=days.includes(todayKey());
+  const u=currentUnitByCalendar(),y=currentAcademicYear();
+  document.getElementById('heroBox').innerHTML=
+   '<div class="gpa"><div class="big">'+(g===null?'—':g.toFixed(2))+'</div>'+
+   '<div class="lab">Cumulative GPA'+(g===null?'':' · '+letterOf(g))+'</div></div>'+
+   '<div class="meta">'+
+    '<div class="term">'+termName()+' · '+YEAR_NAMES[y-1]+' of Four</div>'+
+    '<div class="sub">Month '+u+' of '+PROGRAM.units+'. Enrolled '+fmtD(start)+' — unit deadlines run monthly from that date.</div>'+
+    '<div class="streakline">Study streak: <strong>'+s+'</strong> day'+(s===1?'':'s')+(logged?' — today is logged.':'')+'</div>'+
+    (logged?'':'<button class="btn small btn-log" type="button" onclick="logDay()">Log today’s study session</button>')+
+   '</div>';
+}
+
+function renderTrack(){
+  const cy=currentAcademicYear();
+  const cells=YEAR_NAMES.map((nm,i)=>{
+    const y=i+1;
+    const lo=(y-1)*PROGRAM.unitsPerYear+1,hi=y*PROGRAM.unitsPerYear;
+    const total=CURRICULUM.length*PROGRAM.unitsPerYear;
+    let done=0;
+    CURRICULUM.forEach(c=>{for(let u=lo;u<=hi;u++)if(isPassed(c.id,u))done++;});
+    const cls=done===total?'done':(y===cy?'now':'');
+    return '<div class="yr '+cls+'"><div class="n">'+nm+'</div>'+
+      '<div class="t">Months '+lo+'–'+hi+'<br>'+done+' of '+total+' units passed</div></div>';
+  }).join('');
+  document.getElementById('trackBox').innerHTML=
+    '<div class="boxtitle">The accelerated track</div>'+
+    '<div class="sub">A four-year degree run at four times speed: three units per academic year, one unit a month, twelve months end to end.</div>'+
+    '<div class="yearstrip">'+cells+'</div>';
 }
 
 function renderDue(){
- const items=[];
- CURRICULUM.forEach(c=>{const u=nextUnit(c.id);if(u<=10){items.push({t:c.name.split(':')[0].replace(' & Web Design','').replace(' & Social Media','')+' — Unit '+u+' exam',d:unitDue(u)});}});
- items.push({t:'Weekly homework — all courses',d:nextSunday()});
- items.sort((a,b)=>a.d-b.d);
- document.getElementById('dueList').innerHTML=items.slice(0,6).map(it=>{
-  const n=daysLeft(it.d);
-  const cls=n<0?'overdue':(n===0?'today':'');
-  const when=n<0?(Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' late'):(n===0?'due today':'due '+fmtD(it.d)+' · '+n+'d');
-  return `<div class="due-row ${cls}"><span>${it.t}</span><span class="when">${when}</span></div>`;
- }).join('');
+  const items=[];
+  CURRICULUM.forEach(c=>{
+    const u=nextUnit(c.id);
+    if(u<=PROGRAM.units)items.push({t:c.short+' — Unit '+u+' exam',d:unitDue(u)});
+  });
+  items.push({t:'Weekly homework — all courses',d:nextSunday()});
+  items.sort((a,b)=>a.d-b.d);
+  document.getElementById('dueList').innerHTML=items.slice(0,6).map(it=>{
+    const n=daysLeft(it.d);
+    const cls=n<0?'overdue':n===0?'today':n<=3?'soon':'';
+    const when=n<0?Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' late'
+      :n===0?'due today'
+      :'due '+fmtD(it.d)+' · '+n+'d';
+    return '<div class="due-row '+cls+'"><span>'+esc(it.t)+'</span><span class="when">'+when+'</span></div>';
+  }).join('');
 }
 
 function renderDash(){
- renderHero();renderDue();
- document.getElementById('dashList').innerHTML=CURRICULUM.map(c=>{
-  const p=pct(c.id);const cg=courseGPA(c.id);
-  return `<div class="ledger-row">
-   <div class="info">
-    <span class="kind ${c.kind==='General education'?'gen':''}">${c.kind}</span>
-    <h3>${c.name}</h3>
-    <div class="school">${c.school}</div>
-   </div>
-   <div class="gradechip">${letterOf(cg)}</div>
-   <div class="prog"><span class="num">${p}%</span><div class="bar"><i style="width:${p}%"></i></div></div>
-  </div>`;}).join('');
+  renderHero();renderTrack();renderDue();
+  document.getElementById('dashList').innerHTML=CURRICULUM.map(c=>{
+    const p=pct(c.id),cg=courseGPA(c.id),done=passedUnits(c.id);
+    return '<div class="ledger-row">'+
+      '<div class="info">'+
+        '<span class="kind '+(c.kind==='General education'?'gen':'')+'">'+c.kind+'</span>'+
+        '<h3>'+esc(c.name)+'</h3>'+
+        '<div class="school">'+esc(c.school)+'</div>'+
+      '</div>'+
+      '<div class="gradechip" title="Course grade">'+letterOf(cg)+'</div>'+
+      '<div class="prog"><span class="num">'+p+'%</span>'+
+        '<div class="ucount">'+done+' of '+PROGRAM.units+' units</div>'+
+        '<div class="bar"><i style="width:'+p+'%"></i></div></div>'+
+    '</div>';
+  }).join('');
 }
 
 function renderCourses(){
- document.getElementById('courseList').innerHTML=CURRICULUM.map(c=>{
-  const done=hwDoneThisWeek(c.id);
-  const wkCount=(hw[c.id]||[]).length;
-  return `
-  <div class="course">
-   <span class="kind ${c.kind==='General education'?'gen':''}">${c.kind}</span>
-   <h3>${c.name}</h3>
-   <div class="school">${c.school}</div>
-   <div class="hwline">
-    <span>Homework weeks logged: ${wkCount} of ${weeksElapsed()} — due Sundays</span>
-    ${done?'<span class="done">This week done</span>':`<button class="btn small quiet" onclick="markHW('${c.id}')">Mark week done</button>`}
-   </div>
-   <details open><summary>Watch — video classrooms, start here</summary>
-    <ul class="linklist">${c.watch.map(l=>`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join('')}</ul>
-   </details>
-   <details><summary>Practice — courses and exercises</summary>
-    <ul class="linklist">${c.links.map(l=>l[1]==='#'?`<li><span class="note-sm">${l[0]}</span></li>`:`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join('')}</ul>
-   </details>
-   <details><summary>This month's homework</summary>
-    <ul class="linklist">${c.homework.map(h=>`<li>${h}</li>`).join('')}</ul>
-   </details>
-  </div>`;}).join('');
+  document.getElementById('courseList').innerHTML=CURRICULUM.map(c=>{
+    const done=hwDoneThisWeek(c.id),wk=(hw[c.id]||[]).length,owed=nextUnit(c.id);
+    const years=[1,2,3,4].map(y=>{
+      const us=c.units.filter(u=>yearOfUnit(u.n)===y).map(u=>{
+        const passed=isPassed(c.id,u.n);
+        const due=unitDue(u.n),n=daysLeft(due);
+        const late=!passed&&n<0;
+        const cls=passed?'passed':(u.n===owed?'now':'');
+        const stat=passed?'<span class="ustat p">Passed</span>'
+          :late?'<span class="ustat o">'+Math.abs(n)+'d late</span>':'';
+        return '<div class="unit '+cls+'">'+
+          '<div class="uh"><span class="un">Unit '+u.n+' · '+esc(u.name)+'</span>'+
+          '<span class="ud">'+(stat||'due '+fmtD(due))+'</span></div>'+
+          '<div class="uf">'+esc(u.focus)+'</div>'+
+          '<ul class="uw">'+u.work.map(w=>'<li>'+esc(w)+'</li>').join('')+'</ul>'+
+        '</div>';
+      }).join('');
+      return '<div class="yearblock"><div class="ytitle">'+YEAR_NAMES[y-1]+' · months '+
+        ((y-1)*3+1)+'–'+(y*3)+'</div>'+us+'</div>';
+    }).join('');
+
+    return '<div class="course card">'+
+      '<span class="kind '+(c.kind==='General education'?'gen':'')+'">'+c.kind+'</span>'+
+      '<h3>'+esc(c.name)+'</h3>'+
+      '<div class="school">'+esc(c.school)+'</div>'+
+      '<div class="hwline">'+
+        '<span>Homework weeks logged: '+wk+' of '+weeksElapsed()+' — due Sundays</span>'+
+        (done?'<span class="done">This week done</span>'
+          :'<button class="btn small quiet" type="button" onclick="markHW(\''+c.id+'\')">Mark week done</button>')+
+      '</div>'+
+      '<details open><summary>Watch — video classrooms, start here</summary>'+
+        '<ul class="linklist">'+c.watch.map(l=>'<li><a href="'+esc(l[1])+'" target="_blank" rel="noopener">'+esc(l[0])+'</a></li>').join('')+'</ul>'+
+      '</details>'+
+      '<details><summary>Practice — courses, texts and exercises</summary>'+
+        '<ul class="linklist">'+c.links.map(l=>l[1]==='#'
+          ?'<li><span class="note-sm">'+esc(l[0])+'</span></li>'
+          :'<li><a href="'+esc(l[1])+'" target="_blank" rel="noopener">'+esc(l[0])+'</a></li>').join('')+'</ul>'+
+      '</details>'+
+      '<details><summary>The four-year unit plan — twelve months</summary><div class="unitwrap">'+years+'</div></details>'+
+      '<details><summary>This month’s standing homework</summary>'+
+        '<ul class="linklist">'+c.homework.map(h=>'<li>'+esc(h)+'</li>').join('')+'</ul>'+
+      '</details>'+
+    '</div>';
+  }).join('');
 }
 
+/* ---------- exams ---------- */
 function renderTestPicker(){
- document.getElementById('testPicker').innerHTML=Object.keys(TESTS).map(k=>
-  `<button class="btn quiet" onclick="openTest('${k}')">${TESTS[k].name}</button>`).join('');
+  document.getElementById('testPicker').innerHTML=CURRICULUM.map(c=>{
+    const on=c.id===currentCourse;
+    return '<button class="btn quiet" type="button" aria-pressed="'+on+'" onclick="openTest(\''+c.id+'\')">'+
+      esc(c.short)+' · Unit '+Math.min(nextUnit(c.id),PROGRAM.units)+'</button>';
+  }).join('');
 }
-function openTest(k){
- const t=TESTS[k];
- const unit=1; /* exam bank grows monthly */
- const nu=nextUnit(k);
- if(nu>1){
-  document.getElementById('testArea').innerHTML=`<div class="exam"><h3 class="serif" style="font-size:19px;font-weight:600;">Unit ${nu} exam</h3>
-  <p class="rules">Unit ${nu-1} is passed. The Unit ${nu} exam gets added at the start of its month — ask Claude to write it from what you studied.</p></div>`;
-  return;
- }
- const due=unitDue(unit);const n=daysLeft(due);
- const warn=n<0?`<span class="duewarn late">This exam is ${Math.abs(n)} day${Math.abs(n)===1?'':'s'} past due — passing now costs a third of a letter grade.</span>`
-  :`<span class="duewarn">Due ${fmtD(due)} — ${n} day${n===1?'':'s'} left.</span>`;
- document.getElementById('testArea').innerHTML=`
-  <div class="exam">
-   <h3 class="serif" style="font-size:19px;font-weight:600;">${t.name}</h3>
-   <p class="rules">Five questions. 80% to pass. Closed book.</p>
-   ${warn}
-   <form id="f_${k}">${t.qs.map((q,i)=>`
-    <div class="q"><p>${i+1}. ${q[0]}</p>
-     ${q[1].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}">${o}</label>`).join('')}
-    </div>`).join('')}
-   </form>
-   <button class="btn" onclick="gradeTest('${k}')">Submit exam</button>
-   <div class="result" id="r_${k}"></div>
-  </div>`;
- document.getElementById('testArea').scrollIntoView({behavior:'smooth'});
+
+function shuffled(arr){
+  const a=arr.slice();
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
 }
-function gradeTest(k){
- const t=TESTS[k];let s=0;
- t.qs.forEach((q,i)=>{const sel=document.querySelector(`#f_${k} input[name="q${i}"]:checked`);if(sel&&+sel.value===q[2])s++;});
- const p=Math.round(s/t.qs.length*100),r=document.getElementById('r_'+k);
- const unit=1;const late=new Date()>unitDue(unit);
- r.className='result '+(p>=80?'pass':'fail');
- const lg=scoreLetter(p,late);
- r.textContent=p>=80
-  ?`Score: ${p}% — grade ${lg}${late?' (late penalty applied)':''}. Logged to your transcript.`
-  :`Score: ${p}% — grade ${lg}. Below 80: review the unit and retake it. Best attempt counts.`;
- grades.push({id:k,name:t.name,score:p,unit,late,date:new Date().toLocaleDateString()});
- store.set('ku_grades',grades);
- const today=todayKey();if(!days.includes(today)){days.push(today);store.set('ku_days',days);}
- renderDash();renderGradebook();renderCerts();
+
+function openTest(id){
+  currentCourse=id;authCourse=id;
+  const c=COURSE[id],unit=nextUnit(id);
+  renderTestPicker();
+  const area=document.getElementById('testArea');
+
+  if(unit>PROGRAM.units){
+    area.innerHTML='<div class="exam card"><h3 class="serif">'+esc(c.name)+' — complete</h3>'+
+      '<p class="rules">All twelve units passed. Course grade: '+letterOf(courseGPA(id))+'. '+
+      'Write the capstone and take it to someone who will judge it honestly.</p></div>';
+    authUnit=PROGRAM.units;renderAuth();return;
+  }
+
+  authUnit=unit;
+  const u=c.units[unit-1];
+  const qs=questionsFor(id,unit);
+
+  if(qs.length<PROGRAM.qPerExam){
+    area.innerHTML='<div class="exam card">'+
+      '<h3 class="serif">Unit '+unit+' · '+esc(u.name)+'</h3>'+
+      '<p class="rules">'+esc(u.focus)+'</p>'+
+      '<span class="duewarn">This exam needs '+PROGRAM.qPerExam+' questions. It has '+qs.length+'.</span>'+
+      '<p style="font-size:13.5px;color:var(--slate);max-width:56ch;">Write '+(PROGRAM.qPerExam-qs.length)+
+      ' more below and the exam unlocks immediately. Writing the questions is part of the coursework — '+
+      'you cannot set a fair exam on material you have not learned.</p></div>';
+    renderAuth();return;
+  }
+
+  const due=unitDue(unit),n=daysLeft(due);
+  const warn=n<0
+    ?'<span class="duewarn late">This exam is '+Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' past due — passing now costs a third of a letter grade.</span>'
+    :n===0?'<span class="duewarn today">Due today. Pass it before midnight or the late penalty applies.</span>'
+    :'<span class="duewarn">Due '+fmtD(due)+' — '+n+' day'+(n===1?'':'s')+' left.</span>';
+
+  /* Shuffle the questions, and the options inside each one, on every attempt. */
+  activeExam={id:id,unit:unit,qs:shuffled(qs).slice(0,PROGRAM.qPerExam).map(q=>{
+    const opts=shuffled(q[1].map((text,i)=>({text:text,ok:i===q[2]})));
+    return {prompt:q[0],opts:opts,answer:opts.findIndex(o=>o.ok),why:q[3]||''};
+  })};
+
+  area.innerHTML='<div class="exam card">'+
+    '<h3 class="serif">Unit '+unit+' · '+esc(u.name)+'</h3>'+
+    '<p class="rules">'+PROGRAM.qPerExam+' questions. '+PROGRAM.pass+'% to pass. Closed book. Options are reshuffled every attempt.</p>'+
+    warn+
+    '<form id="examForm">'+activeExam.qs.map((q,i)=>
+      '<fieldset class="q" id="q'+i+'"><legend>'+(i+1)+'. '+esc(q.prompt)+'</legend>'+
+      q.opts.map((o,j)=>'<label id="o'+i+'_'+j+'"><input type="radio" name="q'+i+'" value="'+j+'">'+esc(o.text)+'</label>').join('')+
+      '</fieldset>').join('')+
+    '</form>'+
+    '<button class="btn" type="button" onclick="gradeTest()">Submit exam</button>'+
+    '<div id="examResult"></div>'+
+  '</div>';
+  renderAuth();
+  document.getElementById('testArea').scrollIntoView({behavior:'smooth',block:'start'});
 }
+
+function gradeTest(){
+  if(!activeExam)return;
+  const {id,unit,qs}=activeExam;
+  let correct=0,unanswered=0;
+
+  qs.forEach((q,i)=>{
+    const sel=document.querySelector('#examForm input[name="q'+i+'"]:checked');
+    const chosen=sel?+sel.value:-1;
+    if(chosen===-1)unanswered++;
+    const right=chosen===q.answer;
+    if(right)correct++;
+    /* Mark up the question so a wrong answer teaches instead of just scoring. */
+    const fs=document.getElementById('q'+i);
+    fs.querySelectorAll('input').forEach(inp=>inp.disabled=true);
+    if(!right){
+      fs.classList.add('wrong');
+      if(chosen>=0)document.getElementById('o'+i+'_'+chosen).classList.add('pick-wrong');
+    }
+    document.getElementById('o'+i+'_'+q.answer).classList.add('pick-right');
+    if(q.why&&!right){
+      const p=document.createElement('p');
+      p.className='why';p.textContent=q.why;
+      fs.appendChild(p);
+    }
+  });
+
+  const score=Math.round(correct/qs.length*100);
+  const passed=score>=PROGRAM.pass;
+  const late=new Date()>unitDue(unit);
+  const letter=scoreLetter(score,late);
+
+  grades.push({id:id,course:COURSE[id].short,name:COURSE[id].units[unit-1].name,
+    score:score,unit:unit,late:late,date:todayKey()});
+  store.set('ku_grades',grades);
+  const t=todayKey();if(!days.includes(t)){days.push(t);store.set('ku_days',days);}
+
+  const box=document.getElementById('examResult');
+  box.className='result '+(passed?'pass':'fail');
+  box.textContent=passed
+    ?'Score: '+score+'% ('+correct+' of '+qs.length+') — grade '+letter+
+      (late?', late penalty applied':'')+'. Unit '+unit+' passed and logged to your transcript.'
+    :'Score: '+score+'% ('+correct+' of '+qs.length+')'+(unanswered?', '+unanswered+' left blank':'')+
+      ' — below '+PROGRAM.pass+'%. Failed attempts are recorded but never counted toward your GPA. '+
+      'Read the corrections above, study the unit again, then retake it.';
+  box.setAttribute('tabindex','-1');box.focus();
+
+  activeExam=null;
+  renderDash();renderGradebook();renderStanding();renderCerts();renderTestPicker();
+}
+
+/* ---------- question authoring ---------- */
+function renderAuth(){
+  const c=COURSE[authCourse];
+  const unit=Math.min(authUnit,PROGRAM.units);
+  const built=builtIn(authCourse,unit).length,own=mine(authCourse,unit);
+  const total=built+own.length;
+  const short=Math.max(0,PROGRAM.qPerExam-total);
+
+  document.getElementById('authBox').innerHTML=
+   '<h3>Write the exam</h3>'+
+   '<p class="rules">Units 1 to 3 ship with a full bank. Everything after that is yours to write — that is the point. '+
+   'Draft the questions the way a professor would: one idea each, one defensible answer, and a reason the wrong answers are wrong.</p>'+
+
+   '<div class="tworow">'+
+     '<div class="field"><label for="aCourse">Course</label><select id="aCourse">'+
+       CURRICULUM.map(x=>'<option value="'+x.id+'"'+(x.id===authCourse?' selected':'')+'>'+esc(x.short)+'</option>').join('')+
+     '</select></div>'+
+     '<div class="field"><label for="aUnit">Unit</label><select id="aUnit">'+
+       c.units.map(u=>'<option value="'+u.n+'"'+(u.n===unit?' selected':'')+'>Unit '+u.n+' · '+esc(u.name)+'</option>').join('')+
+     '</select></div>'+
+   '</div>'+
+
+   '<p class="rules">This unit has <strong>'+total+'</strong> question'+(total===1?'':'s')+
+     ' ('+built+' built in, '+own.length+' written by you). '+
+     (short?'<strong>'+short+' more</strong> and the exam unlocks.':'The exam is unlocked.')+'</p>'+
+
+   '<div class="field"><label for="aPaste">Paste questions</label>'+
+   '<div class="fmt">Question text on the first line\n* The correct answer (marked with a star)\nA wrong answer\nA wrong answer\n&gt; Why the right answer is right (optional)\n\n(blank line between questions — JSON is also accepted)</div>'+
+   '<textarea id="aPaste" placeholder="What does the derivative of a function represent?&#10;* The instantaneous rate of change&#10;The area under the curve&#10;The average slope over an interval&#10;&gt; It is the limit of the difference quotient as h approaches zero."></textarea></div>'+
+   '<button class="btn" type="button" onclick="importQuestions()">Add to the bank</button> '+
+   '<button class="btn quiet" type="button" onclick="fillSample()">Insert the format as a sample</button>'+
+   '<div id="authStatus"></div>'+
+
+   (own.length?'<div class="banklist"><strong style="font-size:13px;">Your questions for Unit '+unit+'</strong>'+
+     own.map((q,i)=>'<div class="bank-row"><div class="bq">'+esc(q[0])+
+       '<div class="ba">✓ '+esc(q[1][q[2]])+'</div></div>'+
+       '<button class="linkbtn" type="button" onclick="deleteQ('+i+')">Remove</button></div>').join('')+
+     '</div>':'');
+
+  document.getElementById('aCourse').addEventListener('change',e=>{
+    authCourse=e.target.value;authUnit=1;renderAuth();
+  });
+  document.getElementById('aUnit').addEventListener('change',e=>{
+    authUnit=+e.target.value;renderAuth();
+  });
+}
+
+function fillSample(){
+  document.getElementById('aPaste').value=
+   'What does the derivative of a function represent?\n'+
+   '* The instantaneous rate of change at a point\n'+
+   'The total area under the curve\n'+
+   'The average slope across the whole domain\n'+
+   'The maximum value of the function\n'+
+   '> It is the limit of the difference quotient as h approaches zero.\n\n'+
+   'Which test confirms a critical point is a local minimum?\n'+
+   '* The second derivative is positive there\n'+
+   'The first derivative is positive there\n'+
+   'The function is increasing there\n'+
+   'The second derivative is zero there\n'+
+   '> A positive second derivative means the curve is concave up at that point.';
+}
+
+function authStatus(msg,ok){
+  const el=document.getElementById('authStatus');
+  if(!el)return;
+  el.className='status '+(ok?'ok':'err');
+  el.textContent=msg;
+}
+
+/* Accepts either the starred plain-text format or a JSON array. */
+function parseQuestions(text){
+  const trimmed=text.trim();
+  if(!trimmed)throw new Error('Nothing to add — the box is empty.');
+
+  if(trimmed[0]==='['){
+    const arr=JSON.parse(trimmed);
+    if(!Array.isArray(arr))throw new Error('JSON must be an array of questions.');
+    return arr.map((q,i)=>{
+      if(!Array.isArray(q)||typeof q[0]!=='string'||!Array.isArray(q[1])||typeof q[2]!=='number')
+        throw new Error('Question '+(i+1)+' is not in the form [prompt, [options], correctIndex, why].');
+      if(q[1].length<2)throw new Error('Question '+(i+1)+' needs at least two options.');
+      if(q[2]<0||q[2]>=q[1].length)throw new Error('Question '+(i+1)+' has a correct index outside its options.');
+      return [String(q[0]),q[1].map(String),q[2],String(q[3]||'')];
+    });
+  }
+
+  return trimmed.split(/\n\s*\n/).map((block,bi)=>{
+    const lines=block.split('\n').map(l=>l.trim()).filter(Boolean);
+    if(lines.length<3)throw new Error('Question '+(bi+1)+' needs a prompt and at least two options.');
+    const prompt=lines[0];
+    const opts=[];let answer=-1,why='';
+    lines.slice(1).forEach(line=>{
+      if(line[0]==='>'){why=line.slice(1).trim();return;}
+      const correct=line[0]==='*';
+      const text=correct?line.slice(1).trim():line;
+      if(correct){
+        if(answer!==-1)throw new Error('Question '+(bi+1)+' marks more than one answer correct.');
+        answer=opts.length;
+      }
+      opts.push(text);
+    });
+    if(opts.length<2)throw new Error('Question '+(bi+1)+' needs at least two options.');
+    if(answer===-1)throw new Error('Question '+(bi+1)+' has no answer marked with a star.');
+    return [prompt,opts,answer,why];
+  });
+}
+
+function importQuestions(){
+  let parsed;
+  try{parsed=parseQuestions(document.getElementById('aPaste').value);}
+  catch(err){authStatus(err.message,false);return;}
+
+  userBank[authCourse]=userBank[authCourse]||{};
+  const list=userBank[authCourse][authUnit]||[];
+  userBank[authCourse][authUnit]=list.concat(parsed);
+  store.set('ku_bank',userBank);
+
+  const total=questionsFor(authCourse,authUnit).length;
+  document.getElementById('aPaste').value='';
+  renderAuth();
+  authStatus('Added '+parsed.length+' question'+(parsed.length===1?'':'s')+'. Unit '+authUnit+' now has '+total+
+    (total>=PROGRAM.qPerExam?' — the exam is unlocked.':' of '+PROGRAM.qPerExam+' needed.'),true);
+  renderTestPicker();
+  if(authCourse===currentCourse&&total>=PROGRAM.qPerExam&&authUnit===nextUnit(authCourse))openTest(authCourse);
+}
+
+function deleteQ(i){
+  const list=(userBank[authCourse]||{})[authUnit];
+  if(!list)return;
+  if(!confirm('Remove this question from Unit '+authUnit+'?'))return;
+  list.splice(i,1);
+  store.set('ku_bank',userBank);
+  renderAuth();renderTestPicker();
+}
+
+/* ---------- registrar ---------- */
 function renderCerts(){
- document.getElementById('certList').innerHTML=CERTS.map(c=>{
-  const ready=pct(c[3])>=30;
-  const free=c[1].startsWith('Free');
-  return `<div class="cred">
-   <span class="${free?'free-flag':'paid-flag'}">${free?'Free':'Paid'}</span>
-   <h3>${c[0]}</h3>
-   <div class="cost">${c[1]}</div>
-   <div class="actions"><a class="btn ${ready?'gold':'quiet'}" href="${c[2]}" target="_blank" rel="noopener">${ready?'Claim it — you\u2019re ready':'Open the course'}</a></div>
-  </div>`;}).join('');
+  document.getElementById('certList').innerHTML=CERTS.map(c=>{
+    const p=pct(c[3]),need=c[4],ready=p>=need;
+    const free=c[1].startsWith('Free');
+    const unitsNeeded=Math.ceil(need/100*PROGRAM.units);
+    return '<div class="cred card">'+
+      '<span class="flag '+(free?'free':'paid')+'">'+(free?'Free':'Paid')+'</span>'+
+      '<h3>'+esc(c[0])+'</h3>'+
+      '<div class="cost">'+esc(c[1])+'</div>'+
+      '<div class="gate-note">'+(ready
+        ? 'Earned — '+esc(COURSE[c[3]].short)+' is at '+p+'%.'
+        : 'Unlocks at '+need+'% of '+esc(COURSE[c[3]].short)+' ('+unitsNeeded+' units). You are at '+p+'%.')+'</div>'+
+      '<div class="actions"><a class="btn '+(ready?'gold':'quiet')+'" href="'+esc(c[2])+'" target="_blank" rel="noopener">'+
+        (ready?'Claim it — you’re ready':'Open the course')+'</a></div>'+
+    '</div>';
+  }).join('');
 }
+
 function renderGradebook(){
- const rows=grades.map(g=>`<tr><td>${g.name}${g.late?' <span class="late-tag">LATE</span>':''}</td><td class="${g.score>=80?'score-pass':'score-fail'}">${g.score}%</td><td>${scoreLetter(g.score,g.late)}</td><td>${g.date}</td></tr>`).join('');
- document.getElementById('gradebook').innerHTML='<tr><th>Exam</th><th>Score</th><th>Grade</th><th>Date</th></tr>'+(rows||'<tr><td colspan="4" style="color:var(--slate);">No exams on record yet.</td></tr>');
+  const rows=grades.slice().reverse().map((g,i)=>{
+    const idx=grades.length-1-i;
+    return '<tr><td>'+esc(g.course||COURSE[g.id].short)+' · Unit '+g.unit+'<br>'+
+      '<span style="color:var(--slate);font-size:12px;">'+esc(g.name)+'</span>'+
+      (g.late?' <span class="late-tag">LATE</span>':'')+'</td>'+
+      '<td class="'+(g.score>=PROGRAM.pass?'score-pass':'score-fail')+'">'+g.score+'%</td>'+
+      '<td>'+scoreLetter(g.score,g.late)+'</td>'+
+      '<td>'+esc(g.date)+'</td>'+
+      '<td><button class="linkbtn" type="button" onclick="deleteGrade('+idx+')">Strike</button></td></tr>';
+  }).join('');
+  document.getElementById('gradebook').innerHTML=
+    '<thead><tr><th>Exam</th><th>Score</th><th>Grade</th><th>Date</th><th><span class="sr-only">Actions</span></th></tr></thead>'+
+    '<tbody>'+(rows||'<tr><td colspan="5" style="color:var(--slate);">No exams on record yet.</td></tr>')+'</tbody>';
 }
-renderDash();renderCourses();renderTestPicker();renderCerts();renderGradebook();
+
+function renderStanding(){
+  const rows=CURRICULUM.map(c=>{
+    const g=courseGPA(c.id),done=passedUnits(c.id);
+    return '<tr><td>'+esc(c.name)+'<br><span style="color:var(--slate);font-size:12px;">'+c.kind+'</span></td>'+
+      '<td>'+done+' / '+PROGRAM.units+'</td>'+
+      '<td>'+pct(c.id)+'%</td>'+
+      '<td>'+(g===null?'—':g.toFixed(2))+'</td>'+
+      '<td>'+letterOf(g)+'</td></tr>';
+  }).join('');
+  const cum=cumGPA();
+  document.getElementById('standing').innerHTML=
+    '<thead><tr><th>Course</th><th>Units</th><th>Progress</th><th>GPA</th><th>Grade</th></tr></thead>'+
+    '<tbody>'+rows+'</tbody>'+
+    '<tfoot><tr><td>Cumulative</td><td>'+CURRICULUM.reduce((a,c)=>a+passedUnits(c.id),0)+' / '+
+      (CURRICULUM.length*PROGRAM.units)+'</td><td></td><td>'+(cum===null?'—':cum.toFixed(2))+
+      '</td><td>'+letterOf(cum)+'</td></tr></tfoot>';
+}
+
+function deleteGrade(i){
+  const g=grades[i];
+  if(!g)return;
+  if(!confirm('Strike this attempt from the transcript?\n\n'+g.name+' — '+g.score+'% on '+g.date))return;
+  grades.splice(i,1);store.set('ku_grades',grades);
+  renderDash();renderGradebook();renderStanding();renderCerts();renderTestPicker();
+}
+
+/* ---------- admin: the record must be portable ---------- */
+function renderAdmin(){
+  document.getElementById('adminBox').innerHTML=
+   '<h3>Registrar office</h3>'+
+   '<p class="rules">Everything lives in this browser only. Export regularly — clearing site data wipes the whole record, and no one is holding a copy for you.</p>'+
+   '<div class="adminrow">'+
+     '<div class="field" style="flex:1;min-width:180px;"><label for="nameEdit">Student name</label>'+
+     '<input type="text" id="nameEdit" value="'+esc(student||'')+'"></div>'+
+     '<button class="btn quiet" type="button" onclick="saveName()">Save</button>'+
+   '</div>'+
+   '<div class="adminrow">'+
+     '<div class="field" style="flex:1;min-width:180px;"><label for="startEdit">Enrolment date (sets every deadline)</label>'+
+     '<input type="text" id="startEdit" value="'+esc(startISO)+'" placeholder="YYYY-MM-DD"></div>'+
+     '<button class="btn quiet" type="button" onclick="saveStart()">Save</button>'+
+   '</div>'+
+   '<div class="adminrow">'+
+     '<button class="btn" type="button" onclick="exportAll()">Export the record</button>'+
+     '<button class="btn quiet" type="button" onclick="document.getElementById(\'importFile\').click()">Import a record</button>'+
+     '<button class="btn danger" type="button" onclick="wipeAll()">Withdraw and erase</button>'+
+     '<input type="file" id="importFile" accept="application/json,.json" style="display:none">'+
+   '</div>'+
+   '<div id="adminStatus"></div>';
+
+  document.getElementById('importFile').addEventListener('change',importAll);
+}
+function adminStatus(msg,ok){
+  const el=document.getElementById('adminStatus');
+  if(!el)return;
+  el.className='status '+(ok?'ok':'err');
+  el.textContent=msg;
+}
+function saveName(){
+  const v=document.getElementById('nameEdit').value.trim();
+  if(!v){adminStatus('A name is required.',false);return;}
+  student=v;store.set('ku_student',v);setChip();
+  adminStatus('Name updated.',true);
+}
+function saveStart(){
+  const v=document.getElementById('startEdit').value.trim();
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(v)){adminStatus('Use the form YYYY-MM-DD.',false);return;}
+  const d=keyToDate(v);
+  if(isNaN(d)){adminStatus('That is not a real date.',false);return;}
+  startISO=v;start=d;store.set('ku_start',v);
+  renderAll();
+  adminStatus('Enrolment date set. Every unit deadline has moved with it.',true);
+}
+function exportAll(){
+  const payload={format:'kwanus-university',version:2,exported:new Date().toISOString(),
+    student:student,start:startISO,grades:grades,days:days,hw:hw,bank:userBank};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download='kwanus-record-'+todayKey()+'.json';
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  adminStatus('Exported. Keep it somewhere that is not this browser.',true);
+}
+function importAll(e){
+  const file=e.target.files&&e.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    let d;
+    try{d=JSON.parse(reader.result);}
+    catch(err){adminStatus('That file is not valid JSON.',false);return;}
+    if(!d||d.format!=='kwanus-university'){adminStatus('That is not a KWanus University record.',false);return;}
+    if(!confirm('Replace the current record with this file?\n\nStudent: '+(d.student||'unknown')+
+      '\nExams on record: '+((d.grades||[]).length)+'\n\nThis cannot be undone.'))return;
+    student=d.student||student;
+    grades=Array.isArray(d.grades)?d.grades:[];
+    days=Array.isArray(d.days)?d.days:[];
+    hw=d.hw&&typeof d.hw==='object'?d.hw:{};
+    userBank=d.bank&&typeof d.bank==='object'?d.bank:{};
+    if(/^\d{4}-\d{2}-\d{2}$/.test(d.start||'')){startISO=d.start;start=keyToDate(startISO);}
+    store.set('ku_student',student);store.set('ku_grades',grades);store.set('ku_days',days);
+    store.set('ku_hw',hw);store.set('ku_bank',userBank);store.set('ku_start',startISO);
+    setChip();renderAll();
+    adminStatus('Record restored: '+grades.length+' exam'+(grades.length===1?'':'s')+' and '+
+      days.length+' study day'+(days.length===1?'':'s')+'.',true);
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+function wipeAll(){
+  if(!confirm('Erase the entire record — grades, streak, homework and every question you wrote?\n\nExport first if you want it back.'))return;
+  if(!confirm('Last check. This permanently deletes everything.'))return;
+  ['ku_student','ku_grades','ku_days','ku_hw','ku_bank','ku_start'].forEach(k=>store.del(k));
+  location.reload();
+}
+
+/* ---------- boot ---------- */
+function renderAll(){
+  renderDash();renderCourses();renderTestPicker();
+  renderAuth();renderCerts();renderGradebook();renderStanding();renderAdmin();
+}
+if(student){closeGate();setChip();}else{openGate();}
+renderAll();
+openTest(currentCourse);
 </script>
 </body>
 </html>
