@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KWanus University</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FAFAF8; --card:#FFFFFF; --ink:#182230; --slate:#5C6B7A;
+    --line:#E4E4DE; --navy:#1E3A5F; --navy-soft:#EBF0F7;
+    --bronze:#9A7B34; --green:#1F7A4D; --green-soft:#EAF4EE; --red:#B4432F; --red-soft:#FBEDE9;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:15px;line-height:1.65;}
+  .wrap{max-width:760px;margin:0 auto;padding:0 20px;}
+  a{color:var(--navy);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  h1,h2,h3,.serif{font-family:'Fraunces',Georgia,serif;}
+
+  .topbar{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40;}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:58px;}
+  .wordmark{font-family:'Fraunces',serif;font-weight:700;font-size:19px;letter-spacing:-.2px;}
+  .wordmark em{font-style:normal;color:var(--bronze);}
+  #studentChip{font-size:12.5px;color:var(--slate);}
+  #studentChip strong{color:var(--ink);font-weight:600;}
+
+  .tabs{background:var(--card);border-bottom:1px solid var(--line);position:sticky;top:58px;z-index:39;}
+  .tabs .wrap{display:flex;gap:2px;overflow-x:auto;}
+  .tabs button{background:none;border:none;border-bottom:2px solid transparent;font-family:'Inter';font-size:13.5px;font-weight:500;color:var(--slate);padding:12px 14px;cursor:pointer;white-space:nowrap;}
+  .tabs button.active{color:var(--navy);border-bottom-color:var(--navy);font-weight:600;}
+  .tabs button:focus-visible{outline:2px solid var(--navy);outline-offset:-2px;}
+
+  section{display:none;padding:34px 0 72px;}
+  section.show{display:block;}
+  .pagehead h2{font-size:30px;font-weight:600;letter-spacing:-.4px;line-height:1.2;}
+  .pagehead p{color:var(--slate);margin:8px 0 30px;max-width:56ch;}
+
+  /* GPA hero */
+  .hero{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-bottom:16px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+  .hero .gpa{text-align:center;padding-right:20px;border-right:1px solid var(--line);}
+  .hero .gpa .big{font-family:'Fraunces',serif;font-size:44px;font-weight:700;line-height:1;letter-spacing:-1px;}
+  .hero .gpa .lab{font-size:12px;color:var(--slate);margin-top:4px;}
+  .hero .meta{flex:1;min-width:180px;}
+  .hero .term{font-family:'Fraunces',serif;font-size:17px;font-weight:600;}
+  .hero .sub{font-size:13px;color:var(--slate);margin-top:2px;}
+  .streakline{margin-top:10px;font-size:13.5px;}
+  .streakline strong{font-family:'Fraunces',serif;font-size:16px;}
+  .btn-log{margin-top:10px;}
+
+  /* Due list */
+  .duebox{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-bottom:16px;}
+  .duebox .boxtitle{font-family:'Fraunces',serif;font-size:16px;font-weight:600;padding:14px 20px;border-bottom:1px solid var(--line);}
+  .due-row{display:flex;justify-content:space-between;gap:12px;padding:12px 20px;border-bottom:1px solid var(--line);font-size:13.5px;}
+  .due-row:last-child{border-bottom:none;}
+  .due-row .when{color:var(--slate);white-space:nowrap;}
+  .due-row.overdue{background:var(--red-soft);}
+  .due-row.overdue .when{color:var(--red);font-weight:600;}
+  .due-row.today .when{color:var(--bronze);font-weight:600;}
+
+  .ledger{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  .ledger-row{display:flex;align-items:center;gap:14px;padding:18px 20px;border-bottom:1px solid var(--line);}
+  .ledger-row:last-child{border-bottom:none;}
+  .ledger-row .info{flex:1;min-width:0;}
+  .ledger-row h3{font-size:16.5px;font-weight:600;letter-spacing:-.2px;}
+  .ledger-row .school{font-size:12.5px;color:var(--slate);margin-top:2px;}
+  .kind{font-size:11.5px;font-weight:600;color:var(--navy);background:var(--navy-soft);padding:2px 9px;border-radius:20px;display:inline-block;margin-bottom:6px;}
+  .kind.gen{color:var(--bronze);background:#F6F0E2;}
+  .gradechip{font-family:'Fraunces',serif;font-size:18px;font-weight:700;width:40px;text-align:center;flex-shrink:0;}
+  .prog{width:86px;flex-shrink:0;text-align:right;}
+  .prog .num{font-family:'Fraunces',serif;font-size:17px;font-weight:600;}
+  .bar{height:4px;background:var(--line);border-radius:4px;margin-top:6px;overflow:hidden;}
+  .bar i{display:block;height:100%;background:var(--navy);border-radius:4px;transition:width .5s ease;}
+
+  .principle{border-left:3px solid var(--bronze);padding:4px 0 4px 16px;margin-top:28px;color:var(--slate);font-size:13.5px;max-width:58ch;}
+  .principle strong{color:var(--ink);font-weight:600;}
+
+  .course{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-bottom:16px;}
+  .course h3{font-size:18px;font-weight:600;letter-spacing:-.2px;margin:6px 0 2px;}
+  .course .school{font-size:13px;color:var(--slate);margin-bottom:6px;}
+  .hwline{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:10px 12px;margin-top:12px;font-size:13px;}
+  .hwline .done{color:var(--green);font-weight:600;}
+  details{border-top:1px solid var(--line);margin-top:12px;padding-top:12px;}
+  summary{cursor:pointer;font-size:13.5px;font-weight:600;color:var(--navy);list-style:none;display:flex;align-items:center;gap:8px;}
+  summary::before{content:"+";font-family:'Fraunces',serif;font-size:16px;color:var(--slate);width:14px;}
+  details[open] summary::before{content:"–";}
+  summary:hover{color:var(--ink);}
+  .linklist{margin:10px 0 4px;font-size:14px;}
+  .linklist li{margin:8px 0 8px 20px;}
+  .linklist .note-sm{color:var(--slate);font-size:12.5px;}
+
+  .btn{display:inline-block;background:var(--navy);color:#fff;border:none;font-family:'Inter';font-size:13.5px;font-weight:600;padding:10px 18px;border-radius:7px;cursor:pointer;}
+  .btn:hover{background:#16304F;text-decoration:none;}
+  .btn.quiet{background:var(--card);color:var(--navy);border:1px solid var(--line);}
+  .btn.quiet:hover{border-color:var(--navy);background:var(--navy-soft);}
+  .btn.gold{background:var(--bronze);}
+  .btn.gold:hover{background:#7F6528;}
+  .btn.small{font-size:12.5px;padding:7px 13px;}
+  .btn:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+
+  .pickrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;}
+  .exam{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 20px;margin-top:14px;}
+  .exam .rules{font-size:12.5px;color:var(--slate);margin:2px 0 18px;}
+  .duewarn{font-size:12.5px;font-weight:600;margin:0 0 14px;padding:8px 12px;border-radius:7px;background:var(--navy-soft);color:var(--navy);display:inline-block;}
+  .duewarn.late{background:var(--red-soft);color:var(--red);}
+  .q{margin-bottom:18px;}
+  .q p{font-weight:500;margin-bottom:8px;}
+  .q label{display:block;padding:11px 13px;border:1px solid var(--line);border-radius:7px;margin-bottom:7px;cursor:pointer;font-size:14px;background:var(--paper);}
+  .q label:hover{border-color:var(--navy);}
+  .q input{margin-right:9px;accent-color:var(--navy);}
+  .result{display:none;margin-top:14px;padding:13px 15px;border-radius:7px;font-size:14px;font-weight:500;}
+  .result.pass{display:block;background:var(--green-soft);color:var(--green);border:1px solid #BFDCCB;}
+  .result.fail{display:block;background:var(--red-soft);color:var(--red);border:1px solid #E8C4BA;}
+
+  .cred{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:20px;margin-bottom:14px;display:flex;flex-direction:column;gap:4px;}
+  .cred h3{font-size:16px;font-weight:600;}
+  .cred .cost{font-size:13px;color:var(--slate);}
+  .cred .actions{margin-top:10px;}
+  .free-flag{font-size:11.5px;font-weight:600;color:var(--green);background:var(--green-soft);padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
+  .paid-flag{font-size:11.5px;font-weight:600;color:var(--bronze);background:#F6F0E2;padding:2px 9px;border-radius:20px;display:inline-block;width:fit-content;}
+
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;}
+  th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);}
+  tr:last-child td{border-bottom:none;}
+  th{font-weight:600;color:var(--slate);font-size:12.5px;background:var(--paper);}
+  .score-pass{color:var(--green);font-weight:600;}
+  .score-fail{color:var(--red);font-weight:600;}
+  .late-tag{font-size:11px;font-weight:600;color:var(--red);}
+  .transcript-head{font-family:'Fraunces',serif;font-size:20px;font-weight:600;margin:30px 0 12px;}
+
+  #gate{position:fixed;inset:0;background:var(--paper);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px;}
+  #gate .box{max-width:400px;width:100%;text-align:center;}
+  #gate h1{font-size:34px;font-weight:700;letter-spacing:-.5px;line-height:1.15;}
+  #gate h1 em{font-style:normal;color:var(--bronze);}
+  #gate .tag{color:var(--slate);margin:10px 0 28px;font-size:14.5px;}
+  #gate input{width:100%;padding:13px 15px;font-family:'Inter';font-size:16px;background:var(--card);border:1px solid var(--line);border-radius:8px;color:var(--ink);}
+  #gate input:focus{outline:2px solid var(--navy);border-color:var(--navy);}
+  #gate .btn{width:100%;margin-top:12px;padding:13px;}
+  .gate-rule{width:44px;height:3px;background:var(--bronze);margin:0 auto 22px;border-radius:2px;}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 60px;color:var(--slate);font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="box">
+    <div class="gate-rule"></div>
+    <h1>KWanus <em>University</em></h1>
+    <p class="tag">A private curriculum. Real deadlines, real grades, real credentials.</p>
+    <input id="nameIn" type="text" placeholder="Your name" value="KWanus" aria-label="Your name">
+    <button class="btn" onclick="enroll()">Enter campus</button>
+  </div>
+</div>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="wordmark">KWanus <em>University</em></div>
+    <div id="studentChip"></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="wrap">
+    <button class="active" onclick="go('dash',this)">Dashboard</button>
+    <button onclick="go('courses',this)">Curriculum</button>
+    <button onclick="go('tests',this)">Exams</button>
+    <button onclick="go('certs',this)">Registrar</button>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section id="dash" class="show">
+    <div class="pagehead">
+      <h2>Your academic record</h2>
+      <p>Grades come from exams. Deadlines are real. The streak resets if you skip a day.</p>
+    </div>
+    <div class="hero" id="heroBox"></div>
+    <div class="duebox">
+      <div class="boxtitle">Due next</div>
+      <div id="dueList"></div>
+    </div>
+    <div class="ledger" id="dashList"></div>
+    <p class="principle"><strong>How this works.</strong> Lessons live on the best video classrooms in the world. This site is the registrar: schedule, deadlines, exams, grades, GPA, and the path to real third-party certificates. Late exams cost a third of a letter grade.</p>
+  </section>
+
+  <section id="courses">
+    <div class="pagehead">
+      <h2>Curriculum</h2>
+      <p>Every course opens with video classrooms first, then practice work, then this month's homework. Mark your homework each week — the record keeps you honest.</p>
+    </div>
+    <div id="courseList"></div>
+  </section>
+
+  <section id="tests">
+    <div class="pagehead">
+      <h2>Monthly exams</h2>
+      <p>Five questions per unit, 80% to pass, closed book. Each unit is due by the end of its month — pass it late and the grade drops a third of a letter.</p>
+    </div>
+    <div class="pickrow" id="testPicker"></div>
+    <div id="testArea"></div>
+  </section>
+
+  <section id="certs">
+    <div class="pagehead">
+      <h2>Registrar</h2>
+      <p>Certificates come from real institutions, not from this site. When a program crosses 30%, its claim button unlocks.</p>
+    </div>
+    <div id="certList"></div>
+    <div class="transcript-head">Transcript</div>
+    <table id="gradebook"></table>
+  </section>
+
+  <footer>KWanus University — a personal institution. Founded 2026, Georgia.</footer>
+</div>
+
+<script>
+const store=(()=>{try{localStorage.setItem('_t','1');localStorage.removeItem('_t');
+return{get:k=>JSON.parse(localStorage.getItem(k)||'null'),set:(k,v)=>localStorage.setItem(k,JSON.stringify(v))};}
+catch(e){const m={};return{get:k=>m[k]||null,set:(k,v)=>m[k]=v};}})();
+
+const CURRICULUM=[
+ {id:'code',kind:'Major',name:'Software Engineering & Web Design',school:'freeCodeCamp · The Odin Project · Harvard CS50',
+  watch:[
+   ['freeCodeCamp — full-length video courses','https://www.youtube.com/@freecodecamp'],
+   ['Harvard CS50 — filmed lectures','https://www.youtube.com/@cs50'],
+   ['Traversy Media — build-along projects','https://www.youtube.com/@TraversyMedia'],
+   ['Fireship — visual explainers in 100 seconds','https://www.youtube.com/@Fireship']
+  ],
+  links:[
+   ['freeCodeCamp: Responsive Web Design','https://www.freecodecamp.org/learn/2022/responsive-web-design/'],
+   ['freeCodeCamp: JavaScript Algorithms','https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/'],
+   ['The Odin Project: Full Stack path','https://www.theodinproject.com/paths/full-stack-javascript'],
+   ['Harvard CS50x','https://cs50.harvard.edu/x/']
+  ],
+  homework:[
+   'Weeks 1–2: watch CS50 Lecture 0 and finish freeCodeCamp HTML/CSS. Build the Tribute Page.',
+   'Week 3: rebuild this site from memory — no copying. Compare afterward.',
+   'Week 4: 25 JavaScript exercises. Keep notes on var/let/const, functions, arrays.'
+  ]},
+ {id:'mkt',kind:'Major',name:'Marketing & Social Media',school:'HubSpot Academy · Google · Meta Blueprint',
+  watch:[
+   ['HubSpot Academy — video lessons','https://www.youtube.com/@HubSpotMarketing'],
+   ['Alex Hormozi — offers and money','https://www.youtube.com/@AlexHormozi'],
+   ['Think Media — content that grows','https://www.youtube.com/@ThinkMediaTV']
+  ],
+  links:[
+   ['HubSpot: Digital Marketing certification (free)','https://academy.hubspot.com/courses/digital-marketing'],
+   ['HubSpot: Social Media certification (free)','https://academy.hubspot.com/courses/social-media'],
+   ['Google Digital Marketing & E-commerce (Coursera)','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce'],
+   ['Meta Blueprint','https://www.facebook.com/business/learn']
+  ],
+  homework:[
+   'Week 1: HubSpot modules 1–3. Write the one-sentence offer for Reset Pressure Washing.',
+   'Weeks 2–3: post three times a week on one platform. Log the results.',
+   'Week 4: write a one-page marketing plan for a business you own.'
+  ]},
+ {id:'math',kind:'General education',name:'Mathematics: Algebra to Calculus',school:'Khan Academy mastery path',
+  watch:[
+   ['3Blue1Brown — math you can see','https://www.youtube.com/@3blue1brown'],
+   ['Professor Leonard — full whiteboard lectures','https://www.youtube.com/@ProfessorLeonard'],
+   ['Khan Academy — short video lessons','https://www.youtube.com/@khanacademy']
+  ],
+  links:[
+   ['Khan: Algebra 1','https://www.khanacademy.org/math/algebra'],
+   ['Khan: Algebra 2','https://www.khanacademy.org/math/algebra2'],
+   ['Khan: Precalculus','https://www.khanacademy.org/math/precalculus'],
+   ['Khan: Calculus (AP AB)','https://www.khanacademy.org/math/ap-calculus-ab']
+  ],
+  homework:[
+   'Daily: 30 minutes of Khan mastery. Algebra 1 → Algebra 2 → Precalculus → Calculus.',
+   'Weekly: one word problem worked by hand. Photo goes to Notion.',
+   'Monthly: the unit exam here plus the Khan course challenge.'
+  ]},
+ {id:'sci',kind:'General education',name:'Science: Physics to Quantum',school:'Khan Academy → MIT OpenCourseWare',
+  watch:[
+   ['Veritasium — physics that rewires your head','https://www.youtube.com/@veritasium'],
+   ['Crash Course Physics — animated and fast','https://www.youtube.com/playlist?list=PL8dPuuaLjXtN0ge7yDk_UA0ldZJdhwkoV'],
+   ['MIT 8.01 — filmed lectures','https://www.youtube.com/playlist?list=PLyQSN7X0ro203puVhQsmCj9qhlFQ-As8e'],
+   ['Kurzgesagt — animated science','https://www.youtube.com/@kurzgesagt']
+  ],
+  links:[
+   ['Khan: Physics','https://www.khanacademy.org/science/physics'],
+   ['MIT OCW 8.01: Classical Mechanics','https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/'],
+   ['MIT OCW 8.04: Quantum Mechanics','https://ocw.mit.edu/courses/8-04-quantum-physics-i-spring-2016/']
+  ],
+  homework:[
+   'Phase 1: Khan Physics — motion, forces, energy. Three lessons a week.',
+   'Phase 2: MIT 8.01, one lecture a week with the problem sets.',
+   'Phase 3, after Calculus: Quantum Mechanics — the hardest science open to a self-learner.'
+  ]},
+ {id:'eng',kind:'General education',name:'English, Literature & Philosophy',school:'Reading list + writing practice',
+  watch:[
+   ['Crash Course Philosophy — animated series','https://www.youtube.com/playlist?list=PL8dPuuaLjXtNgK6MZucdYldNkMybYIHKR'],
+   ['Jordan Peterson — lectures','https://www.youtube.com/@JordanBPeterson'],
+   ['TED-Ed — big ideas in five minutes','https://www.youtube.com/@TEDEd']
+  ],
+  links:[
+   ['Khan: Grammar','https://www.khanacademy.org/humanities/grammar'],
+   ['Project Gutenberg — free classics','https://www.gutenberg.org/'],
+   ['Reading list: 12 Rules for Life, Meditations, Man\u2019s Search for Meaning, As a Man Thinketh, Proverbs','#']
+  ],
+  homework:[
+   'Daily: read 20 pages minimum.',
+   'Weekly: a half-page reflection — what did the author claim, do you agree, and why.',
+   'Monthly: one one-page essay. The grade: could a stranger understand your point.'
+  ]}
+];
+
+const TESTS={
+ code:{name:'Coding — Unit 1',qs:[
+  ['In JavaScript, const means…',['Can be changed anytime','Cannot be reassigned','A type of loop'],1],
+  ['HTML is for…',['Structure of the page','Coloring the page','Storing the database'],0],
+  ['CSS is for…',['Page logic','Styling and layout','Server code'],1],
+  ['A function is…',['A reusable block of code you can call','A style rule','A browser'],0],
+  ['Which is a valid array?',['[1, 2, 3]','{1, 2, 3}','(1, 2, 3)'],0]]},
+ mkt:{name:'Marketing — Unit 1',qs:[
+  ['An "offer" is…',['A discount only','What you give, at what price, with what promise','A follow-back'],1],
+  ['Organic reach means…',['Paid ads','Views you did not pay for','Email lists'],1],
+  ['A call to action is…',['Telling the viewer exactly what to do next','A hashtag','A logo'],0],
+  ['Best first metric for a service business…',['Followers','Booked jobs and leads','Likes'],1],
+  ['Consistency matters because…',['Algorithms and audiences reward showing up','It does not','Hashtags expire'],0]]},
+ math:{name:'Math — Algebra Unit 1',qs:[
+  ['Solve: 3x + 5 = 20',['x = 5','x = 15','x = 3'],0],
+  ['Simplify: 2(x + 4)',['2x + 4','2x + 8','x + 8'],1],
+  ['The slope in y = 2x + 1 is…',['1','2','3'],1],
+  ['If x = 4, then x² − 3 =',['13','5','16'],0],
+  ['−6 + 9 =',['−3','3','15'],1]]},
+ sci:{name:'Physics — Unit 1',qs:[
+  ['Velocity is…',['Speed with a direction','Just speed','Mass times gravity'],0],
+  ['Newton\u2019s first law: an object in motion…',['Stops on its own','Stays in motion unless acted on','Speeds up forever'],1],
+  ['Force equals…',['mass × acceleration','mass × velocity','weight × time'],0],
+  ['Gravity accelerates objects at about…',['9.8 m/s²','98 m/s²','1.8 m/s²'],0],
+  ['Energy cannot be…',['Transferred','Created or destroyed','Stored'],1]]},
+ eng:{name:'English & Philosophy — Unit 1',qs:[
+  ['A thesis statement is…',['Your main claim in one sentence','A quote','A summary of sources'],0],
+  ['"Their going to the store" is wrong because…',['It should be They\u2019re','It should be There','It is correct'],0],
+  ['Stoicism teaches…',['Control what you can, accept what you cannot','Avoid all feeling','Wealth is virtue'],0],
+  ['An argument needs…',['A claim and reasons that support it','Strong emotion','Long words'],0],
+  ['Reading 20 pages a day for a year is roughly…',['Over 20 books','2 books','100 pages'],0]]}
+};
+
+const CERTS=[
+ ['freeCodeCamp: Responsive Web Design','Free','https://www.freecodecamp.org/learn/2022/responsive-web-design/','code'],
+ ['freeCodeCamp: JavaScript Algorithms','Free','https://www.freecodecamp.org/learn/javascript-algorithms-and-data-structures-v8/','code'],
+ ['Harvard CS50x — Verified Certificate','$199 (course itself is free)','https://cs50.harvard.edu/x/','code'],
+ ['HubSpot: Digital Marketing','Free','https://academy.hubspot.com/courses/digital-marketing','mkt'],
+ ['HubSpot: Social Media Marketing','Free','https://academy.hubspot.com/courses/social-media','mkt'],
+ ['Meta Certified Digital Marketing Associate','About $99 for the exam','https://www.facebook.com/business/learn/certification','mkt'],
+ ['Google Digital Marketing & E-commerce','About $49 per month','https://www.coursera.org/professional-certificates/google-digital-marketing-ecommerce','mkt'],
+ ['Khan Academy mastery — Math & Science','Free, tracked as mastery percent','https://www.khanacademy.org/','math']
+];
+
+let student=store.get('ku_student');
+let grades=store.get('ku_grades')||[];
+let days=store.get('ku_days')||[];
+let hw=store.get('ku_hw')||{};
+
+/* Term calendar */
+let startISO=store.get('ku_start');
+if(!startISO){startISO=new Date().toISOString().slice(0,10);store.set('ku_start',startISO);}
+const start=new Date(startISO+'T00:00:00');
+function termName(){const m=start.getMonth();const y=start.getFullYear();return (m>=7?'Fall':(m<=4?'Spring':'Summer'))+' '+y+' term';}
+function unitDue(n){return new Date(start.getFullYear(),start.getMonth()+n,0,23,59,59);}
+function nextSunday(){const d=new Date();const add=(7-d.getDay())%7||7;const s=new Date(d);s.setDate(d.getDate()+(d.getDay()===0?0:add));s.setHours(23,59,59,0);return s;}
+function fmtD(d){return d.toLocaleDateString(undefined,{month:'short',day:'numeric'});}
+function daysLeft(d){return Math.ceil((d-new Date())/86400000);}
+
+/* Streak */
+function todayKey(){return new Date().toISOString().slice(0,10);}
+function logDay(){const t=todayKey();if(!days.includes(t)){days.push(t);store.set('ku_days',days);}renderHero();}
+function streak(){let s=0;let d=new Date();if(!days.includes(todayKey()))d.setDate(d.getDate()-1);
+ for(;;){const k=d.toISOString().slice(0,10);if(days.includes(k)){s++;d.setDate(d.getDate()-1);}else break;}return s;}
+
+/* Grades and GPA */
+function passedUnits(id){const u=new Set();grades.forEach(g=>{if(g.id===id&&g.score>=80)u.add(g.unit||1);});return u.size;}
+function pct(id){return Math.min(100,passedUnits(id)*10);}
+function nextUnit(id){return passedUnits(id)+1;}
+function pts(score,late){let p=score>=100?4:score>=80?3:score>=60?1:0;if(late&&p>0)p=Math.max(0,+(p-0.3).toFixed(2));return p;}
+function bestByUnit(id){const best={};grades.forEach(g=>{if(g.id!==id)return;const u=g.unit||1;
+ if(!(u in best)||g.score>best[u].score||(g.score===best[u].score&&!g.late&&best[u].late))best[u]=g;});return best;}
+function courseGPA(id){const best=bestByUnit(id);const vals=Object.values(best).map(g=>pts(g.score,g.late));
+ return vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:null;}
+function cumGPA(){const v=CURRICULUM.map(c=>courseGPA(c.id)).filter(x=>x!==null);
+ return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;}
+function letterOf(g){if(g===null)return '—';
+ return g>=3.85?'A':g>=3.5?'A−':g>=3.15?'B+':g>=2.85?'B':g>=2.5?'B−':g>=2.15?'C+':g>=1.85?'C':g>=1.5?'C−':g>=1.0?'D':'F';}
+function scoreLetter(score,late){const p=pts(score,late);return letterOf(p===0?0:p);}
+
+/* Homework weeks */
+function weekKey(){const d=new Date();const j=new Date(d.getFullYear(),0,1);
+ const w=Math.ceil((((d-j)/86400000)+j.getDay()+1)/7);return d.getFullYear()+'-W'+w;}
+function weeksElapsed(){return Math.max(1,Math.ceil(((new Date())-start)/604800000));}
+function markHW(id){const k=weekKey();hw[id]=hw[id]||[];
+ if(!hw[id].includes(k)){hw[id].push(k);store.set('ku_hw',hw);}renderCourses();}
+function hwDoneThisWeek(id){return (hw[id]||[]).includes(weekKey());}
+
+function enroll(){
+ const n=document.getElementById('nameIn').value.trim()||'Student';
+ student=n;store.set('ku_student',n);
+ document.getElementById('gate').style.display='none';setChip();
+}
+function setChip(){document.getElementById('studentChip').innerHTML='Enrolled: <strong>'+student+'</strong>';}
+if(student){document.getElementById('gate').style.display='none';setChip();}
+
+function go(id,btn){
+ document.querySelectorAll('section').forEach(s=>s.classList.remove('show'));
+ document.getElementById(id).classList.add('show');
+ document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+ btn.classList.add('active');window.scrollTo(0,0);
+}
+
+function renderHero(){
+ const g=cumGPA();const s=streak();const logged=days.includes(todayKey());
+ document.getElementById('heroBox').innerHTML=`
+  <div class="gpa"><div class="big">${g===null?'—':g.toFixed(2)}</div><div class="lab">Cumulative GPA ${g===null?'':'· '+letterOf(g)}</div></div>
+  <div class="meta">
+   <div class="term">${termName()}</div>
+   <div class="sub">Enrolled ${fmtD(start)} — deadlines run monthly from this date.</div>
+   <div class="streakline">Study streak: <strong>${s}</strong> day${s===1?'':'s'}${logged?' — today is logged.':''}</div>
+   ${logged?'':'<button class="btn small btn-log" onclick="logDay()">Log today\u2019s study session</button>'}
+  </div>`;
+}
+
+function renderDue(){
+ const items=[];
+ CURRICULUM.forEach(c=>{const u=nextUnit(c.id);if(u<=10){items.push({t:c.name.split(':')[0].replace(' & Web Design','').replace(' & Social Media','')+' — Unit '+u+' exam',d:unitDue(u)});}});
+ items.push({t:'Weekly homework — all courses',d:nextSunday()});
+ items.sort((a,b)=>a.d-b.d);
+ document.getElementById('dueList').innerHTML=items.slice(0,6).map(it=>{
+  const n=daysLeft(it.d);
+  const cls=n<0?'overdue':(n===0?'today':'');
+  const when=n<0?(Math.abs(n)+' day'+(Math.abs(n)===1?'':'s')+' late'):(n===0?'due today':'due '+fmtD(it.d)+' · '+n+'d');
+  return `<div class="due-row ${cls}"><span>${it.t}</span><span class="when">${when}</span></div>`;
+ }).join('');
+}
+
+function renderDash(){
+ renderHero();renderDue();
+ document.getElementById('dashList').innerHTML=CURRICULUM.map(c=>{
+  const p=pct(c.id);const cg=courseGPA(c.id);
+  return `<div class="ledger-row">
+   <div class="info">
+    <span class="kind ${c.kind==='General education'?'gen':''}">${c.kind}</span>
+    <h3>${c.name}</h3>
+    <div class="school">${c.school}</div>
+   </div>
+   <div class="gradechip">${letterOf(cg)}</div>
+   <div class="prog"><span class="num">${p}%</span><div class="bar"><i style="width:${p}%"></i></div></div>
+  </div>`;}).join('');
+}
+
+function renderCourses(){
+ document.getElementById('courseList').innerHTML=CURRICULUM.map(c=>{
+  const done=hwDoneThisWeek(c.id);
+  const wkCount=(hw[c.id]||[]).length;
+  return `
+  <div class="course">
+   <span class="kind ${c.kind==='General education'?'gen':''}">${c.kind}</span>
+   <h3>${c.name}</h3>
+   <div class="school">${c.school}</div>
+   <div class="hwline">
+    <span>Homework weeks logged: ${wkCount} of ${weeksElapsed()} — due Sundays</span>
+    ${done?'<span class="done">This week done</span>':`<button class="btn small quiet" onclick="markHW('${c.id}')">Mark week done</button>`}
+   </div>
+   <details open><summary>Watch — video classrooms, start here</summary>
+    <ul class="linklist">${c.watch.map(l=>`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join('')}</ul>
+   </details>
+   <details><summary>Practice — courses and exercises</summary>
+    <ul class="linklist">${c.links.map(l=>l[1]==='#'?`<li><span class="note-sm">${l[0]}</span></li>`:`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join('')}</ul>
+   </details>
+   <details><summary>This month's homework</summary>
+    <ul class="linklist">${c.homework.map(h=>`<li>${h}</li>`).join('')}</ul>
+   </details>
+  </div>`;}).join('');
+}
+
+function renderTestPicker(){
+ document.getElementById('testPicker').innerHTML=Object.keys(TESTS).map(k=>
+  `<button class="btn quiet" onclick="openTest('${k}')">${TESTS[k].name}</button>`).join('');
+}
+function openTest(k){
+ const t=TESTS[k];
+ const unit=1; /* exam bank grows monthly */
+ const nu=nextUnit(k);
+ if(nu>1){
+  document.getElementById('testArea').innerHTML=`<div class="exam"><h3 class="serif" style="font-size:19px;font-weight:600;">Unit ${nu} exam</h3>
+  <p class="rules">Unit ${nu-1} is passed. The Unit ${nu} exam gets added at the start of its month — ask Claude to write it from what you studied.</p></div>`;
+  return;
+ }
+ const due=unitDue(unit);const n=daysLeft(due);
+ const warn=n<0?`<span class="duewarn late">This exam is ${Math.abs(n)} day${Math.abs(n)===1?'':'s'} past due — passing now costs a third of a letter grade.</span>`
+  :`<span class="duewarn">Due ${fmtD(due)} — ${n} day${n===1?'':'s'} left.</span>`;
+ document.getElementById('testArea').innerHTML=`
+  <div class="exam">
+   <h3 class="serif" style="font-size:19px;font-weight:600;">${t.name}</h3>
+   <p class="rules">Five questions. 80% to pass. Closed book.</p>
+   ${warn}
+   <form id="f_${k}">${t.qs.map((q,i)=>`
+    <div class="q"><p>${i+1}. ${q[0]}</p>
+     ${q[1].map((o,j)=>`<label><input type="radio" name="q${i}" value="${j}">${o}</label>`).join('')}
+    </div>`).join('')}
+   </form>
+   <button class="btn" onclick="gradeTest('${k}')">Submit exam</button>
+   <div class="result" id="r_${k}"></div>
+  </div>`;
+ document.getElementById('testArea').scrollIntoView({behavior:'smooth'});
+}
+function gradeTest(k){
+ const t=TESTS[k];let s=0;
+ t.qs.forEach((q,i)=>{const sel=document.querySelector(`#f_${k} input[name="q${i}"]:checked`);if(sel&&+sel.value===q[2])s++;});
+ const p=Math.round(s/t.qs.length*100),r=document.getElementById('r_'+k);
+ const unit=1;const late=new Date()>unitDue(unit);
+ r.className='result '+(p>=80?'pass':'fail');
+ const lg=scoreLetter(p,late);
+ r.textContent=p>=80
+  ?`Score: ${p}% — grade ${lg}${late?' (late penalty applied)':''}. Logged to your transcript.`
+  :`Score: ${p}% — grade ${lg}. Below 80: review the unit and retake it. Best attempt counts.`;
+ grades.push({id:k,name:t.name,score:p,unit,late,date:new Date().toLocaleDateString()});
+ store.set('ku_grades',grades);
+ const today=todayKey();if(!days.includes(today)){days.push(today);store.set('ku_days',days);}
+ renderDash();renderGradebook();renderCerts();
+}
+function renderCerts(){
+ document.getElementById('certList').innerHTML=CERTS.map(c=>{
+  const ready=pct(c[3])>=30;
+  const free=c[1].startsWith('Free');
+  return `<div class="cred">
+   <span class="${free?'free-flag':'paid-flag'}">${free?'Free':'Paid'}</span>
+   <h3>${c[0]}</h3>
+   <div class="cost">${c[1]}</div>
+   <div class="actions"><a class="btn ${ready?'gold':'quiet'}" href="${c[2]}" target="_blank" rel="noopener">${ready?'Claim it — you\u2019re ready':'Open the course'}</a></div>
+  </div>`;}).join('');
+}
+function renderGradebook(){
+ const rows=grades.map(g=>`<tr><td>${g.name}${g.late?' <span class="late-tag">LATE</span>':''}</td><td class="${g.score>=80?'score-pass':'score-fail'}">${g.score}%</td><td>${scoreLetter(g.score,g.late)}</td><td>${g.date}</td></tr>`).join('');
+ document.getElementById('gradebook').innerHTML='<tr><th>Exam</th><th>Score</th><th>Grade</th><th>Date</th></tr>'+(rows||'<tr><td colspan="4" style="color:var(--slate);">No exams on record yet.</td></tr>');
+}
+renderDash();renderCourses();renderTestPicker();renderCerts();renderGradebook();
+</script>
+</body>
+</html>
