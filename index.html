@@ -74,6 +74,12 @@
   .bar{height:4px;background:var(--line);border-radius:4px;margin-top:6px;overflow:hidden;}
   .bar i{display:block;height:100%;background:var(--navy);border-radius:4px;transition:width .5s ease;}
   .proglab{font-size:11px;color:var(--slate);margin-top:5px;white-space:nowrap;}
+  .lessons{counter-reset:l;margin:12px 0 4px;}
+  .lessons li{list-style:none;counter-increment:l;position:relative;padding:0 0 0 34px;margin-bottom:14px;font-size:14px;}
+  .lessons li::before{content:counter(l);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--navy-soft);color:var(--navy);font-family:'Fraunces',serif;font-size:12.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+  .lessons li:first-child::before{background:var(--bronze);color:#fff;}
+  .lessons a{font-weight:500;}
+  .lessons .why{display:block;color:var(--slate);font-size:12.5px;margin-top:3px;}
 
   .principle{border-left:3px solid var(--bronze);padding:4px 0 4px 16px;margin-top:28px;color:var(--slate);font-size:13.5px;max-width:58ch;}
   .principle strong{color:var(--ink);font-weight:600;}
@@ -391,10 +397,9 @@ catch(e){const m={};return{get:k=>m[k]||null,set:(k,v)=>m[k]=v};}})();
 const CURRICULUM=[
  {id:'code',kind:'Major',short:'Coding',name:'Software Engineering & Web Design',school:'freeCodeCamp · The Odin Project · Harvard CS50',
   watch:[
-   ['freeCodeCamp — full-length video courses','https://www.youtube.com/@freecodecamp'],
-   ['Harvard CS50 — filmed lectures','https://www.youtube.com/@cs50'],
-   ['Traversy Media — build-along projects','https://www.youtube.com/@TraversyMedia'],
-   ['Fireship — visual explainers in 100 seconds','https://www.youtube.com/@Fireship']
+   ['CS50 Week 0 — Scratch','https://cs50.harvard.edu/x/weeks/0/','Harvard\'s own course page, not a channel front. Lecture embedded at the top, notes beneath it, problem set at the bottom. Do all three before moving on.'],
+   ['CS50 Week 1 — C','https://cs50.harvard.edu/x/weeks/1/','Where real code starts. Same page every week: watch, read, then build.'],
+   ['freeCodeCamp — Learn HTML & CSS, full course for beginners','https://www.youtube.com/watch?v=a_iQb1lnAEQ','One long video that builds six projects. Code along with it — do not just watch it.']
   ],
   links:[
    ['freeCodeCamp: Responsive Web Design','https://www.freecodecamp.org/learn/2022/responsive-web-design/'],
@@ -409,9 +414,9 @@ const CURRICULUM=[
   ]},
  {id:'mkt',kind:'Major',short:'Marketing',name:'Marketing & Social Media',school:'HubSpot Academy · Google · Meta Blueprint',
   watch:[
-   ['HubSpot Academy — video lessons','https://www.youtube.com/@HubSpotMarketing'],
-   ['Alex Hormozi — offers and money','https://www.youtube.com/@AlexHormozi'],
-   ['Think Media — content that grows','https://www.youtube.com/@ThinkMediaTV']
+   ['Seth Godin — How to get your ideas to spread (TED)','https://www.youtube.com/watch?v=xBIVlM435Zg','Why remarkable beats good. Watch this before you write a single post.'],
+   ['Simon Sinek — Start with why (TEDxPugetSound)','https://www.youtube.com/watch?v=u4ZoJKF_VuA','The original talk. It gives you the sentence your business leads with.'],
+   ['Google Digital Garage — Fundamentals of Digital Marketing','https://learndigital.withgoogle.com/digitalgarage/course/digital-marketing','26 video modules in a fixed order with checkpoints. This is the actual classroom, not a feed.']
   ],
   links:[
    ['HubSpot: Digital Marketing certification (free)','https://academy.hubspot.com/courses/digital-marketing'],
@@ -426,10 +431,10 @@ const CURRICULUM=[
   ]},
  {id:'biz',kind:'Major',short:'Business communication',name:'Business Communication & Dealmaking',school:'Yale · Michigan · U. Washington · HubSpot · Harvard PON',
   watch:[
-   ['Chris Voss & The Black Swan Group — tactical empathy on real calls','https://www.youtube.com/@NegotiationMastery'],
-   ['Vinh Giang — voice, pace, presence, and how you actually sound','https://www.youtube.com/@askvinh'],
-   ['Charisma on Command — what confidence looks like on camera','https://www.youtube.com/@Charismaoncommand'],
-   ['Harvard Business Review — management and negotiation explainers','https://www.youtube.com/@harvardbusinessreview']
+   ['Julian Treasure — How to speak so that people want to listen (TED)','https://www.youtube.com/watch?v=eIho2S0ZahI','Start here. Your voice is an instrument nobody ever taught you to play.'],
+   ['Will Stephen — How to sound smart in your TEDx talk (TEDxNewYork)','https://www.youtube.com/watch?v=8S0FDjFBj8o','A joke that is secretly the entire lesson: delivery carries the room even when there is nothing behind it. Watch what his hands and voice do.'],
+   ['Chris Voss — Never Split the Difference (Talks at Google)','https://www.youtube.com/watch?v=guZa7mQV1l0','The full framework from the FBI\'s lead international kidnapping negotiator. Take notes on tactical empathy, labelling, and the late-night voice.'],
+   ['Vinh Giang — Creating the most influential you (TEDxMacquarieUniversity)','https://www.youtube.com/watch?v=M_oszzYm9uQ','Presence and delivery from a communication coach who came up through stage magic.']
   ],
   links:[
    ['Yale: Introduction to Negotiation (free to audit)','https://www.coursera.org/learn/negotiation'],
@@ -451,9 +456,9 @@ const CURRICULUM=[
   ]},
  {id:'math',kind:'General education',short:'Math',name:'Mathematics: Algebra to Calculus',school:'Khan Academy mastery path',
   watch:[
-   ['3Blue1Brown — math you can see','https://www.youtube.com/@3blue1brown'],
-   ['Professor Leonard — full whiteboard lectures','https://www.youtube.com/@ProfessorLeonard'],
-   ['Khan Academy — short video lessons','https://www.youtube.com/@khanacademy']
+   ['Khan Academy — Algebra foundations','https://www.khanacademy.org/math/algebra/x2f8bb11595b61c86:foundation-algebra','Lesson one. Sequenced, with practice built in — this is work, not watching.'],
+   ['3Blue1Brown — The essence of calculus','https://www.youtube.com/watch?v=WUvTyaaNkzM','Watch early, long before you can do any calculus. It shows you what you are climbing toward and why the climb is worth it.'],
+   ['3Blue1Brown — Vectors, Essence of linear algebra chapter 1','https://www.youtube.com/watch?v=fNk_zzaMoSs','Save this until after Algebra 2. The most visual explanation of vectors that exists.']
   ],
   links:[
    ['Khan: Algebra 1','https://www.khanacademy.org/math/algebra'],
@@ -468,10 +473,9 @@ const CURRICULUM=[
   ]},
  {id:'sci',kind:'General education',short:'Science',name:'Science: Physics to Quantum',school:'Khan Academy → MIT OpenCourseWare',
   watch:[
-   ['Veritasium — physics that rewires your head','https://www.youtube.com/@veritasium'],
-   ['Crash Course Physics — animated and fast','https://www.youtube.com/playlist?list=PL8dPuuaLjXtN0ge7yDk_UA0ldZJdhwkoV'],
-   ['MIT 8.01 — filmed lectures','https://www.youtube.com/playlist?list=PLyQSN7X0ro203puVhQsmCj9qhlFQ-As8e'],
-   ['Kurzgesagt — animated science','https://www.youtube.com/@kurzgesagt']
+   ['Crash Course Physics #1 — Motion in a Straight Line','https://www.youtube.com/watch?v=ZM8ECpBuQYE','Episode 1 of a numbered series — follow the numbers. Ten minutes and you have the vocabulary for the whole course.'],
+   ['Khan Academy — One-dimensional motion','https://www.khanacademy.org/science/physics/one-dimensional-motion','The same material with problems attached, which is where it actually sticks.'],
+   ['MIT 8.01 — Week 1: Kinematics','https://ocw.mit.edu/courses/8-01sc-classical-mechanics-fall-2016/pages/week-1-kinematics/','The real MIT course, week by week: lecture videos, problem sets and solutions on one page. Start this after Khan physics, not before.']
   ],
   links:[
    ['Khan: Physics','https://www.khanacademy.org/science/physics'],
@@ -485,9 +489,8 @@ const CURRICULUM=[
   ]},
  {id:'eng',kind:'General education',short:'English',name:'English & Literature',school:'Reading list + writing practice',
   watch:[
-   ['TED-Ed — big ideas in five minutes','https://www.youtube.com/@TEDEd'],
-   ['Crash Course Literature — how to actually read a book','https://www.youtube.com/playlist?list=PL8dPuuaLjXtOeEc9ME62zTfqc0h6Pe8vb'],
-   ['Jordan Peterson — lectures','https://www.youtube.com/@JordanBPeterson']
+   ['Crash Course Literature #1 — How and Why We Read','https://www.youtube.com/watch?v=MSYw502dJNY','Twelve minutes on what reading closely actually means. Watch it before your first book.'],
+   ['Crash Course Literature — the full series, in sequence','https://www.youtube.com/playlist?list=PL8dPuuaLjXtOeEc9ME62zTfqc0h6Pe8vb','A playlist, so it plays in order. Each episode covers one book — read the book first, then watch.']
   ],
   links:[
    ['Khan: Grammar','https://www.khanacademy.org/humanities/grammar'],
@@ -501,10 +504,10 @@ const CURRICULUM=[
   ]},
  {id:'phil',kind:'General education',short:'Philosophy',name:'Philosophy: Logic, Ethics & the Examined Life',school:'Open Yale · Harvard Justice · Stanford · Wireless Philosophy',
   watch:[
-   ['Justice with Michael Sandel — the full Harvard lecture course, free','https://justiceharvard.org/'],
-   ['Wireless Philosophy — logic and critical thinking, built by academics','https://www.youtube.com/@WirelessPhilosophy'],
-   ['Crash Course Philosophy — the animated survey','https://www.youtube.com/playlist?list=PL8dPuuaLjXtNgK6MZucdYldNkMybYIHKR'],
-   ['The School of Life — philosophy applied to an ordinary life','https://www.youtube.com/@theschooloflifetv']
+   ['Crash Course Philosophy #1 — What is Philosophy?','https://www.youtube.com/watch?v=1A_CAkYt3GY','Ten minutes to see the shape of the whole field before you pick a corner of it.'],
+   ['Wireless Philosophy — Critical Thinking, hosted on Khan Academy','https://www.khanacademy.org/partner-content/wi-phi/wiphi-critical-thinking','Your Week 1. The logic series in fixed order with no sidebar of recommendations, built by academics from Yale and Duke.'],
+   ['Justice with Michael Sandel — Episode 1, The Moral Side of Murder','https://justiceharvard.org/justicecourse/','Harvard\'s own site, all twelve episodes in order. Watch one a week and argue back at him out loud.'],
+   ['Open Yale PHIL 176 — Lecture 1','https://oyc.yale.edu/philosophy/phil-176/lecture-1','Shelly Kagan\'s first lecture, with a full transcript beside it. The hardest and the best thing on this list.']
   ],
   links:[
    ['Open Yale PHIL 176: Death — Shelly Kagan, 26 filmed lectures','https://oyc.yale.edu/philosophy/phil-176'],
@@ -527,10 +530,9 @@ const CURRICULUM=[
  {id:'stoic',kind:'General education',short:'Stoicism',name:'Stoicism: The Discipline of What Is Up to You',school:'Modern Stoicism · Donald Robertson · the primary texts',
   note:'<strong>Why this is a course and not a mood.</strong> Stoicism is the direct ancestor of modern cognitive behavioural therapy. Albert Ellis credited Epictetus when he built rational emotive behaviour therapy, and Aaron Beck named the Stoics as the philosophical origin of cognitive therapy in his own treatment manual for depression. Epictetus wrote that men are disturbed not by things, but by their judgments about things — that is the cognitive model, stated eighteen centuries early. Which is exactly why this course sits beside the Rehearsal Room: the ladder trains the body, and this trains the judgment that fires before the body does.',
   watch:[
-   ['Gregory B. Sadler — an academic walking the actual texts, line by line','https://www.youtube.com/@GregoryBSadler'],
-   ['Daily Stoic — Ryan Holiday, short and applied','https://www.youtube.com/@DailyStoic'],
-   ['Modern Stoicism — talks from the people who run the research','https://www.youtube.com/@modernstoicism'],
-   ['Einzelgänger — essays on detachment, ego and self-control','https://www.youtube.com/@Einzelgange']
+   ['Gregory Sadler — Enchiridion chapter 1, line by line','https://www.youtube.com/watch?v=VFiHBChd-xQ','Pairs exactly with Week 1 homework. Read chapter 1 yourself first, then watch him take it apart.'],
+   ['Gregory Sadler — Five Stoic practices from the Enchiridion','https://www.youtube.com/watch?v=MWWLX8OkTgA','The practices themselves rather than the history. Watch this before you try the exercises.'],
+   ['Donald Robertson — Crash Course in Stoicism','https://learn.donaldrobertson.name/p/stoicism-in-five-minutes','A free structured mini-course from a cognitive therapist. Sequenced, and nothing autoplays after it.']
   ],
   links:[
    ['Modern Stoicism — Stoic Week and SMRT, free structured courses','https://modernstoicism.com/'],
@@ -767,8 +769,8 @@ function renderCourses(){
     <span>Homework weeks logged: ${wkCount} of ${weeksElapsed()} — due Sundays</span>
     ${done?'<span class="done">This week done</span>':`<button class="btn small quiet" onclick="markHW('${c.id}')">Mark week done</button>`}
    </div>
-   <details open><summary>Watch — video classrooms, start here</summary>
-    <ul class="linklist">${c.watch.map(l=>`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join('')}</ul>
+   <details open><summary>Watch — numbered lessons, start at 1</summary>
+    <ol class="lessons">${c.watch.map(l=>`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a><span class="why">${l[2]}</span></li>`).join('')}</ol>
    </details>
    <details><summary>Practice — courses and exercises</summary>
     <ul class="linklist">${c.links.map(l=>l[1]==='#'?`<li><span class="note-sm">${l[0]}</span></li>`:`<li><a href="${l[1]}" target="_blank" rel="noopener">${l[0]}</a></li>`).join('')}</ul>
