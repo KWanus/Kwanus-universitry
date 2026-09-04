@@ -891,6 +891,205 @@ const BANK={
  }
 };
 
+/* Year Two — units 4 to 6. Same standard, one academic year harder. */
+const BANK_Y2={
+ code:{
+  4:[
+   ['Average-case lookup in a hash map is O(1) because…',['Keys hash directly to a bucket index','The table is kept sorted','It uses binary search','Buckets are linked lists'],0,'Hashing turns a key into an index in constant time. Collisions degrade it toward O(n).'],
+   ['Appending to a dynamic array is amortised O(1) because…',['Resizing doubles capacity, so copies are rare enough to average out','Arrays never resize','Memory is pre-allocated infinitely','Appends happen at the front'],0,'Doubling means n appends cost O(n) copying in total, so each averages constant.'],
+   ['A stack is the right structure when you need…',['Last in, first out — undo, call frames, bracket matching','First in, first out','Sorted iteration','Constant-time lookup by key'],0,'The call stack itself is the canonical example.'],
+   ['Inserting at the head of a singly linked list is…',['O(1)','O(n)','O(log n)','O(n log n)'],0,'You only rewrite one pointer. Indexing, by contrast, is O(n).'],
+   ['A binary search tree degrades to O(n) lookup when…',['It becomes unbalanced, effectively a linked list','It has too many nodes','Keys are integers','It is stored in an array'],0,'Balanced variants like AVL and red-black trees exist precisely to prevent this.'],
+   ['Choosing an array over a linked list mainly buys you…',['Cache locality and O(1) indexing','Cheaper insertion in the middle','Unbounded growth','Automatic sorting'],0,'Contiguous memory is why arrays beat linked lists in practice far more often than Big-O suggests.'],
+   ['A queue is the natural structure for…',['Breadth-first traversal and task scheduling','Depth-first traversal','Sorting in place','Recursion'],0,'BFS explores level by level, which is exactly FIFO order.'],
+   ['A set is preferable to an array when you need…',['Membership tests and uniqueness','Ordered iteration','Index access','Duplicate storage'],0,'Membership drops from O(n) to O(1) and duplicates are impossible by construction.'],
+   ['Two keys hashing to the same bucket is called…',['A collision, resolved by chaining or open addressing','An overflow','A rehash','A fault'],0,'Collisions are expected, not exceptional — the resolution strategy is the design decision.'],
+   ['A graph is the right model when your data has…',['Arbitrary many-to-many relationships','Strict parent-child nesting','A fixed sequence','A single root only'],0,'Trees are a restricted kind of graph; use the general form when cycles or multiple parents exist.']
+  ],
+  5:[
+   ['An algorithm running in O(n log n) will, on a large input, beat one running in…',['O(n²)','O(n)','O(log n)','O(1)'],0,'Quadratic growth overtakes everything below it as n rises.'],
+   ['Binary search requires that the input be…',['Sorted','Unique','Numeric','Balanced'],0,'Without ordering there is no way to discard half the space each step.'],
+   ['Merge sort guarantees O(n log n) but costs…',['O(n) extra space','O(1) extra space','O(n²) time in the worst case','Nothing extra'],0,'Quicksort trades that guarantee for in-place operation and an O(n²) worst case.'],
+   ['Every recursive function must have…',['A base case that stops the recursion','A loop','A global variable','Exactly two calls'],0,'Without one you exhaust the call stack.'],
+   ['Dynamic programming beats naive recursion by…',['Storing subproblem results so each is computed once','Using less memory','Avoiding recursion entirely','Sorting the input first'],0,'Overlapping subproblems are the signal that memoisation will pay.'],
+   ['Naive recursive Fibonacci is exponential because…',['The same subproblems are recomputed across branches','Addition is slow','It uses too much memory','Integers overflow'],0,'fib(n-2) is computed in both branches, and that duplication compounds.'],
+   ['A greedy algorithm is only correct when…',['A locally optimal choice leads to a globally optimal one','The input is sorted','The problem is small','Recursion is unavailable'],0,'Dijkstra works greedily; the knapsack problem does not.'],
+   ['Big-O notation describes…',['An upper bound on growth as input size rises','Exact runtime in seconds','Memory only','Average performance always'],0,'It is about growth rate, not machine speed — constants are deliberately dropped.'],
+   ['Two nested loops over the same n-element array give…',['O(n²)','O(2n)','O(n log n)','O(n)'],0,'Nesting multiplies; sequencing adds.'],
+   ['Constant factors matter in practice because…',['Big-O ignores them, yet real inputs are finite','They change the complexity class','They affect correctness','They only matter in theory'],0,'An O(n log n) algorithm with a huge constant can lose to O(n²) on small n.']
+  ],
+  6:[
+   ['git rebase differs from git merge because it…',['Rewrites commits onto a new base, producing linear history','Deletes the branch','Is always safer','Cannot cause conflicts'],0,'Which is why you never rebase a branch someone else has pulled.'],
+   ['A good commit message explains…',['Why the change was made, not just what changed','Every line touched','The author’s mood','The file names'],0,'The diff already shows what. Why is the part that is lost otherwise.'],
+   ['git revert is preferred over git reset on a shared branch because it…',['Adds a new commit undoing the change, leaving history intact','Is faster','Deletes the commit','Works offline'],0,'Rewriting shared history breaks every other checkout.'],
+   ['A unit test should…',['Test one behaviour, and fail for exactly one reason','Cover the whole system','Hit the real database','Depend on test order'],0,'Tests that fail for many reasons do not tell you what broke.'],
+   ['A test that passes whether or not the code is correct is…',['Worse than no test, because it manufactures confidence','Still useful','A smoke test','An integration test'],0,'Always confirm a new test fails before you make it pass.'],
+   ['Test-driven development means writing…',['A failing test first, then the code that passes it','Tests after shipping','Only integration tests','Documentation first'],0,'Red, green, refactor.'],
+   ['A merge conflict happens when…',['Two branches change the same lines and git cannot choose','A branch is deleted','You forget to commit','The remote is offline'],0,'Git surfaces the ambiguity rather than guessing.'],
+   ['A debugger is better than print statements because it…',['Lets you inspect and step through live state without editing code','Runs faster','Finds bugs automatically','Replaces tests'],0,'You see every variable at every step, not the three you thought to print.'],
+   ['.gitignore exists to keep out…',['Build artifacts, dependencies and secrets','All new files','Documentation','Test files'],0,'A committed API key is in the history forever, even after deletion.'],
+   ['A pull request review is primarily for…',['Catching design problems and spreading knowledge','Blocking teammates','Counting lines','Enforcing style manually'],0,'Style belongs to a linter; judgment is what review is actually for.']
+  ]
+ },
+ mkt:{
+  4:[
+   ['The job of a headline is to…',['Sell the next line, not the product','Describe the company','List features','Be clever'],0,'Every element of copy exists to earn attention for the element after it.'],
+   ['"We increased bookings 40% in six weeks" beats "We get great results" because…',['Specificity is more believable than superlatives','It is longer','It uses numbers for their own sake','It sounds humble'],0,'Vague praise reads as unverifiable; specifics invite belief.'],
+   ['The strongest place to handle an objection is…',['Inside the copy, before the reader raises it','After the sale','In the FAQ only','Never'],0,'An unaddressed objection is a silent exit.'],
+   ['Features describe the product; benefits describe…',['What changes for the buyer','The price','The competition','The technology'],0,'"Twin-cylinder pump" is a feature; "your driveway is done in an hour" is the benefit.'],
+   ['Social proof works best when the person giving it…',['Resembles the reader','Is famous','Is the founder','Is anonymous'],0,'People are persuaded by evidence that someone like them got the result.'],
+   ['A call to action converts better when it…',['Names the specific next step and lowers perceived effort','Is repeated ten times','Is vague','Uses pressure alone'],0,'"Get a free quote in 60 seconds" outperforms "Contact us".'],
+   ['Writing at a lower reading level generally…',['Increases comprehension and conversion','Insults the reader','Reduces credibility','Only suits children'],0,'Clarity is not condescension; even expert readers skim.'],
+   ['The ethical line in persuasion is crossed when copy…',['Creates a belief the product cannot deliver on','Uses urgency','Names a benefit','Tells a story'],0,'Manufactured scarcity that is not real is the common failure.'],
+   ['Hand-copying proven sales letters teaches…',['Structure and rhythm at a level reading alone does not','Nothing useful','Only vocabulary','Design'],0,'It forces you to notice every decision the writer made.'],
+   ['The best source of copy for your offer is…',['The words your actual customers use to describe the problem','A thesaurus','A competitor','Your own vocabulary'],0,'Voice-of-customer language converts because it is already in the reader’s head.']
+  ],
+  5:[
+   ['In an ad auction, your cost is driven by bid and…',['Predicted relevance and engagement quality','Account age','Budget size','Number of ads'],0,'Better creative literally lowers what you pay per result.'],
+   ['CPM measures…',['Cost per thousand impressions','Cost per click','Cost per acquisition','Clicks per thousand'],0,'It is a delivery cost, not a performance metric.'],
+   ['When testing creative, the correct method is to…',['Hold the audience constant and vary the creative','Vary both at once','Vary the audience only','Change budget daily'],0,'Change one variable or you cannot attribute the result.'],
+   ['A campaign with cheap clicks but no bookings most likely has…',['A mismatch between the ad promise and the landing page','Too small a budget','Bad targeting only','A bidding error'],0,'Cheap traffic that does not convert is the most common expensive mistake.'],
+   ['Judging a campaign on cost per lead alone is dangerous because…',['Lead quality varies, and only booked jobs pay','Leads are unmeasurable','It is too precise','CPL is always wrong'],0,'Measure cost per booked job, which is the only number that reaches the bank.'],
+   ['Raising budget sharply on a working campaign often…',['Disrupts delivery and raises cost per result','Always scales linearly','Has no effect','Lowers CPM'],0,'Scale in steps and let delivery re-stabilise.'],
+   ['Ad fatigue shows up as…',['Rising frequency with falling click-through','Falling impressions','Rising CPM only','Higher conversions'],0,'The same people have seen it too many times; refresh the creative.'],
+   ['Retargeting outperforms cold traffic mainly because…',['The audience already knows you, so less persuasion is needed','It is cheaper per impression','It reaches more people','It needs no creative'],0,'It is a smaller, warmer pool — good for conversion, useless for growth on its own.'],
+   ['A hard budget cap matters most when…',['You are testing something unproven','The campaign is working','You have unlimited funds','Costs are fixed'],0,'Discipline protects you from learning an expensive lesson slowly.'],
+   ['Before scaling any paid campaign you should first prove…',['The offer converts organically','That CPM is low','That reach is high','That the creative is beautiful'],0,'Paid traffic amplifies an offer; it does not fix one.']
+  ],
+  6:[
+   ['Attribution is difficult primarily because…',['Buyers touch many channels before converting','Analytics tools are broken','Conversions are rare','Data is expensive'],0,'Last-click credits the final touch and ignores everything that created demand.'],
+   ['Last-click attribution systematically undervalues…',['Top-of-funnel channels that create awareness','Paid search','Email','Direct traffic'],0,'The channel that closed gets all the credit; the one that introduced you gets none.'],
+   ['A cohort analysis groups users by…',['When they joined, then tracks them over time','Age','Channel only','Revenue'],0,'It separates genuine improvement from changes in traffic mix.'],
+   ['A conversion event should be defined as…',['The action that actually creates value, such as a booked job','Any page view','A click','Time on site'],0,'Instrument what pays, or your dashboard will flatter you.'],
+   ['Your dashboard shows rising traffic and flat revenue. The most likely cause is…',['Traffic quality or intent has shifted','A tracking outage','Seasonality alone','Nothing, it is normal'],0,'More of the wrong visitor is not growth.'],
+   ['A statistically meaningless A/B result usually comes from…',['Too small a sample stopped too early','Too many users','Running too long','Using one variable'],0,'Stopping the moment you see the result you want is how you fool yourself.'],
+   ['A vanity metric is one that…',['Rises reliably without predicting revenue','Is hard to measure','Is always small','Comes from ads'],0,'If it cannot go down when the business does badly, it is not measuring the business.'],
+   ['Tracking UTM parameters lets you…',['Attribute sessions to a specific campaign and source','Increase reach','Improve SEO','Lower CPM'],0,'Without consistent tagging, channel reporting is guesswork.'],
+   ['Survivorship bias in marketing data looks like…',['Studying only the customers who stayed','Sampling too many','Using averages','Tracking churn'],0,'The people who left hold the information you most need.'],
+   ['The correct response to a metric you cannot act on is to…',['Stop reporting it','Report it more often','Add it to the dashboard','Set a target for it'],0,'A dashboard is a decision tool, not a scoreboard.']
+  ]
+ },
+ math:{
+  4:[
+   ['If f(x) = x² and g(x) = x + 3, then f(g(2)) =',['25','7','13','10'],0,'g(2) = 5, and f(5) = 25. Composition works from the inside out.'],
+   ['The graph of y = (x − 4)² + 1 is y = x² shifted…',['Right 4 and up 1','Left 4 and up 1','Right 4 and down 1','Left 4 and down 1'],0,'Inside the function the shift is horizontal and inverted in sign.'],
+   ['The 10th term of the arithmetic sequence 3, 7, 11, … is',['39','40','43','36'],0,'aₙ = 3 + (n−1)·4, so a₁₀ = 3 + 36.'],
+   ['The sum of the infinite geometric series with a = 8, r = 1/2 is',['16','8','4','Divergent'],0,'S = a/(1 − r) = 8/(1/2), valid because |r| < 1.'],
+   ['The magnitude of the vector (3, 4) is',['5','7','12','25'],0,'√(9 + 16) = 5.'],
+   ['In polar form, the point (0, 5) has angle θ =',['π/2','0','π','3π/2'],0,'Straight up the positive y-axis is a quarter turn.'],
+   ['A function has an inverse only if it is…',['One-to-one','Continuous','Increasing','Polynomial'],0,'Otherwise two inputs share an output and the inverse is not a function.'],
+   ['As x grows without bound, (3x² + 5)/(x² − 2) approaches',['3','0','Infinity','1'],0,'Equal degrees, so the limit is the ratio of leading coefficients.'],
+   ['The domain of f(x) = √(x − 3) is',['x ≥ 3','x > 3','All reals','x ≤ 3'],0,'The radicand cannot be negative; equality is allowed.'],
+   ['y = 2ˣ and y = log₂x are related as…',['Reflections of one another across y = x','Parallel lines','Identical','Perpendicular'],0,'That is what being inverse functions looks like graphically.']
+  ],
+  5:[
+   ['lim(x→0) sin(x)/x =',['1','0','Undefined','Infinity'],0,'A standard limit, provable by the squeeze theorem.'],
+   ['lim(x→2) (x² − 4)/(x − 2) =',['4','0','Undefined','2'],0,'Factor to (x + 2) for x ≠ 2, then substitute.'],
+   ['A function is continuous at a point when…',['It is defined there and the limit equals its value','It is differentiable there','It is increasing there','The limit exists'],0,'All three conditions are required; any one alone is insufficient.'],
+   ['0/0 is called an indeterminate form because…',['The limit could be anything until you do more work','It equals zero','It equals one','It is an error'],0,'It signals that algebra or L’Hôpital’s rule is needed, not that the limit fails.'],
+   ['f(x) = 1/(x − 3) has a vertical asymptote at',['x = 3','x = 0','y = 0','x = −3'],0,'The function grows without bound as the denominator approaches zero.'],
+   ['A left-hand limit differs from a right-hand limit at a point. Then…',['The two-sided limit does not exist','The function is continuous','The limit is zero','The function is differentiable'],0,'A two-sided limit exists only when both sides agree.'],
+   ['The squeeze theorem lets you find a limit by…',['Bounding the function between two others with the same limit','Differentiating','Factoring','Graphing'],0,'It is how lim sin(x)/x = 1 is established rigorously.'],
+   ['A removable discontinuity is one where…',['The limit exists but the value is missing or wrong','The function jumps','The function is unbounded','The limit is infinite'],0,'It can be patched by redefining a single point — hence removable.'],
+   ['In the epsilon-delta definition, delta controls…',['How close x must be to a to force f(x) within epsilon','The size of the limit','The output error','The slope'],0,'Epsilon is the challenge on the output; delta is your answer on the input.'],
+   ['Differentiability at a point implies…',['Continuity at that point','Nothing about continuity','That the function is linear','That the limit is zero'],0,'The converse fails: |x| is continuous at 0 but not differentiable there.']
+  ],
+  6:[
+   ['The derivative of x⁵ is',['5x⁴','x⁴','5x⁵','4x⁵'],0,'The power rule: bring the exponent down, reduce it by one.'],
+   ['d/dx [sin(x)] =',['cos(x)','−cos(x)','−sin(x)','tan(x)'],0,'And differentiating again gives −sin(x).'],
+   ['d/dx [(3x + 1)⁴] =',['12(3x + 1)³','4(3x + 1)³','12(3x + 1)⁴','3(3x + 1)³'],0,'Chain rule: outer derivative times inner derivative, and the inner derivative is 3.'],
+   ['The product rule states d/dx[uv] =',['u′v + uv′','u′v′','u′v − uv′','(u + v)′'],0,'Differentiating a product term by term is the classic error.'],
+   ['d/dx [eˣ] =',['eˣ','xeˣ⁻¹','e','ln x'],0,'The exponential function is its own derivative.'],
+   ['d/dx [ln x] =',['1/x','ln x','x','1/x²'],0,'Valid for x > 0.'],
+   ['The derivative measures…',['The instantaneous rate of change at a point','The area under the curve','The average slope','The maximum value'],0,'It is the limit of the difference quotient as h approaches zero.'],
+   ['If f′(x) > 0 on an interval, then f is…',['Increasing there','Decreasing there','Constant there','Concave up there'],0,'The second derivative governs concavity, not the first.'],
+   ['The second derivative tells you about…',['Concavity and acceleration','Slope','Area','Domain'],0,'Position, velocity, acceleration is the standard physical reading.'],
+   ['Implicit differentiation is needed when…',['y cannot be isolated as an explicit function of x','The function is linear','x is negative','The derivative is zero'],0,'Differentiate both sides with respect to x and solve for dy/dx.']
+  ]
+ },
+ sci:{
+  4:[
+   ['Torque equals…',['rF sin θ','mv','ma','Fd/t'],0,'Only the perpendicular component of force produces rotation.'],
+   ['Moment of inertia depends on mass and…',['How that mass is distributed about the axis','Velocity','Temperature','Force applied'],0,'Mass far from the axis contributes far more — it goes as r².'],
+   ['A skater pulls their arms in and spins faster because…',['Angular momentum is conserved while moment of inertia falls','They apply torque','Friction decreases','Gravity assists'],0,'L = Iω is constant, so reducing I must raise ω.'],
+   ['Angular momentum is conserved when…',['No external torque acts','No external force acts','The system is at rest','Mass is constant'],0,'Torque is to rotation what force is to translation.'],
+   ['Kepler’s second law says a planet sweeps…',['Equal areas in equal times','Equal distances in equal times','Circular orbits always','Constant speed'],0,'It is conservation of angular momentum, stated geometrically.'],
+   ['Orbital speed for a circular orbit comes from setting…',['Gravitational force equal to the required centripetal force','Kinetic energy to zero','Torque to zero','Mass to one'],0,'GMm/r² = mv²/r gives v = √(GM/r).'],
+   ['Gravitational force between two masses varies as…',['1/r²','1/r','r','r²'],0,'Double the separation and the force falls to a quarter.'],
+   ['A hollow and a solid cylinder of equal mass roll down a ramp. The solid one…',['Arrives first, because more of its mass is near the axis','Arrives second','Ties','Does not roll'],0,'Lower moment of inertia means less energy diverted into rotation.'],
+   ['An astronaut in orbit is weightless because they are…',['In continuous free fall around the Earth','Beyond gravity','Moving too fast for gravity','Massless'],0,'Gravity in low orbit is nearly as strong as at the surface.'],
+   ['Rotational kinetic energy is…',['½Iω²','½mv²','Iω','mgh'],0,'It is the rotational analogue of translational kinetic energy.']
+  ],
+  5:[
+   ['The period of a simple pendulum depends on…',['Length and gravity, not mass','Mass and length','Amplitude only','Mass only'],0,'T = 2π√(L/g), for small angles.'],
+   ['In simple harmonic motion the restoring force is…',['Proportional to displacement and opposite in direction','Constant','Proportional to velocity','Zero'],0,'F = −kx is what produces sinusoidal motion.'],
+   ['Resonance occurs when a driving frequency…',['Matches the system’s natural frequency','Is very low','Is very high','Is zero'],0,'Energy is transferred efficiently on each cycle, so amplitude climbs.'],
+   ['Wave speed equals…',['Frequency × wavelength','Frequency ÷ wavelength','Amplitude × frequency','Period × amplitude'],0,'v = fλ holds for every wave.'],
+   ['The first law of thermodynamics states…',['Energy is conserved; internal energy changes by heat added minus work done','Entropy always rises','Absolute zero is unreachable','Heat flows from cold to hot'],0,'It is conservation of energy applied to thermal systems.'],
+   ['The second law of thermodynamics says that in an isolated system…',['Total entropy never decreases','Energy is lost','Temperature is constant','Work is free'],0,'It is what gives time a direction.'],
+   ['Entropy is best described as…',['A measure of how many microstates correspond to a macrostate','Disorder, strictly','Heat','Temperature'],0,'The statistical definition is the one that actually explains the second law.'],
+   ['Heat always flows spontaneously from…',['Hotter to colder','Colder to hotter','Larger to smaller','Solid to gas'],0,'Reversing it requires work, which is what a refrigerator does.'],
+   ['Doubling the amplitude of a wave changes its energy by a factor of…',['4','2','8','1'],0,'Wave energy goes as the square of amplitude.'],
+   ['An adiabatic process is one in which…',['No heat is exchanged with the surroundings','Temperature is constant','Pressure is constant','Volume is constant'],0,'Isothermal, isobaric and isochoric name the other three cases.']
+  ],
+  6:[
+   ['Coulomb’s law says the force between two charges varies as…',['1/r²','1/r','r','r²'],0,'Same inverse-square form as gravity, but it can attract or repel.'],
+   ['Electric field is defined as…',['Force per unit positive charge','Force times charge','Potential times distance','Charge per unit area'],0,'Units are newtons per coulomb, equivalently volts per metre.'],
+   ['Ohm’s law states…',['V = IR','V = I/R','I = VR','R = VI'],0,'It is an empirical relationship, not a fundamental law — many materials disobey it.'],
+   ['Two 6 Ω resistors in parallel give a total resistance of',['3 Ω','12 Ω','6 Ω','1.5 Ω'],0,'Equal parallel resistors halve; in series they would give 12 Ω.'],
+   ['Faraday’s law says an EMF is induced by…',['A changing magnetic flux','A constant magnetic field','A static charge','Current alone'],0,'Change is essential — a stationary magnet in a coil induces nothing.'],
+   ['Lenz’s law states that the induced current opposes…',['The change in flux that produced it','The applied voltage','Its own field','Gravity'],0,'It is conservation of energy expressed as a direction.'],
+   ['A charged particle moving parallel to a magnetic field experiences…',['No magnetic force','Maximum force','A force along the field','A force that grows with time'],0,'F = qvB sin θ, and sin 0 is zero.'],
+   ['Electric potential difference is measured in…',['Volts, equal to joules per coulomb','Amperes','Ohms','Watts'],0,'It is energy per unit charge, not a force.'],
+   ['Maxwell’s equations predict that light is…',['A self-propagating electromagnetic wave','A stream of particles only','A form of sound','A static field'],0,'They also predict its speed from purely electrical and magnetic constants.'],
+   ['An electric motor produces torque because…',['A current-carrying loop in a magnetic field feels a force','Charges repel','Magnets attract iron','Voltage rotates'],0,'The commutator reverses current each half turn to keep the torque in one direction.']
+  ]
+ },
+ eng:{
+  4:[
+   ['Socrates claimed his wisdom consisted in…',['Knowing that he did not know','Knowing the most','Winning arguments','Teaching for pay'],0,'The Delphic oracle puzzle in the Apology turns on exactly this.'],
+   ['Plato’s allegory of the cave is primarily about…',['The difference between appearance and reality, and the pain of learning','Politics only','Fear of the dark','Storytelling'],0,'The prisoner who returns is not thanked — that is part of the argument.'],
+   ['Plato’s Forms are…',['Perfect abstract realities of which physical things are imperfect copies','Physical shapes','Mental images','Social conventions'],0,'Aristotle’s central disagreement with his teacher was over exactly this.'],
+   ['Aristotle located virtue…',['At a mean between excess and deficiency','At the maximum','In pleasure','In wealth'],0,'Courage sits between cowardice and recklessness.'],
+   ['Eudaimonia is best translated as…',['Flourishing across a whole life','Momentary pleasure','Wealth','Fame'],0,'It is an activity of living well, not a feeling.'],
+   ['The Socratic method proceeds by…',['Questioning that exposes contradictions in a stated position','Lecturing','Citing authority','Voting'],0,'The aim is to reveal what the interlocutor did not know they believed.'],
+   ['Aristotle held that virtue is acquired through…',['Habit and practice','Birth','Instruction alone','Divine gift'],0,'We become just by doing just acts — character is trained, not taught.'],
+   ['The pre-Socratics are chiefly notable for…',['Seeking natural rather than mythological explanations','Writing dialogues','Founding democracy','Rejecting reason'],0,'Asking what everything is made of was itself the innovation.'],
+   ['A key objection to the theory of Forms is…',['It multiplies entities without explaining how they relate to particulars','It is too simple','It is untestable only','It denies mathematics'],0,'Aristotle’s "third man" argument presses precisely here.'],
+   ['For Aristotle, the highest human activity was…',['Contemplation, as the fullest use of reason','Politics','Athletics','Commerce'],0,'Reason is what he takes to be distinctively human.']
+  ],
+  5:[
+   ['The Stoic dichotomy of control distinguishes…',['What is up to us from what is not','Good from evil','Rich from poor','Mind from body'],0,'Epictetus opens the Enchiridion with it because everything else follows.'],
+   ['For the Stoics, external events…',['Are indifferent; our judgements about them cause suffering','Are the cause of suffering','Should be avoided','Do not exist'],0,'It is the judgement, not the event, that disturbs.'],
+   ['Marcus Aurelius wrote the Meditations…',['As private notes to himself','As a published treatise','As letters to the Senate','As a legal code'],0,'Which is why it reads as self-correction rather than instruction.'],
+   ['Virtue ethics asks primarily…',['What kind of person should I be','What rule applies','What maximises happiness','What is legal'],0,'Character is the unit of evaluation, not the individual act.'],
+   ['Deontological ethics judges an action by…',['Whether it conforms to duty or a moral rule','Its consequences','Its popularity','The actor’s character'],0,'Kant is the standard example.'],
+   ['Utilitarianism judges an action by…',['Its consequences for overall wellbeing','The actor’s intention','A moral rule','Tradition'],0,'Which is why it can, uncomfortably, justify harming a few for the many.'],
+   ['A common objection to utilitarianism is that it…',['Can permit injustice to a minority for aggregate gain','Ignores consequences','Is too rigid','Requires religion'],0,'The rights-based reply is the standard counter.'],
+   ['Stoic negative visualisation means…',['Rehearsing loss in advance to reduce its power','Expecting the worst pessimistically','Avoiding planning','Suppressing feeling'],0,'It is preparation, not gloom.'],
+   ['The Stoics regarded emotions as…',['Arising from judgements, and therefore trainable','Purely physical','Always to be suppressed','Irrelevant'],0,'Change the judgement and the emotion changes with it.'],
+   ['Applying three ethical frameworks to one dilemma is valuable because…',['Each surfaces considerations the others obscure','One is always right','It avoids deciding','It is traditional'],0,'The disagreements are where the real moral work is.']
+  ],
+  6:[
+   ['A novel’s theme is best described as…',['The idea the work explores about how things are','The plot','The setting','The moral'],0,'Plot is what happens; theme is what it is about.'],
+   ['A round character is one who…',['Has complexity and can change convincingly','Appears often','Is likeable','Narrates'],0,'Flat characters are not a flaw — they serve a different function.'],
+   ['An unreliable narrator is one whose…',['Account the reader has reason to doubt','Story is sad','Voice is first person','Grammar is poor'],0,'The gap between what is told and what is true carries the meaning.'],
+   ['In medias res means the story begins…',['In the middle of the action','At the end','With a description','With dialogue'],0,'The Iliad and the Odyssey both do it.'],
+   ['Dramatic irony occurs when…',['The reader knows something a character does not','A character is sarcastic','The ending is sad','Events are coincidental'],0,'The tension comes from the reader’s superior knowledge.'],
+   ['A foil character exists to…',['Illuminate another character by contrast','Provide comic relief','Narrate','Resolve the plot'],0,'The contrast is the point, not the character’s own arc.'],
+   ['A symbol differs from a motif in that a motif…',['Recurs across the work','Appears once','Is always an object','Is stated directly'],0,'Repetition is what makes a motif do its work.'],
+   ['Close reading argues from…',['Specific textual evidence','The author’s biography','Reader consensus','Historical context alone'],0,'Quote the line, then explain how it works.'],
+   ['Old books survive mainly because they…',['Address problems that have not stopped being human problems','Are required reading','Are well marketed','Are short'],0,'Relevance, not reputation, is what keeps a book alive.'],
+   ['The strongest evidence in a literary essay is…',['A short quotation analysed closely','A long quotation','A plot summary','Another critic’s view'],0,'Summary shows you read it; analysis shows you understood it.']
+  ]
+ }
+};
+/* Fold Year Two into the shipped bank. */
+Object.keys(BANK_Y2).forEach(cid=>{
+  BANK[cid]=BANK[cid]||{};
+  Object.keys(BANK_Y2[cid]).forEach(u=>{BANK[cid][u]=BANK_Y2[cid][u];});
+});
+
 /* ---------- state ---------- */
 let student=store.get('ku_student');
 let grades=store.get('ku_grades')||[];
@@ -1429,10 +1628,16 @@ function buildPrompt(){
   const unit=Math.min(authUnit,PROGRAM.units);
   const u=c.units[unit-1];
   const have=questionsFor(authCourse,unit);
-  const need=Math.max(1,PROGRAM.qPerExam-have.length);
+  const short=PROGRAM.qPerExam-have.length;
+  /* A full bank still benefits from more questions — they deepen the pool the
+   * exam draws from, so retakes stop being a memory test. */
+  const need=short>0?short:PROGRAM.qPerExam;
   const year=YEAR_NAMES[yearOfUnit(unit)-1];
 
-  return 'Write '+need+' exam questions for a university unit test.\n\n'+
+  return 'Write '+need+(short>0?'':' additional')+' exam question'+(need===1?'':'s')+
+   ' for a university unit test.\n'+
+   (short>0?'':'This unit’s exam is already unlocked; these deepen the pool it draws from, '+
+     'so retaking it tests knowledge rather than memory.\n')+'\n'+
    'Course: '+c.name+'\n'+
    'Program stage: '+year+' of a four-year degree ('+c.kind.toLowerCase()+')\n'+
    'Unit '+unit+' of '+PROGRAM.units+': '+u.name+'\n'+
