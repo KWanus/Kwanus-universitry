@@ -73,6 +73,7 @@
   .prog .num{font-family:'Fraunces',serif;font-size:17px;font-weight:600;}
   .bar{height:4px;background:var(--line);border-radius:4px;margin-top:6px;overflow:hidden;}
   .bar i{display:block;height:100%;background:var(--navy);border-radius:4px;transition:width .5s ease;}
+  .proglab{font-size:11px;color:var(--slate);margin-top:5px;white-space:nowrap;}
 
   .principle{border-left:3px solid var(--bronze);padding:4px 0 4px 16px;margin-top:28px;color:var(--slate);font-size:13.5px;max-width:58ch;}
   .principle strong{color:var(--ink);font-weight:600;}
@@ -554,6 +555,11 @@ const CURRICULUM=[
   ]}
 ];
 
+/* How many unit exams have actually been written, per course. Progress is
+   measured against this rather than against the full ten-unit year, so a
+   passed exam reads as real progress instead of a bar stuck near zero.
+   Bump this when the Unit 2 exams get added. */
+const UNITS_RELEASED=1;
 const TESTS={
  code:{name:'Coding — Unit 1',qs:[
   ['In JavaScript, const means…',['Can be changed anytime','Cannot be reassigned','A type of loop'],1],
@@ -669,7 +675,7 @@ function streak(){let s=0;let d=new Date();if(!days.includes(todayKey()))d.setDa
 
 /* Grades and GPA */
 function passedUnits(id){const u=new Set();grades.forEach(g=>{if(g.id===id&&g.score>=80)u.add(g.unit||1);});return u.size;}
-function pct(id){return Math.min(100,passedUnits(id)*10);}
+function pct(id){return Math.min(100,Math.round(passedUnits(id)/UNITS_RELEASED*100));}
 function nextUnit(id){return passedUnits(id)+1;}
 function pts(score,late){let p=score>=100?4:score>=80?3:score>=60?1:0;if(late&&p>0)p=Math.max(0,+(p-0.3).toFixed(2));return p;}
 function bestByUnit(id){const best={};grades.forEach(g=>{if(g.id!==id)return;const u=g.unit||1;
@@ -719,7 +725,8 @@ function renderHero(){
 
 function renderDue(){
  const items=[];
- CURRICULUM.forEach(c=>{const u=nextUnit(c.id);if(u<=10){items.push({t:c.short+' — Unit '+u+' exam',d:unitDue(u)});}});
+ /* Only chase exams that exist. A deadline for an unwritten unit is a fake deadline. */
+ CURRICULUM.forEach(c=>{const u=nextUnit(c.id);if(u<=UNITS_RELEASED){items.push({t:c.short+' — Unit '+u+' exam',d:unitDue(u)});}});
  items.push({t:'Weekly homework — all courses',d:nextSunday()});
  items.sort((a,b)=>a.d-b.d);
  document.getElementById('dueList').innerHTML=items.slice(0,CURRICULUM.length+1).map(it=>{
@@ -741,7 +748,8 @@ function renderDash(){
     <div class="school">${c.school}</div>
    </div>
    <div class="gradechip">${letterOf(cg)}</div>
-   <div class="prog"><span class="num">${p}%</span><div class="bar"><i style="width:${p}%"></i></div></div>
+   <div class="prog"><span class="num">${p}%</span><div class="bar"><i style="width:${p}%"></i></div>
+    <div class="proglab">${passedUnits(c.id)} of ${UNITS_RELEASED} exam${UNITS_RELEASED===1?'':'s'}</div></div>
   </div>`;}).join('');
 }
 
@@ -948,7 +956,7 @@ function renderCerts(){
     <div class="actions"><a class="btn ${ready?'gold':'quiet'}" href="${c[2]}" target="_blank" rel="noopener">${ready?'Claim it — you’re ready':'Open the course'}</a></div>
    </div>`;}).join('');
   return `<div class="certgroup">${course.name}</div>
-   <div class="certgroup-sub">${mine.length} credential${mine.length===1?'':'s'} on this course · ${p}% complete${ready?' · claims unlocked — you have passed an exam here':' · pass this course’s exam to unlock the claims'}</div>
+   <div class="certgroup-sub">${mine.length} credential${mine.length===1?'':'s'} on this course · ${p}% of the exams released so far${ready?' · claims unlocked — you have passed an exam here':' · pass this course’s exam to unlock the claims'}</div>
    ${CERT_NOTE[course.id]?`<p class="principle" style="margin:0 0 14px;">${CERT_NOTE[course.id]}</p>`:''}
    ${cards}`;
  }).join('');
